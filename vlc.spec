@@ -13,6 +13,7 @@
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
+%bcond_without	ggi	# don't build ggi plugin
 #
 Summary:	VLC - a multimedia player and stream server 
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -31,20 +32,22 @@ BuildRequires:	SDL-devel >= 1.2
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	a52dec-libs-devel
 BuildRequires:	esound-devel
-BuildRequires:	ffmpeg-devel
+BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libdvdcss-devel
 BuildRequires:	libdts-devel
 BuildRequires:	libebml-devel
-BuildRequires:	libggi-devel
+%{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
+BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libid3tag-devel
-BuildRequires:	libpostproc-devel
+BuildRequires:	libmatroska-devel
 BuildRequires:	mpeg2dec-devel
 BuildRequires:	vcdimager-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -137,6 +140,7 @@ Summary(pl):	Klient VLC - wtyczka wyj¶cia GNOME
 Summary(pt_BR):	Plugin GNOME para o VLC
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-x11 = %{version}-%{release}
 
 %description gnome
 GNOME output plugin for VLC.
@@ -153,6 +157,7 @@ Summary(pl):	Klient VLC - wtyczka wyj¶cia GTK+
 Summary(pt_BR):	Plugin GTK+ para o VLC
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-x11 = %{version}-%{release}
 
 %description gtk
 GTK+ output plugin for VLC.
@@ -211,9 +216,10 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	%{?with_alsa:--enable-alsa} \
 	--enable-esd \
 	--enable-fb \
-	--enable-ggi \
+	%{?with_ggi:--enable-ggi} \
+	%{!?with_ggi:--disable-ggi} \
 	--enable-ncurses \
-	--with-ggi \
+	%{?with_ggi:--with-ggi} \
 	--with-sdl \
 	--with-dvdcss \
 	--disable-glide \
@@ -430,19 +436,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/http/index.html
 %{_datadir}/%{name}/http/info.html
 %{_datadir}/%{name}/ui.rc
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/vlc.mo
-%lang(es) %{_datadir}/locale/es/LC_MESSAGES/vlc.mo
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/vlc.mo
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/vlc.mo
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/vlc.mo
-%lang(it) %{_datadir}/locale/it/LC_MESSAGES/vlc.mo
-%lang(nl) %{_datadir}/locale/nl/LC_MESSAGES/vlc.mo
-%lang(no) %{_datadir}/locale/no/LC_MESSAGES/vlc.mo
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/vlc.mo
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/vlc.mo
-%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/vlc.mo
-%lang(en_GB) %{_datadir}/locale/en_GB/LC_MESSAGES/vlc.mo
-%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/vlc.mo
+#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/vlc.mo
+#%lang(es) %{_datadir}/locale/es/LC_MESSAGES/vlc.mo
+#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/vlc.mo
+#%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/vlc.mo
+#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/vlc.mo
+#%lang(it) %{_datadir}/locale/it/LC_MESSAGES/vlc.mo
+#%lang(nl) %{_datadir}/locale/nl/LC_MESSAGES/vlc.mo
+#%lang(no) %{_datadir}/locale/no/LC_MESSAGES/vlc.mo
+#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/vlc.mo
+#%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/vlc.mo
+#%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/vlc.mo
+#%lang(en_GB) %{_datadir}/locale/en_GB/LC_MESSAGES/vlc.mo
+#%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/vlc.mo
 
 %files devel
 %defattr(644,root,root,755)
@@ -623,9 +629,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/familiar-stopb16x16.xpm
 %{_datadir}/%{name}/familiar-rewindb16x16.xpm
 
+%if %{with ggi}
 %files GGI
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libggi_plugin.so
+%endif 
 
 %files SDL
 %defattr(644,root,root,755)
