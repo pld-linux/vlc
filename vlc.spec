@@ -3,7 +3,7 @@ Summary(pl):	Klient VideoLAN
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.3.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
@@ -179,14 +179,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-gzip -9nf README TODO ChangeLog AUTHORS
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc README TODO ChangeLog AUTHORS
 %attr(755,root,root) %{_bindir}/vlc
 %dir %{_libdir}/videolan
 %dir %{_libdir}/videolan/vlc
@@ -195,6 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/videolan
 %{_datadir}/videolan/*.psf
 %{_datadir}/videolan/vlc.png
+%{_datadir}/videolan/gvlc.png
 
 %files X11
 %defattr(644,root,root,755)
@@ -212,13 +211,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gvlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/gtk.so
-%{_datadir}/videolan/gvlc.png
 
 %files gnome
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gnome-vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/gnome.so
-%{_datadir}/videolan/gvlc.png
 
 %files esd
 %defattr(644,root,root,755)
