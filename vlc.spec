@@ -1,19 +1,20 @@
 Summary:	VideoLAN Client
 Summary(pl):	Klient VideoLAN
 Name:		vlc
-Version:	0.2.80
+Version:	0.2.91
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://www.videolan.org/packages/%{version}/%{name}-%{version}.tar.bz2
+Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
 BuildRequires:	esound-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	SDL-devel >= 1.2
+BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_mandir		%{_prefix}/man
@@ -133,6 +134,7 @@ Plugin audio esd dla Klienta VideoLAN.
 %setup -q
 
 %build
+autoconf
 %configure \
 %ifarch i586 i686
 	--enable-mmx \
@@ -183,7 +185,6 @@ rm -rf $RPM_BUILD_ROOT
 %files X11
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/x11.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/xvideo.so
 
 %files GGI
 %defattr(644,root,root,755)
