@@ -92,7 +92,7 @@ Wtyczka wyj¶cia SDL dla klienta VideoLAN.
 %package gnome
 Summary:	VideoLAN Client - GNOME output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia GNOME
-Summary(pt_BR):	Plugin gnome para o VideoLAN
+Summary(pt_BR):	Plugin GNOME para o VideoLAN
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
@@ -103,7 +103,7 @@ GNOME output plugin for VideoLAN Client.
 Wtyczka wyj¶cia GNOME dla klienta VideoLAN.
 
 %description gnome -l pt_BR
-Plugin gnome para o VideoLAN.
+Plugin GNOME para o VideoLAN.
 
 %package gtk
 Summary:	VideoLAN Client - GTK+ output plugin
