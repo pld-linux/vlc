@@ -7,6 +7,7 @@ Release:	4
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	766c603baf97ffe3ce51f8fccf554c6a
 Patch0:		%{name}-altivec.patch
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
