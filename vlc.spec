@@ -32,12 +32,16 @@ BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	esound-devel
+BuildRequires:	ffmpeg-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libdvdcss-devel
 BuildRequires:	libggi-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
+BuildRequires:	libdvdread-devel
+BuildRequires:	libpostproc-devel
+BuildRequires:	mpeg2dec-devel
 BuildRequires:	vcdimager-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
