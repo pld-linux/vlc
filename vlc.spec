@@ -22,7 +22,7 @@ Version:	0.8.1
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
-Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
+Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3fb3ac4ed456f092d51a00d50159790f
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-po.patch
