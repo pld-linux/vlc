@@ -14,7 +14,7 @@
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_with	mozilla	# build mozilla plugin
 #
-Summary:	VLC - a multimedia player and stream server 
+Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.1
@@ -31,40 +31,40 @@ Patch3:		%{name}-wxgtk2.patch
 Patch4:		%{name}-defaultfont.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	SDL-devel >= 1.2
-%{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-BuildRequires:	autoconf
-BuildRequires:	automake
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	aalib-devel
+%{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
 BuildRequires:	arts-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel
 BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-BuildRequires:	libdvdcss-devel
-BuildRequires:	libdts-devel
-BuildRequires:	libebml-devel
-%{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libcaca-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
+BuildRequires:	libdts-devel
 BuildRequires:	libdv-devel
 BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
+BuildRequires:	libdvdcss-devel
+BuildRequires:	libebml-devel
+%{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
 Buildrequires:	libmad-devel
 BuildRequires:	libmatroska-devel
 BuildRequires:	libmodplug-devel
 Buildrequires:	libogg-devel
+BuildRequires:	libtheora-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	lirc-devel
-BuildRequires:	libtheora-devel
 BuildRequires:	mpeg2dec-devel
-BuildRequires:	ncurses-devel
 %{!?with_mozilla:BuildRequires:	mozilla-devel}
+BuildRequires:	ncurses-devel
 BuildRequires:	speex-devel
 BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
@@ -97,14 +97,20 @@ Requires:	%{name} = %{version}-%{release}
 %description devel
 VLC header files.
 
+%description devel -l pl
+Pliki nag³ówkowe VLC.
+
 %package static
 Summary:	VLC static libraries
-Summary(pl):	Biblioteli statyczne VLC 
+Summary(pl):	Biblioteki statyczne VLC
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 VLC static libraries.
+
+%description static -l pl
+Biblioteki statyczne VLC.
 
 %package X11
 Summary:	VLC - X11 output plugin
@@ -247,16 +253,16 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--with-wx-config-path=wxgtk2-2.4-config \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
-
 # echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_desktopdir}
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
 %find_lang %{name}
