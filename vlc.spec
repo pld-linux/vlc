@@ -9,7 +9,7 @@
 # - check this no->nb locale stuff 
 # - check find_lang macro
 # - change group for vlc and framebuffer video out (it's not the X11)
-# - default subtitles font change (btw. you can change this in your ~/.vlc/vlcrc)
+# - make skin2/wxWidgets package 
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
@@ -32,6 +32,7 @@ Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-po.patch
 Patch2:		%{name}-buildflags.patch
 Patch3:		%{name}-wxgtk2.patch
+Patch4:		%{name}-defaultfont.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	SDL-devel >= 1.2
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
@@ -211,6 +212,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 # %patch1 -p1
 %patch2 -p0
 %patch3 -p1
+%patch4 -p1 
 
 # mv -f po/{no,nb}.po
 
@@ -270,6 +272,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
+	--with-wx-config-path=wxgtk2-2.4-config \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 
@@ -292,6 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS MAINTAINERS NEWS README THANKS
 %attr(755,root,root) %{_bindir}/vlc
 %attr(755,root,root) %{_bindir}/svlc
+%attr(755,root,root) %{_bindir}/wxvlc
 %dir %{_libdir}/vlc
 %dir %{_libdir}/vlc/access
 %dir %{_libdir}/vlc/access_output
@@ -312,6 +316,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/visualization
 %attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/gui/libncurses_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/gui/libwxwindows_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_asf_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_avi_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_dummy_plugin.so
@@ -381,7 +386,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/demux/libm4v_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmjpeg_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmod_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/demux/libmp4_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmp4_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmpga_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmpgv_plugin.so
