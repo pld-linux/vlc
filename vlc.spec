@@ -2,11 +2,11 @@ Summary:	VideoLAN is a free MPEG, MPEG-2 and DVD software solution
 Summary(pl):	Klient VideoLAN
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
-Version:	0.2.91
-Release:	2
+Version:	0.3.0
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
-Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
 %ifnarch sparc sparc64
@@ -15,6 +15,7 @@ BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	autoconf
 BuildRequires:	esound-devel
 BuildRequires:	gnome-libs-devel
+BuildRequires:	libgii-devel
 BuildRequires:	libggi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -155,11 +156,14 @@ autoconf
 	--disable-ppro \
 %endif
 %endif
+	 --enable-dvdread \
 	--enable-dummy \
 	--enable-dsp \
 	--disable-alsa \
 	--enable-esd \
 	--enable-fb \
+	--enable-ggi \
+        --enable-ncurses \
 	--with-ggi \
 	--with-sdl \
 	--disable-glide \
