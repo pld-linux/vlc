@@ -2,7 +2,7 @@ Summary:	VideoLAN Client
 Summary(pl):	Klient VideoLAN
 Name:		vlc
 Version:	0.2.62
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -12,7 +12,7 @@ URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
 BuildRequires:	esound-devel
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel >= 1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_mandir		%{_prefix}/man
