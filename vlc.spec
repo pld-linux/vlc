@@ -9,7 +9,6 @@
 # - check this no->nb locale stuff 
 # - check find_lang macro
 # - change group for vlc and framebuffer video out (it's not the X11)
-# - make skin2/wxWidgets package 
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
@@ -28,6 +27,7 @@ License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3fb3ac4ed456f092d51a00d50159790f
+Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-po.patch
 Patch2:		%{name}-buildflags.patch
@@ -282,8 +282,10 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %install
 rm -rf $RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{_desktopdir}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
 %find_lang %{name}
 
@@ -294,8 +296,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS README THANKS
 %attr(755,root,root) %{_bindir}/vlc
-%attr(755,root,root) %{_bindir}/svlc
-%attr(755,root,root) %{_bindir}/wxvlc
 %dir %{_libdir}/vlc
 %dir %{_libdir}/vlc/access
 %dir %{_libdir}/vlc/access_output
@@ -314,9 +314,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/video_filter
 %dir %{_libdir}/vlc/video_output
 %dir %{_libdir}/vlc/visualization
-%attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/gui/libncurses_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/gui/libwxwindows_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_asf_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_avi_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_dummy_plugin.so
@@ -415,11 +413,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/access/libdvdnav_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libdvdread_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libpvr_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libv4l_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libvcd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/visualization/libvisual_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/visualization/libxosd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_ymga_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_plugin.so
@@ -441,12 +437,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtime_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtransform_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libglx_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libmga_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libopengl_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_description_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_display_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_dummy_plugin.so
@@ -546,8 +536,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files X11
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/svlc
+%attr(755,root,root) %{_bindir}/wxvlc
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libx11_plugin.so
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libxvideo_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/gui/libwxwindows_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libglx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libmga_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libopengl_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/visualization/libxosd_plugin.so
 %{_datadir}/%{name}/familiar-forwardb16x16.xpm
 %{_datadir}/%{name}/familiar-openb16x16.xpm
 %{_datadir}/%{name}/familiar-pauseb16x16.xpm
@@ -581,6 +583,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/gvlc*.png
 %{_datadir}/%{name}/vlc*.xpm
 %{_datadir}/%{name}/vlc*.png
+%{_desktopdir}/*
 
 %if %{with ggi}
 %files GGI
