@@ -50,11 +50,11 @@ Summary:	VideoLAN Client - X11 output plugin
 Summary(pl):	Klient VideoLAN - plugin dla X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}
-   
+
 %description X11
 X11 output plugin for VideoLAN Client
 
-%description -l pl X11
+%description X11 -l pl
 Plugin X11 dla Klienta VideoLAN
 
 %package GGI
@@ -66,7 +66,7 @@ Requires:	%{name} = %{version}
 %description GGI
 GGI output plugin for VideoLAN Client.
 
-%description -l pl GGI
+%description GGI -l pl
 Plugin GGI dla Klienta VideoLAN.
 
 %package SDL
@@ -74,11 +74,11 @@ Summary:	VideoLAN Client - SDL output plugin
 Summary(pl):	Klient VideoLAN - plugin SDL
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}
-   
+
 %description SDL
 SDL output plugin for VideoLAN Client.
 
-%description -l pl SDL
+%description SDL -l pl
 Plugin SDL dla Klienta VideoLAN.
 
 %package gnome
@@ -87,11 +87,11 @@ Summary(pl):	Klient VideoLAN - plugin gnome
 Summary(pt_BR):	Plugin gnome para o VideoLAN
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}
-   
+
 %description gnome
 Gnome output plugin for VideoLAN Client.
 
-%description -l pl gnome
+%description gnome -l pl
 Plugin gnome dla Klienta VideoLAN.
 
 %description gnome -l pt_BR
@@ -103,11 +103,11 @@ Summary(pl):	Klient VideoLAN - plugin gtk
 Summary(pt_BR):	Plugin gtk para o VideoLAN
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}
-   
+
 %description gtk
 GTK output plugin for VideoLAN Client.
 
-%description -l pl gtk
+%description gtk -l pl
 Plugin GTK dla Klienta VideoLAN.
 
 %description gtk -l pt_BR
@@ -118,11 +118,11 @@ Summary:	VideoLAN Client - esound output plugin
 Summary(pl):	Klient VideoLAN - plugin esound
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}
-   
+
 %description esd
 Esd audio output plugin for VideoLAN Client.
 
-%description -l pl esd
+%description esd -l pl
 Plugin audio esd dla Klienta VideoLAN.
 
 #%package alsa
@@ -132,7 +132,7 @@ Plugin audio esd dla Klienta VideoLAN.
 #Group(de):	X11/Applikationen/Multimedia
 #Group(pl):	X11/Aplikacje/Multimedia
 #Requires:	%{name} = %{version}
-#   
+#
 #%description alsa
 #ALSA audio output plugin for VideoLAN Client.
 #
@@ -167,7 +167,7 @@ autoconf
 	--enable-x11 \
 	--with-sdl=/usr/X11R6 \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
-	
+
 %{__make}
 
 %install
