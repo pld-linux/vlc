@@ -41,6 +41,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	aalib-devel
 BuildRequires:	arts-devel
 BuildRequires:	esound-devel
+BuildRequires:	faad2-devel
 BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
@@ -62,14 +63,17 @@ BuildRequires:	libdvdread-devel
 BuildRequires:	libid3tag-devel
 Buildrequires:	libmad-devel
 BuildRequires:	libmatroska-devel
+BuildRequires:	libmodplug-devel
 Buildrequires:	libogg-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	lirc-devel
+BuildRequires:	libtheora-devel
 BuildRequires:	mpeg2dec-devel
 BuildRequires:	ncurses-devel
 %{!?with_mozilla:BuildRequires:	mozilla-devel}
 %{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	speex-devel
+BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-devel
 BuildRequires:	xosd-devel
@@ -222,7 +226,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %endif
 	--enable-aa \
 	%{?with_alsa:--enable-alsa} \
-  --enable-arts \
+	--enable-arts \
 	--enable-caca \
 	--enable-dsp \
 	--enable-dummy \
@@ -230,13 +234,13 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-dvb \
 	--enable-dvbpsi \
 	--with-dvdcss \
-  --enable-dvdnav \
+	--enable-dvdnav \
 	--enable-dvdread \
 	--enable-esd \
 	--enable-faad \
 	--enable-fb \
 	--enable-freetype \
-  --enable-fribidi \
+	--enable-fribidi \
 	--enable-ffmpeg \
 	--enable-flac \
 	%{?with_ggi:--enable-ggi} \
@@ -257,7 +261,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-slp \
 	--enable-svgalib \
 	--enable-tarkin \
-  --enable-theora \
+	--enable-theora \
 	--enable-tremor \
 	%{?with_qt:--enable-qt} \
 	--enable-v4l\
