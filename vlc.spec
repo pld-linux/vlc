@@ -43,7 +43,6 @@ BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-BuildRequires:	gtk+-devel
 BuildRequires:	libdvdcss-devel
 BuildRequires:	libdts-devel
 BuildRequires:	libebml-devel
