@@ -4,10 +4,10 @@ Version:	0.1.99i
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-######		Unknown group!
 Source0:	http://www.videolan.org/packages/%{version}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-CFLAGS.patch
 Patch1:		%{name}-SDL.patch
+Patch2:		%{name}-DESTDIR.patch
 URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
@@ -33,11 +33,10 @@ X11 output plugin for VideoLAN Client
 %package GGI
 Summary:	VideoLAN Client - GGI output plugin
 Group:		Applications/Multimedia
-######		Unknown group!
 Requires:	%{name} = %{version}
    
 %description GGI
-GGI output plugin for VideoLAN Client
+GGI output plugin for VideoLAN Client.
 
 %package SDL
 Summary:	VideoLAN Client - SDL output plugin
@@ -46,7 +45,7 @@ Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description SDL
-SDL output plugin for VideoLAN Client
+SDL output plugin for VideoLAN Client.
 
 %package gnome
 Summary:	VideoLAN Client - gnome output plugin
@@ -55,7 +54,7 @@ Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description gnome
-gnome output plugin for VideoLAN Client
+Gnome output plugin for VideoLAN Client.
 
 %package esd
 Summary:	VideoLAN Client - esound output plugin
@@ -64,12 +63,13 @@ Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description esd
-esd output plugin for VideoLAN Client
+Esd output plugin for VideoLAN Client.
 
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure \
@@ -92,7 +92,11 @@ esd output plugin for VideoLAN Client
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install prefix=${RPM_BUILD_ROOT}/%{_prefix}
+
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/videolan/vlc/*.so
+
 gzip -9nf README TODO ChangeLog AUTHORS
 
 %clean
@@ -103,33 +107,34 @@ rm -rf $RPM_BUILD_ROOT
 %doc *.gz
 %attr(755,root,root) %{_bindir}/vlc
 %attr(755,root,root) %{_bindir}/fbvlc
+%dir %{_libdir}/videolan
 %dir %{_libdir}/videolan/vlc
-%{_libdir}/videolan/vlc/dsp.so
-%{_libdir}/videolan/vlc/dummy.so
-%{_libdir}/videolan/vlc/fb.so
-%{_libdir}/videolan/vlc/yuv*.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/dsp.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/dummy.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/fb.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/yuv*.so
 %dir %{_datadir}/videolan
 %{_datadir}/videolan/*.psf
 %{_datadir}/videolan/vlc.png
 
 %files X11
 %defattr(644,root,root,755)
-%{_libdir}/videolan/vlc/x11.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/x11.so
 
 %files GGI
 %defattr(644,root,root,755)
-%{_libdir}/videolan/vlc/ggi.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/ggi.so
 
 %files SDL
 %defattr(644,root,root,755)
-%{_libdir}/videolan/vlc/sdl.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/sdl.so
 
 %files gnome
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gvlc
-%{_libdir}/videolan/vlc/gnome.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/gnome.so
 %{_datadir}/videolan/gvlc.png
 
 %files esd
 %defattr(644,root,root,755)
-%{_libdir}/videolan/vlc/esd.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/esd.so
