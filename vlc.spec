@@ -15,7 +15,6 @@ BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	autoconf
 BuildRequires:	esound-devel
 BuildRequires:	gnome-libs-devel
-BuildRequires:	libgii-devel
 BuildRequires:	libggi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -147,16 +146,14 @@ Plugin audio esd dla Klienta VideoLAN.
 %build
 %{__autoconf}
 %configure \
-%ifarch i586 i686 athlon
-	--enable-mmx \
 %ifarch i686 athlon
+	--enable-mmx \
 	--enable-ppro \
 %else
 	--disable-mmx \
 	--disable-ppro \
 %endif
-%endif
-	 --enable-dvdread \
+	--enable-dvdread \
 	--enable-dummy \
 	--enable-dsp \
 	--disable-alsa \
