@@ -1,0 +1,54 @@
+diff -durN vlc-0.1.99i.orig/Makefile.in vlc-0.1.99i/Makefile.in
+--- vlc-0.1.99i.orig/Makefile.in	Thu Aug 24 01:45:27 2000
++++ vlc-0.1.99i/Makefile.in	Sun Sep  3 17:12:18 2000
+@@ -84,50 +84,9 @@
+ CFLAGS += -D_REENTRANT
+ CFLAGS += -D_GNU_SOURCE
+ 
+-# flags needed for clean beos compilation
+-ifeq ($(SYS),beos)
+-CFLAGS += -Wno-multichar -Wno-ctor-dtor-privacy -Woverloaded-virtual
+-endif
+-
+-# Optimizations : don't compile debug versions with them
+-ifeq ($(DEBUG),0)
+-CFLAGS += -O6
+-CFLAGS += -ffast-math -funroll-loops -fargument-noalias-global
+-CFLAGS += -fomit-frame-pointer
+-
+-# Optimizations for x86 familiy
+-ifneq (,$(findstring 86,$(ARCH)))
+-CFLAGS += -malign-double
+-# Eventual Pentium Pro optimizations
+-ifneq (,$(findstring ppro,$(ARCH)))
+-ifneq ($(SYS), BSD)
+-CFLAGS += -march=pentiumpro
+-endif
+-else
+-CFLAGS += -march=pentium
+-endif
+ # Eventual MMX optimizations for x86
+ ifneq (,$(findstring mmx,$(ARCH)))
+ CFLAGS += -DHAVE_MMX
+-endif
+-endif
+-
+-# Optimizations for PowerPC
+-ifneq (,$(findstring powerpc,$(ARCH)))
+-# 604e
+-CFLAGS += -mcpu=604e -mmultiple -mhard-float -mstring
+-# G3
+-#CFLAGS += -mcpu=750 -mmultiple -mhard-float -mstring
+-# G4
+-#CFLAGS += -mcpu=7400 -mmultiple -mhard-float -mstring
+-endif
+-
+-# Optimizations for Sparc
+-ifneq (,$(findstring sparc,$(ARCH)))
+-CFLAGS += -mhard-float
+-endif
+-
+-# End of optimizations
+ endif
+ 
+ #
