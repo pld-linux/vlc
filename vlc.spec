@@ -1,5 +1,6 @@
-Summary:	VideoLAN Client
+Summary:	VideoLAN is a free MPEG, MPEG-2 and DVD software solution
 Summary(pl):	Klient VideoLAN
+Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.2.91
 Release:	1
@@ -19,17 +20,30 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_mandir		%{_prefix}/man
 
-%description
-VideoLAN is a free MPEG2 software solution.
+%define		_prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
 
-The VideoLAN Client allows to play MPEG2 Transport Streams from the
-network or from a file, as well as direct DVD playback.
+%description
+VideoLAN is a free network-aware MPEG and DVD player. The VideoLAN
+Client allows to play MPEG-2 Transport Streams from the network or
+from a file, as well as direct DVD playback. VideoLAN is a project of
+students from the Ecole Centrale Paris. This version add MPEG-1
+support, direct DVD support, DVD decryption, arbitrary, seeking in the
+stream, pause, fast forward and slow motion, hardware YUV acceleration
+and a few new interface features including drag'n'drop. You may
+install vlc-gnome, vlc-gtk and vlc-qt vlc-gnome vlc-ncurses.
 
 %description -l pl
 VideoLAN jest darmowym rozwi±zaniem dla streamingu MPEG2.
 
 Klient VideoLAN pozwala na odtwarzanie strumienia MPEG2 z sieci lub z
 pliku jak równie¿ bezpo¶rednie odtwarzanie z DVD.
+
+%description -l pt_BR
+O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode
+funcionar via rede. Permite a reprodução de "transport streams" MPEG-2
+a partir da rede ou de um arquivo, bem como assistir a DVDs
+localmente.
 
 %package X11
 Summary:	VideoLAN Client - X11 output plugin
@@ -76,6 +90,7 @@ Plugin SDL dla Klienta VideoLAN.
 %package gnome
 Summary:	VideoLAN Client - gnome output plugin
 Summary(pl):	Klient VideoLAN - plugin gnome
+Summary(pt_BR):	Plugin gnome para o VideoLAN
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
@@ -87,9 +102,13 @@ Gnome output plugin for VideoLAN Client.
 %description -l pl gnome
 Plugin gnome dla Klienta VideoLAN.
 
+%description gnome -l pt_BR
+Plugin gnome para o VideoLAN.
+
 %package gtk
 Summary:	VideoLAN Client - gtk output plugin
 Summary(pl):	Klient VideoLAN - plugin gtk
+Summary(pt_BR):	Plugin gtk para o VideoLAN
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
@@ -100,6 +119,9 @@ GTK output plugin for VideoLAN Client.
 
 %description -l pl gtk
 Plugin GTK dla Klienta VideoLAN.
+
+%description gtk -l pt_BR
+Plugin gtk para o VideoLAN.
 
 %package esd
 Summary:	VideoLAN Client - esound output plugin
