@@ -12,6 +12,7 @@ URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
 BuildRequires:	esound-devel
+BuildRequires:	SDL-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
