@@ -436,19 +436,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/http/index.html
 %{_datadir}/%{name}/http/info.html
 %{_datadir}/%{name}/ui.rc
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/vlc.mo
-#%lang(es) %{_datadir}/locale/es/LC_MESSAGES/vlc.mo
-#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/vlc.mo
-#%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/vlc.mo
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/vlc.mo
-#%lang(it) %{_datadir}/locale/it/LC_MESSAGES/vlc.mo
-#%lang(nl) %{_datadir}/locale/nl/LC_MESSAGES/vlc.mo
-#%lang(no) %{_datadir}/locale/no/LC_MESSAGES/vlc.mo
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/vlc.mo
-#%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/vlc.mo
-#%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/vlc.mo
-#%lang(en_GB) %{_datadir}/locale/en_GB/LC_MESSAGES/vlc.mo
-#%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/vlc.mo
 
 %files devel
 %defattr(644,root,root,755)
