@@ -15,7 +15,6 @@ BuildRequires:	esound-devel
 BuildRequires:	SDL-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 
 %description
@@ -146,7 +145,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/videolan/vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/dsp.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/dummy.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/dvd.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/fb.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/idct.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/idctclassic.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/motion.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/null.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/ps.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/ts.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/yuv.so
 %ifarch i586 i686
 %attr(755,root,root) %{_libdir}/videolan/vlc/*mmx*.so
