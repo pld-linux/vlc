@@ -168,6 +168,7 @@ autoconf
 	--disable-mmx \
 	--disable-ppro \
 %endif
+%endif
 	--enable-dummy \
 	--enable-dsp \
 	--disable-alsa \
