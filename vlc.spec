@@ -145,7 +145,7 @@ Plugin audio esd dla Klienta VideoLAN.
 %setup -q
 
 %build
-autoconf
+%{__autoconf}
 %configure \
 %ifarch i586 i686 athlon
 	--enable-mmx \
