@@ -10,12 +10,14 @@ Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL:		http://www.videolan.org/
+BuildRequires:	SDL-devel >= 1.2
+%ifnarch sparc sparc64
+#BuildRequires:	alsa-lib-devel
+%endif
+BuildRequires:	autoconf
+BuildRequires:	esound-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
-BuildRequires:	esound-devel
-BuildRequires:	alsa-lib-devel
-BuildRequires:	SDL-devel >= 1.2
-BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_mandir		%{_prefix}/man
@@ -162,7 +164,6 @@ autoconf
 	--enable-mmx \
 %ifarch i686
 	--enable-ppro \
-%endif
 %else
 	--disable-mmx \
 	--disable-ppro \
