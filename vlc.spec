@@ -1,8 +1,8 @@
 Summary:	VideoLAN Client
 Summary(pl):	Klient VideoLAN
 Name:		vlc
-Version:	0.2.62
-Release:	2
+Version:	0.2.80
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -12,6 +12,7 @@ URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
 BuildRequires:	esound-devel
+BuildRequires:	alsa-lib-devel
 BuildRequires:	SDL-devel >= 1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -85,6 +86,20 @@ Gnome output plugin for VideoLAN Client.
 %description -l pl gnome
 Plugin gnome dla Klienta VideoLAN.
 
+%package gtk
+Summary:	VideoLAN Client - gtk output plugin
+Summary(pl):	Klient VideoLAN - plugin gtk
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
+Requires:	%{name} = %{version}
+   
+%description gtk
+GTK output plugin for VideoLAN Client.
+
+%description -l pl gtk
+Plugin GTK dla Klienta VideoLAN.
+
 %package esd
 Summary:	VideoLAN Client - esound output plugin
 Summary(pl):	Klient VideoLAN - plugin esound
@@ -94,16 +109,30 @@ Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description esd
-Esd output plugin for VideoLAN Client.
+Esd audio output plugin for VideoLAN Client.
 
 %description -l pl esd
-Plugin esd dla Klienta VideoLAN.
+Plugin audio esd dla Klienta VideoLAN.
+
+#%package alsa
+#Summary:	VideoLAN Client - alsa output plugin
+#Summary(pl):	Klient VideoLAN - plugin alsa
+#Group:		X11/Applications/Multimedia
+#Group(de):	X11/Applikationen/Multimedia
+#Group(pl):	X11/Aplikacje/Multimedia
+#Requires:	%{name} = %{version}
+#   
+#%description alsa
+#ALSA audio output plugin for VideoLAN Client.
+#
+#%description -l pl alsa
+#Plugin audi ALSA dla Klienta VideoLAN.
+#
 
 %prep
 %setup -q
 
 %build
-autoconf
 %configure \
 %ifarch i586 i686
 	--enable-mmx \
@@ -116,6 +145,7 @@ autoconf
 %endif
 	--enable-dummy \
 	--enable-dsp \
+	--disable-alsa \
 	--enable-esd \
 	--enable-fb \
 	--with-ggi \
@@ -123,6 +153,7 @@ autoconf
 	--disable-glide \
 	--enable-gnome \
 	--enable-x11 \
+	--with-sdl=/usr/X11R6 \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 	
 %{__make}
@@ -144,19 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/videolan
 %dir %{_libdir}/videolan/vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/dsp.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/dummy.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/dvd.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/fb.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/idct.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/idctclassic.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/motion.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/null.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/ps.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/ts.so
-%attr(755,root,root) %{_libdir}/videolan/vlc/yuv.so
-%ifarch i586 i686
-%attr(755,root,root) %{_libdir}/videolan/vlc/*mmx*.so
-%endif
 %dir %{_datadir}/videolan
 %{_datadir}/videolan/*.psf
 %{_datadir}/videolan/vlc.png
@@ -164,6 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 %files X11
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/x11.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/xvideo.so
 
 %files GGI
 %defattr(644,root,root,755)
@@ -173,12 +193,22 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/sdl.so
 
-%files gnome
+%files gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gvlc
+%attr(755,root,root) %{_libdir}/videolan/vlc/gtk.so
+%{_datadir}/videolan/gvlc.png
+
+%files gnome
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gnome-vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/gnome.so
 %{_datadir}/videolan/gvlc.png
 
 %files esd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/esd.so
+
+#%files alsa
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_libdir}/videolan/vlc/alsa.so
