@@ -6,8 +6,6 @@ Version:	0.2.91
 Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
@@ -51,8 +49,6 @@ localmente.
 Summary:	VideoLAN Client - X11 output plugin
 Summary(pl):	Klient VideoLAN - plugin dla X11
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description X11
@@ -65,8 +61,6 @@ Plugin X11 dla Klienta VideoLAN
 Summary:	VideoLAN Client - GGI output plugin
 Summary(pl):	Klient VideoLAN - plugin GGI
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
 
 %description GGI
@@ -79,8 +73,6 @@ Plugin GGI dla Klienta VideoLAN.
 Summary:	VideoLAN Client - SDL output plugin
 Summary(pl):	Klient VideoLAN - plugin SDL
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description SDL
@@ -94,8 +86,6 @@ Summary:	VideoLAN Client - gnome output plugin
 Summary(pl):	Klient VideoLAN - plugin gnome
 Summary(pt_BR):	Plugin gnome para o VideoLAN
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description gnome
@@ -112,8 +102,6 @@ Summary:	VideoLAN Client - gtk output plugin
 Summary(pl):	Klient VideoLAN - plugin gtk
 Summary(pt_BR):	Plugin gtk para o VideoLAN
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description gtk
@@ -129,8 +117,6 @@ Plugin gtk para o VideoLAN.
 Summary:	VideoLAN Client - esound output plugin
 Summary(pl):	Klient VideoLAN - plugin esound
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description esd
