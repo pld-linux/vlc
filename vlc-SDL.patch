@@ -1,0 +1,12 @@
+diff -durN vlc-0.1.99i.orig/Makefile.in vlc-0.1.99i/Makefile.in
+--- vlc-0.1.99i.orig/Makefile.in	Sun Sep  3 17:14:36 2000
++++ vlc-0.1.99i/Makefile.in	Sun Sep  3 17:14:59 2000
+@@ -465,7 +465,7 @@
+ 	$(CC) $(CFLAGS) -c -o $@ $<
+ 
+ lib/sdl.so: $(PLUGIN_SDL)
+-	ld -shared -lSDL -o $@ $^
++	ld -shared -L/usr/X11R6/lib -lSDL -o $@ $^
+ $(PLUGIN_SDL): %.o: %.c
+ 	$(CC) $(CFLAGS) -c -o $@ $<
+ 
