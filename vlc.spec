@@ -51,7 +51,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 VLC (initially VideoLAN Client) is a multimedia player for various 
-audio and video formats (MPEG-1, MPEG-2, MPEG-4, DivX, MP3, ogg, ...)
+audio and video formats (MPEG-1, MPEG-2, MPEG-4, DivX, MP3, Ogg, ...)
 as well as DVDs, VCDs, and various streaming protocols. It can also 
 be used as a server to stream in unicast or multicast in IPv4 
 or IPv6 on a high-bandwidth network.
@@ -59,7 +59,7 @@ or IPv6 on a high-bandwidth network.
 %description -l pl
 VLC (wcze¶niej znany pod nazw± VideoLAN Client) jest odtwarzaczem 
 multimedialnym dla wielu formatów wideo i d¼wiêku (MPEG-1, MPEG-2, 
-MPEG-4, DivX, MP3, ogg, ...), p³yt DVD, VCD oraz ró¿nych protoko³ów 
+MPEG-4, DivX, MP3, Ogg, ...), p³yt DVD, VCD oraz ró¿nych protoko³ów 
 strumieniowych. Mo¿e byæ wykorzystany jako serwer do wysy³ania 
 strumieni unicast lub multicast w protoko³ach IPv4 lub IPv6 
 w wysokoprzepustowych sieciach.
