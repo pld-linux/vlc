@@ -36,10 +36,14 @@ BuildRequires:	ffmpeg-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libdvdcss-devel
+BuildRequires:	libdts-devel
+BuildRequires:	libebml-devel
 BuildRequires:	libggi-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
+BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
+BuildRequires:	libid3tag-devel
 BuildRequires:	libpostproc-devel
 BuildRequires:	mpeg2dec-devel
 BuildRequires:	vcdimager-devel
