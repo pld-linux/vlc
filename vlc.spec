@@ -18,15 +18,16 @@
 Summary:	VLC - a multimedia player and stream server 
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.7.2
+Version:	0.8.1
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	25dfcc804cb92f46c0b64ce1466515cc
+# Source0-md5:	3fb3ac4ed456f092d51a00d50159790f
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-po.patch
 Patch2:		%{name}-buildflags.patch
+Patch3:		%{name}-wxgtk2.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	SDL-devel >= 1.2
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
@@ -50,6 +51,7 @@ BuildRequires:	libid3tag-devel
 BuildRequires:	libmatroska-devel
 BuildRequires:	mpeg2dec-devel
 BuildRequires:	vcdimager-devel
+BuildRequires:	wxGTK2-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -197,14 +199,15 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 # %patch0 -p1
 # %patch1 -p1
 %patch2 -p0
+%patch3 -p1
 
 # mv -f po/{no,nb}.po
 
 %build
 #cp -f /usr/share/automake/config.* .
-#% {__gettextize}
-#% {__aclocal}
-#% {__autoconf}
+#%{__gettextize}
+%{__aclocal} -I m4
+%{__autoconf}
 CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %configure \
 %ifarch ppc
