@@ -1,12 +1,9 @@
 #
 # TODO:
-# - return to gettextize/aclocal/autoconf 
 # - check the altivec patch 
-# - check the po patch 
 # - add proper package descriptions/translations
 # - check files/packages (can we keep png/xpm/bmp/ico in X11 package)
 # - shorten the files section
-# - check this no->nb locale stuff 
 # - change group for vlc and framebuffer video out (it's not the X11)
 #
 # Conditional build:
@@ -18,7 +15,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.1
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -66,7 +63,7 @@ BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	lirc-devel
 BuildRequires:	mpeg2dec-devel
-%{!?with_mozilla:BuildRequires:	mozilla-devel}
+%{?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 BuildRequires:	speex-devel
@@ -194,16 +191,16 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %prep
 %setup -q
 # %patch0 -p1
-# %patch1 -p1
+%patch1 -p1
 %patch2 -p0
 %patch3 -p1
 %patch4 -p1
 
-# mv -f po/{no,nb}.po
+mv -f po/{no,nb}.po
 
 %build
-#cp -f /usr/share/automake/config.* .
-#%{__gettextize}
+cp -f /usr/share/automake/config.* .
+%{__gettextize}
 %{__aclocal} -I m4
 %{__autoconf}
 CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
