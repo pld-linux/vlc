@@ -7,16 +7,12 @@
 # - check files/packages (can we keep png/xpm/bmp/ico in X11 package)
 # - shorten the files section
 # - check this no->nb locale stuff 
-# - check find_lang macro
 # - change group for vlc and framebuffer video out (it's not the X11)
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	ggi	# don't build ggi plugin
-%bcond_without	kde	# don't build kde plugin
-%bcond_without	qt	# don't build qt plugin
 %bcond_with	mozilla	# build mozilla plugin
-%bcond_with	gnome1	# build mozilla plugin
 #
 Summary:	VLC - a multimedia player and stream server 
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -47,9 +43,7 @@ BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-%{?with_gnome1:BuildRequires:	gnome-libs-devel}
 BuildRequires:	gtk+-devel
-%{?with_kde:BuildRequires:	kdelibs-devel}
 BuildRequires:	libdvdcss-devel
 BuildRequires:	libdts-devel
 BuildRequires:	libebml-devel
@@ -72,7 +66,6 @@ BuildRequires:	libtheora-devel
 BuildRequires:	mpeg2dec-devel
 BuildRequires:	ncurses-devel
 %{!?with_mozilla:BuildRequires:	mozilla-devel}
-%{?with_qt:BuildRequires:	qt-devel}
 BuildRequires:	speex-devel
 BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
@@ -119,6 +112,8 @@ Summary:	VLC - X11 output plugin
 Summary(pl):	Klient VLC - wtyczka wyj¶cia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	vlc-gnome
+Obsoletes:	vlc-gtk
 
 %description X11
 X11 output plugin for VLC. Contains GUI image/icon resources.
@@ -148,7 +143,7 @@ Requires:	%{name} = %{version}-%{release}
 %description fb
 fb output plugin for VLC.
 
-%description GGI -l pl
+%description fb -l pl
 Wtyczka wyj¶cia fb dla klienta VLC.
 
 %package SDL
@@ -162,25 +157,6 @@ SDL output plugin for VLC.
 
 %description SDL -l pl
 Wtyczka wyj¶cia SDL dla klienta VLC.
-
-%if %{with gnome1}
-%package gnome1
-Summary:	VLC - GNOME output plugin
-Summary(pl):	Klient VLC - wtyczka wyj¶cia GNOME
-Summary(pt_BR):	Plugin GNOME para o VLC
-Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-X11 = %{version}-%{release}
-
-%description gnome1
-GNOME output plugin for VLC.
-
-%description gnome1 -l pl
-Wtyczka wyj¶cia GNOME dla klienta VLC.
-
-%description gnome1 -l pt_BR
-Plugin GNOME para o VLC.
-%endif
 
 %package esd
 Summary:	VLC - EsounD audio output plugin
@@ -249,8 +225,6 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	%{?with_ggi:--with-ggi} \
 	%{!?with_ggi:--disable-ggi} \
 	--disable-glide \
-	%{?with_gnome1:--enable-gnome} \
-	%{?with_kde:--enable-kde} \
 	--enable-lirc \
 	--enable-livedotcom \
 	--enable-mad \
@@ -265,7 +239,6 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-tarkin \
 	--enable-theora \
 	--enable-tremor \
-	%{?with_qt:--enable-qt} \
 	--enable-v4l\
 	--enable-x11 \
 	--enable-xosd \
@@ -487,7 +460,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/%{name}/fortunes.txt
 %{_datadir}/doc/%{name}/intf-cdda.txt
 %{_datadir}/doc/%{name}/intf-vcd.txt
-# %dir %{_datadir}/doc/%{name}-%{version}
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/http
 %dir %{_datadir}/%{name}/http/vlm
@@ -599,18 +571,6 @@ rm -rf $RPM_BUILD_ROOT
 %files fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libfb_plugin.so
-
-%if %{with gnome1}
-%files gnome1
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gnome-vlc
-%attr(755,root,root) %{_libdir}/%{name}/gui/libgnome_plugin.so
-%attr(755,root,root) %{_libdir}/%{name}/misc/libgnome_main_plugin.so
-%{_datadir}/%{name}/gnome-vlc16x16.png
-%{_datadir}/%{name}/gnome-vlc32x32.png
-%{_datadir}/%{name}/gnome-vlc32x32.xpm
-%{_datadir}/%{name}/gnome-vlc48x48.png
-%endif
 
 %files esd
 %defattr(644,root,root,755)
