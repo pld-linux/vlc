@@ -47,19 +47,19 @@ X11 output plugin for VideoLAN Client
 %description -l pl X11
 Plugin X11 dla Klienta VideoLAN
 
-#%package GGI
-#Summary:	VideoLAN Client - GGI output plugin
-#Summary(pl):	Klient VideoLAN - plugin GGI
-#Group:		X11/Applications/Multimedia
-#Group(de):	X11/Applikationen/Multimedia
-#Group(pl):	X11/Aplikacje/Multimedia
-#Requires:	%{name} = %{version}
-#
-#%description GGI
-#GGI output plugin for VideoLAN Client.
-#
-#%description -l pl GGI
-#Plugin GGI dla Klienta VideoLAN.
+%package GGI
+Summary:	VideoLAN Client - GGI output plugin
+Summary(pl):	Klient VideoLAN - plugin GGI
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
+Requires:	%{name} = %{version}
+
+%description GGI
+GGI output plugin for VideoLAN Client.
+
+%description -l pl GGI
+Plugin GGI dla Klienta VideoLAN.
 
 %package SDL
 Summary:	VideoLAN Client - SDL output plugin
