@@ -1,8 +1,8 @@
-diff -Nru vlc-0.1.99i/Makefile.in vlc-0.1.99i.new/Makefile.in
---- vlc-0.1.99i/Makefile.in	Wed Sep  6 10:19:09 2000
-+++ vlc-0.1.99i.new/Makefile.in	Wed Sep  6 10:20:04 2000
-@@ -17,7 +17,11 @@
- SNAPSHOTDIR=vlc-@VLC_VERSION@
+diff -urN vlc-0.2.61.org/Makefile.in vlc-0.2.61/Makefile.in
+--- vlc-0.2.61.org/Makefile.in	Sun Feb 18 12:34:33 2001
++++ vlc-0.2.61/Makefile.in	Sun Feb 18 12:43:39 2001
+@@ -18,7 +18,12 @@
+ PLUGINS=@PLUGINS@
  INSTALL=@INSTALL@
  ARCH=@ARCH@
 +
@@ -10,27 +10,28 @@ diff -Nru vlc-0.1.99i/Makefile.in vlc-0.1.99i.new/Makefile.in
 +bindir=@bindir@
 +datadir=@datadir@
 +libdir=@libdir@
++
+ CC=@CC@
+ SHELL=@SHELL@
  
- #----------------- do not change anything below this line ----------------------
- 
-@@ -332,15 +336,15 @@
- 	find debian/* -type d -maxdepth 0 -name 'vlc-*' | xargs rm -rf
+@@ -440,15 +445,15 @@
+ 	rm -rf .dep
  
  install:
 -	mkdir -p $(prefix)/bin
 -	$(INSTALL) vlc $(prefix)/bin
 +	mkdir -p $(DESTDIR)$(bindir)
 +	$(INSTALL) vlc $(DESTDIR)$(bindir)
- 	# ugly
--	for alias in "" @ALIASES@ ; do if test $$alias ; then ln -s vlc $(prefix)/bin/$$alias ; fi ; done
+ # ugly
+-	for alias in "" @ALIASES@ ; do if test $$alias ; then rm -f $(prefix)/bin/$$alias && ln -s vlc $(prefix)/bin/$$alias ; fi ; done
 -	mkdir -p $(prefix)/lib/videolan/vlc
--	$(INSTALL) -m 644 $(PLUGINS) $(prefix)/lib/videolan/vlc
+-	$(INSTALL) -m 644 $(PLUGINS:%=lib/%.so) $(prefix)/lib/videolan/vlc
 -	mkdir -p $(prefix)/share/videolan
 -	$(INSTALL) -m 644 share/*.psf $(prefix)/share/videolan
 -	$(INSTALL) -m 644 share/*.png $(prefix)/share/videolan
-+	for alias in "" @ALIASES@ ; do if test $$alias ; then ln -s vlc $(DESTDIR)$(bindir)/$$alias ; fi ; done
++	for alias in "" @ALIASES@ ; do if test $$alias ; then rm -f $(DESTDIR)$(bindir)/$$alias && ln -s vlc $(DESTDIR)$(bindir)/$$alias ; fi ; done
 +	mkdir -p $(DESTDIR)$(libdir)/videolan/vlc
-+	$(INSTALL) -m 644 $(PLUGINS) $(DESTDIR)$(libdir)/videolan/vlc
++	$(INSTALL) -m 644 $(PLUGINS:%=lib/%.so) $(DESTDIR)$(libdir)/videolan/vlc
 +	mkdir -p $(DESTDIR)$(datadir)/videolan
 +	$(INSTALL) -m 644 share/*.psf $(DESTDIR)$(datadir)/videolan
 +	$(INSTALL) -m 644 share/*.png $(DESTDIR)$(datadir)/videolan
