@@ -3,7 +3,7 @@ Summary(pl):	Klient VideoLAN
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.2.91
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -160,9 +160,9 @@ Plugin audio esd dla Klienta VideoLAN.
 %build
 autoconf
 %configure \
-%ifarch i586 i686
+%ifarch i586 i686 athlon
 	--enable-mmx \
-%ifarch i686
+%ifarch i686 athlon
 	--enable-ppro \
 %else
 	--disable-mmx \
