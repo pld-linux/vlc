@@ -30,11 +30,12 @@ Patch2:		%{name}-buildflags.patch
 Patch3:		%{name}-wxgtk2.patch
 Patch4:		%{name}-defaultfont.patch
 URL:		http://www.videolan.org/vlc/
+BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	aalib-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-BuildRequires:	arts-devel
+BuildRequires:	artsc-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	esound-devel
@@ -55,22 +56,25 @@ BuildRequires:	libdvdcss-devel
 BuildRequires:	libebml-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
-Buildrequires:	libmad-devel
+BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel
 BuildRequires:	libmodplug-devel
-Buildrequires:	libogg-devel
+BuildRequires:	libogg-devel
+BuildRequires:	libpng-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libvorbis-devel
+BuildRequires:	libxml2-devel
 BuildRequires:	lirc-devel
 BuildRequires:	mpeg2dec-devel
 %{!?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	ncurses-devel
+BuildRequires:	pkgconfig
 BuildRequires:	speex-devel
 BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-devel
 BuildRequires:	xosd-devel
-Buildrequires:	xvid-devel
+BuildRequires:	xvid-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -193,7 +197,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 # %patch1 -p1
 %patch2 -p0
 %patch3 -p1
-%patch4 -p1 
+%patch4 -p1
 
 # mv -f po/{no,nb}.po
 
@@ -239,6 +243,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-pvr \
 	--enable-sdl \
 	--with-sdl=/usr \
+	--enable-skins2 \
 	--enable-slp \
 	--enable-svgalib \
 	--enable-tarkin \
