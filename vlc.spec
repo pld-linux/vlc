@@ -11,9 +11,7 @@ Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{versi
 Patch0:		%{name}-altivec.patch
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
-%ifnarch sparc sparc64
 #BuildRequires:	alsa-lib-devel
-%endif
 BuildRequires:	autoconf
 BuildRequires:	esound-devel
 BuildRequires:	gettext-devel
@@ -136,7 +134,6 @@ ALSA audio output plugin for VideoLAN Client.
 
 %description alsa -l pl
 Plugin audi ALSA dla Klienta VideoLAN.
-
 
 %prep
 %setup -q
