@@ -67,17 +67,17 @@ w wysokoprzepustowych sieciach.
 %package devel
 Summary:	VLC header files
 Summary(pl):	Pliki nag³ówkowe VLC
-Group:          X11/Development/Libraries
-Requires:       %{name} = %{version}-%{release}
+Group:		X11/Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 VLC header files.
 
 %package static
-Summary:        VLC static libraries
-Summary(pl):    Biblioteli statyczne VLC 
-Group:          X11/Development/Libraries
-Requires:       %{name}-devel = %{version}-%{release}
+Summary:	VLC static libraries
+Summary(pl):	Biblioteli statyczne VLC 
+Group:		X11/Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 VLC static libraries.
@@ -108,10 +108,10 @@ GGI output plugin for VLC.
 Wtyczka wyj¶cia GGI dla klienta VLC.
 
 %package fb
-Summary:        VLC - fb output plugin
-Summary(pl):    Klient VLC - wtyczka wyj¶cia fb
-Group:          X11/Applications/Multimedia
-Requires:       %{name} = %{version}-%{release}
+Summary:	VLC - fb output plugin
+Summary(pl):	Klient VLC - wtyczka wyj¶cia fb
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
 
 %description fb
 fb output plugin for VLC.
@@ -212,7 +212,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-esd \
 	--enable-fb \
 	--enable-ggi \
-        --enable-ncurses \
+	--enable-ncurses \
 	--with-ggi \
 	--with-sdl \
 	--with-dvdcss \
