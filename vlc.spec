@@ -1,9 +1,11 @@
 Summary:	VideoLAN Client
 Name:		vlc
 Version:	0.1.99i
-Release:	1
+Release:	2
 License:	GPL
-Group:		Applications/Multimedia
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www.videolan.org/packages/%{version}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-CFLAGS.patch
 Patch1:		%{name}-SDL.patch
@@ -15,6 +17,9 @@ BuildRequires:	esound-devel
 BuildRequires:	SDL-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
+
 %description
 %description
 VideoLAN is a free MPEG2 software solution.
@@ -25,6 +30,7 @@ network or from a file, as well as direct DVD playback.
 %package X11
 Summary:	VideoLAN Client - X11 output plugin
 Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
@@ -33,7 +39,9 @@ X11 output plugin for VideoLAN Client
 
 %package GGI
 Summary:	VideoLAN Client - GGI output plugin
-Group:		Applications/Multimedia
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
 %description GGI
@@ -42,6 +50,7 @@ GGI output plugin for VideoLAN Client.
 %package SDL
 Summary:	VideoLAN Client - SDL output plugin
 Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
@@ -51,6 +60,7 @@ SDL output plugin for VideoLAN Client.
 %package gnome
 Summary:	VideoLAN Client - gnome output plugin
 Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
@@ -60,6 +70,7 @@ Gnome output plugin for VideoLAN Client.
 %package esd
 Summary:	VideoLAN Client - esound output plugin
 Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Requires:	%{name} = %{version}
    
@@ -95,8 +106,6 @@ Esd output plugin for VideoLAN Client.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/videolan/vlc/*.so
 
 gzip -9nf README TODO ChangeLog AUTHORS
 
