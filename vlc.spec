@@ -1,12 +1,13 @@
 Summary:	VideoLAN is a free MPEG, MPEG-2 and DVD software solution
-Summary(pl):	Klient VideoLAN
+Summary(pl):	VideoLAN - oprogramowanie dla MPEG, MPEG-2 i DVD
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.3.0
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
+Patch0:		%{name}-altivec.patch
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
 %ifnarch sparc sparc64
@@ -17,6 +18,7 @@ BuildRequires:	esound-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
+BuildRequires:	libdvdcss-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -139,10 +141,14 @@ Plugin audi ALSA dla Klienta VideoLAN.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__autoconf}
 %configure \
+%ifarch ppc
+	--disable-altivec \
+%endif
 	--enable-dvdread \
 	--enable-dummy \
 	--enable-dsp \
@@ -153,6 +159,7 @@ Plugin audi ALSA dla Klienta VideoLAN.
         --enable-ncurses \
 	--with-ggi \
 	--with-sdl \
+	--with-dvdcss \
 	--disable-glide \
 	--enable-gnome \
 	--enable-x11 \
