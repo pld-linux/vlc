@@ -21,8 +21,6 @@ BuildRequires:	libggi-devel
 BuildRequires:	libdvdcss-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_mandir		%{_prefix}/man
 
 %description
 VideoLAN is a free network-aware MPEG and DVD player. The VideoLAN
