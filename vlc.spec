@@ -140,7 +140,7 @@ Summary(pl):	Klient VLC - wtyczka wyj¶cia GNOME
 Summary(pt_BR):	Plugin GNOME para o VLC
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-x11 = %{version}-%{release}
+Requires:	%{name}-X11 = %{version}-%{release}
 
 %description gnome
 GNOME output plugin for VLC.
@@ -157,7 +157,7 @@ Summary(pl):	Klient VLC - wtyczka wyj¶cia GTK+
 Summary(pt_BR):	Plugin GTK+ para o VLC
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-x11 = %{version}-%{release}
+Requires:	%{name}-X11 = %{version}-%{release}
 
 %description gtk
 GTK+ output plugin for VLC.
