@@ -3,7 +3,7 @@ Summary(pl):	Klient VideoLAN
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.3.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
@@ -14,11 +14,10 @@ BuildRequires:	SDL-devel >= 1.2
 %endif
 BuildRequires:	autoconf
 BuildRequires:	esound-devel
+BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libggi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_mandir		%{_prefix}/man
 
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
@@ -125,20 +124,18 @@ Esd audio output plugin for VideoLAN Client.
 %description esd -l pl
 Plugin audio esd dla Klienta VideoLAN.
 
-#%package alsa
-#Summary:	VideoLAN Client - alsa output plugin
-#Summary(pl):	Klient VideoLAN - plugin alsa
-#Group:		X11/Applications/Multimedia
-#Group(de):	X11/Applikationen/Multimedia
-#Group(pl):	X11/Aplikacje/Multimedia
-#Requires:	%{name} = %{version}
-#
-#%description alsa
-#ALSA audio output plugin for VideoLAN Client.
-#
-#%description -l pl alsa
-#Plugin audi ALSA dla Klienta VideoLAN.
-#
+%package alsa
+Summary:	VideoLAN Client - alsa output plugin
+Summary(pl):	Klient VideoLAN - plugin alsa
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{version}
+
+%description alsa
+ALSA audio output plugin for VideoLAN Client.
+
+%description alsa -l pl
+Plugin audi ALSA dla Klienta VideoLAN.
+
 
 %prep
 %setup -q
@@ -169,12 +166,15 @@ Plugin audio esd dla Klienta VideoLAN.
 	--with-sdl=/usr/X11R6 \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
+echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
 %{__make}
+#CFLAGS="-I. -I/usr/include/ncurses"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -185,12 +185,33 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/vlc
 %dir %{_libdir}/videolan
 %dir %{_libdir}/videolan/vlc
+%attr(755,root,root) %{_libdir}/videolan/vlc/ac3_spdif.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/dsp.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/dummy.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/dvdread.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/file.so
 %attr(755,root,root) %{_libdir}/videolan/vlc/fb.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/filter*.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/fx_scope.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/http.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/ipv*.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/logger.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/lpcm_adec.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/memcpy.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/mpeg_*.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/ncurses.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/null.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/rc.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/spudec.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/udp.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/vcd.so
+%attr(755,root,root) %{_libdir}/videolan/vlc/vorbis.so
 %dir %{_datadir}/videolan
 %{_datadir}/videolan/*.psf
-%{_datadir}/videolan/vlc.png
-%{_datadir}/videolan/gvlc.png
+%{_datadir}/videolan/vlc*.png
+%{_datadir}/videolan/vlc*.xpm
+%{_datadir}/videolan/qvlc*
+%{_datadir}/videolan/kvlc*
 
 %files X11
 %defattr(644,root,root,755)
@@ -208,11 +229,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gvlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/gtk.so
+%{_datadir}/videolan/gvlc*.png
+%{_datadir}/videolan/gvlc*.xpm
 
 %files gnome
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gnome-vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/gnome.so
+%{_datadir}/videolan/gnome-vlc*.png
+%{_datadir}/videolan/gnome-vlc*.xpm
 
 %files esd
 %defattr(644,root,root,755)
