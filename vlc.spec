@@ -1,19 +1,16 @@
 Summary:	VideoLAN Client
 Summary(pl):	Klient VideoLAN
 Name:		vlc
-Version:	0.2.61
+Version:	0.2.62
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www.videolan.org/packages/%{version}/%{name}-%{version}.tar.bz2
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-newapi.patch
-Patch2:		%{name}-SDL.patch
 URL:		http://www.videolan.org/
 BuildRequires:	gnome-libs-devel
-#BuildRequires:	libggi-devel
+BuildRequires:	libggi-devel
 BuildRequires:	esound-devel
 BuildRequires:	SDL-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -105,13 +102,9 @@ Plugin esd dla Klienta VideoLAN.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 autoconf
-# ggi disabled becaue it's still not ported to new API
 %configure \
 %ifarch i586 i686
 	--enable-mmx \
@@ -126,8 +119,8 @@ autoconf
 	--enable-dsp \
 	--enable-esd \
 	--enable-fb \
-	--disable-ggi \
-	--enable-sdl \
+	--with-ggi \
+	--with-sdl \
 	--disable-glide \
 	--enable-gnome \
 	--enable-x11 \
@@ -149,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz
 %attr(755,root,root) %{_bindir}/vlc
-%attr(755,root,root) %{_bindir}/fbvlc
 %dir %{_libdir}/videolan
 %dir %{_libdir}/videolan/vlc
 %attr(755,root,root) %{_libdir}/videolan/vlc/dsp.so
@@ -167,9 +159,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/x11.so
 
-#%files GGI
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/videolan/vlc/ggi.so
+%files GGI
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/videolan/vlc/ggi.so
 
 %files SDL
 %defattr(644,root,root,755)
