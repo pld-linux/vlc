@@ -143,13 +143,6 @@ Plugin audi ALSA dla Klienta VideoLAN.
 %build
 %{__autoconf}
 %configure \
-%ifarch i686 athlon
-	--enable-mmx \
-	--enable-ppro \
-%else
-	--disable-mmx \
-	--disable-ppro \
-%endif
 	--enable-dvdread \
 	--enable-dummy \
 	--enable-dsp \
