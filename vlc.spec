@@ -1,23 +1,29 @@
+#
+# Conditional build:
+%bcond_without	alsa	# don't build alsa plugin
+#
 Summary:	VideoLAN - a free MPEG, MPEG-2 and DVD software solution
 Summary(pl):	VideoLAN - darmowe oprogramowanie dla MPEG, MPEG-2 i DVD
 Summary(pt_BR):	O VideoLAN é um cliente DVD e MPEG de livre distribuição que pode funcionar via rede
 Name:		vlc
 Version:	0.3.0
-Release:	4
+Release:	5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	766c603baf97ffe3ce51f8fccf554c6a
 Patch0:		%{name}-altivec.patch
+Patch1:		%{name}-po.patch
 URL:		http://www.videolan.org/
 BuildRequires:	SDL-devel >= 1.2
-#BuildRequires:	alsa-lib-devel
+%{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	esound-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
-BuildRequires:	libggi-devel
 BuildRequires:	libdvdcss-devel
+BuildRequires:	libggi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -51,7 +57,7 @@ localmente.
 Summary:	VideoLAN Client - X11 output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia X11
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description X11
 X11 output plugin for VideoLAN Client
@@ -63,7 +69,7 @@ Wtyczka wyj¶cia X11 dla klienta VideoLAN.
 Summary:	VideoLAN Client - GGI output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia GGI
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description GGI
 GGI output plugin for VideoLAN Client.
@@ -75,7 +81,7 @@ Wtyczka wyj¶cia GGI dla klienta VideoLAN.
 Summary:	VideoLAN Client - SDL output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia SDL
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description SDL
 SDL output plugin for VideoLAN Client.
@@ -88,7 +94,7 @@ Summary:	VideoLAN Client - GNOME output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia GNOME
 Summary(pt_BR):	Plugin gnome para o VideoLAN
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description gnome
 GNOME output plugin for VideoLAN Client.
@@ -104,7 +110,7 @@ Summary:	VideoLAN Client - GTK+ output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia GTK+
 Summary(pt_BR):	Plugin GTK+ para o VideoLAN
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description gtk
 GTK+ output plugin for VideoLAN Client.
@@ -119,7 +125,7 @@ Plugin GTK+ para o VideoLAN.
 Summary:	VideoLAN Client - EsounD audio output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia d¼wiêku EsounD
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description esd
 EsounD audio output plugin for VideoLAN Client.
@@ -131,7 +137,7 @@ Wtyczka wyj¶cia d¼wiêku EsounD dla klienta VideoLAN.
 Summary:	VideoLAN Client - ALSA audio output plugin
 Summary(pl):	Klient VideoLAN - wtyczka wyj¶cia d¼wiêku ALSA
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description alsa
 ALSA audio output plugin for VideoLAN Client.
@@ -142,9 +148,16 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VideoLAN.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+
+mv -f po/{no,nb}.po
 
 %build
+cp -f /usr/share/automake/config.* .
+%{__gettextize}
+%{__aclocal}
 %{__autoconf}
+CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %configure \
 %ifarch ppc
 	--disable-altivec \
@@ -152,7 +165,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VideoLAN.
 	--enable-dvdread \
 	--enable-dummy \
 	--enable-dsp \
-	--disable-alsa \
+	%{?with_alsa:--enable-alsa} \
 	--enable-esd \
 	--enable-fb \
 	--enable-ggi \
@@ -163,12 +176,11 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VideoLAN.
 	--disable-glide \
 	--enable-gnome \
 	--enable-x11 \
-	--with-sdl=/usr/X11R6 \
+	--with-sdl=/usr \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
 %{__make}
-#CFLAGS="-I. -I/usr/include/ncurses"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -176,10 +188,12 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README TODO ChangeLog AUTHORS
 %attr(755,root,root) %{_bindir}/vlc
@@ -243,6 +257,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/videolan/vlc/esd.so
 
-#%files alsa
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/videolan/vlc/alsa.so
+%if %{with alsa}
+%files alsa
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/videolan/vlc/alsa.so
+%endif
