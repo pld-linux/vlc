@@ -50,11 +50,11 @@ BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libdvdcss-devel
-BuildRequires:	libebml-devel
+BuildRequires:	libebml-devel >= 0.7.3
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
-BuildRequires:	libmatroska-devel
+BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
