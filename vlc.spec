@@ -193,7 +193,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 # %patch0 -p1
 %patch1 -p1
 %patch2 -p0
-#%%patch3 -p1
+%patch3 -p1
 %patch4 -p1
 
 mv -f po/{no,nb}.po
