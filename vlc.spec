@@ -14,12 +14,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.1337
-Release:	0.1
+Version:	0.8.1
+Release:	1.1
 License:	GPL
 Group:		X11/Applications/Multimedia
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	604ff3ad7c2ed5aecd0941aab7b666ae
+Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	3fb3ac4ed456f092d51a00d50159790f
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-po.patch
@@ -50,11 +50,11 @@ BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libdvdcss-devel
-BuildRequires:	libebml-devel >= 0.7.3
+BuildRequires:	libebml-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
-BuildRequires:	libmatroska-devel >= 0.7.5
+BuildRequires:	libmatroska-devel
 BuildRequires:	libmodplug-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
