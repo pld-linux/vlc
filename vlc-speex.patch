@@ -1,0 +1,33 @@
+--- vlc-0.8.1/configure.ac.orig	2005-04-09 13:41:21.000000000 +0200
++++ vlc-0.8.1/configure.ac	2005-04-09 14:24:25.000000000 +0200
+@@ -2444,7 +2444,7 @@
+     AC_CHECK_HEADERS(speex.h, [
+     AC_MSG_CHECKING(for libspeex version > 1.1.0)
+     AC_EGREP_CPP(yes,
+-      [#include <speex.h>
++      [#include <speex/speex.h>
+        #ifdef SPEEX_SET_SUBMODE_ENCODING
+        yes
+        #endif],
+--- vlc-0.8.1/modules/codec/speex.c.orig	2005-04-09 14:25:30.000000000 +0200
++++ vlc-0.8.1/modules/codec/speex.c	2005-04-09 14:25:10.000000000 +0200
+@@ -29,7 +29,7 @@
+ #include <vlc/input.h>
+ 
+ #include <ogg/ogg.h>
+-#include <speex.h>
++#include <speex/speex.h>
+ #include "speex_header.h"
+ #include "speex_stereo.h"
+ #include "speex_callbacks.h"
+--- vlc-0.8.1/configure.ac.orig	2005-04-09 14:43:26.000000000 +0200
++++ vlc-0.8.1/configure.ac	2005-04-09 14:43:49.000000000 +0200
+@@ -2441,7 +2441,7 @@
+   [  --enable-speex          Speex decoder support (default enabled)])
+ if test "${enable_speex}" != "no"
+ then
+-  AC_CHECK_HEADERS(speex.h, [
++  AC_CHECK_HEADERS(speex/speex.h, [
+     AC_MSG_CHECKING(for libspeex version > 1.1.0)
+     AC_EGREP_CPP(yes,
+       [#include <speex/speex.h>
