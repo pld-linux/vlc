@@ -31,3 +31,18 @@
      AC_MSG_CHECKING(for libspeex version > 1.1.0)
      AC_EGREP_CPP(yes,
        [#include <speex/speex.h>
+--- vlc-0.8.1/modules/codec/speex.c.orig	2005-04-09 15:08:01.000000000 +0200
++++ vlc-0.8.1/modules/codec/speex.c	2005-04-09 15:13:18.000000000 +0200
+@@ -30,9 +30,9 @@
+ 
+ #include <ogg/ogg.h>
+ #include <speex/speex.h>
+-#include "speex_header.h"
+-#include "speex_stereo.h"
+-#include "speex_callbacks.h"
++#include <speex/speex_header.h>
++#include <speex/speex_stereo.h>
++#include <speex/speex_callbacks.h>
+ 
+ /*****************************************************************************
+  * decoder_sys_t : speex decoder descriptor
