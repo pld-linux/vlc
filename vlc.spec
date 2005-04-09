@@ -9,6 +9,7 @@
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_with	mozilla	# build mozilla plugin
 %bcond_with	live	# build with live.com support
+%bcond_with	slp	# build with slp, broken
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -68,6 +69,7 @@ BuildRequires:	lirc-devel
 BuildRequires:	mpeg2dec-devel
 %{?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	ncurses-devel
+%{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	speex-devel > 1.1.0
 BuildRequires:	svgalib-devel
@@ -248,7 +250,8 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-sdl \
 	--with-sdl=/usr \
 	--enable-skins2 \
-	--enable-slp \
+	%{?with_slp:--enable-slp } \
+	%{!?with_slp:--disable-slp } \
 	--enable-svgalib \
 	--enable-tarkin \
 	--enable-theora \
