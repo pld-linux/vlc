@@ -10,6 +10,7 @@
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_with	mozilla	# build mozilla plugin
+%bcond_with	live	# build with live.com support
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -26,6 +27,7 @@ Patch1:		%{name}-po.patch
 Patch2:		%{name}-buildflags.patch
 Patch3:		%{name}-wxgtk2.patch
 Patch4:		%{name}-defaultfont.patch
+Patch5:		%{name}-speex.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -41,6 +43,7 @@ BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
+BuildRequires:	hal-devel >= 0.2.97
 BuildRequires:	libcaca-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
@@ -62,6 +65,7 @@ BuildRequires:	libtheora-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	lirc-devel
+%{?with_live:BuildRequires:	live >= 2005.03.11}
 BuildRequires:	mpeg2dec-devel
 %{?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	ncurses-devel
@@ -195,6 +199,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch2 -p0
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 mv -f po/{no,nb}.po
 
@@ -232,10 +237,11 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	%{!?with_ggi:--disable-ggi} \
 	--disable-glide \
 	--enable-lirc \
-	--enable-livedotcom \
 	--enable-mad \
 	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
+	%{?with_live:--enable-livedotcom } \
+	%{!?with_live:--disable-livedotcom } \
 	--enable-ncurses \
 	--enable-pvr \
 	--enable-sdl \
