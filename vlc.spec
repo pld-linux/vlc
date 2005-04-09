@@ -16,7 +16,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.1
-Release:	1.1
+Release:	1.2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -28,6 +28,7 @@ Patch2:		%{name}-buildflags.patch
 Patch3:		%{name}-wxgtk2.patch
 Patch4:		%{name}-defaultfont.patch
 Patch5:		%{name}-speex.patch
+Patch6:		%{name}-live.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -70,7 +71,7 @@ BuildRequires:	mpeg2dec-devel
 %{?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
-BuildRequires:	speex-devel
+BuildRequires:	speex-devel > 1.1.0
 BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-devel >= 2.5.5
@@ -200,6 +201,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 mv -f po/{no,nb}.po
 
@@ -242,6 +244,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	%{?with_mozilla:--enable-mozilla } \
 	%{?with_live:--enable-livedotcom } \
 	%{!?with_live:--disable-livedotcom } \
+	--with-livedotcom-tree=%{_libdir}/liveMedia \
 	--enable-ncurses \
 	--enable-pvr \
 	--enable-sdl \
@@ -350,6 +353,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libfaad_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libflacdec_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/codec/libspeex_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/liba52sys_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libaac_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libaiff_plugin.so
