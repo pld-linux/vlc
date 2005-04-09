@@ -1,26 +1,26 @@
-
---- vlc-0.8.1337/configure.ac.orig	2005-04-07 22:24:53.881869064 +0200
-+++ vlc-0.8.1337/configure.ac	2005-04-07 22:28:02.355216760 +0200
-@@ -3600,18 +3600,15 @@
-   WXWINDOWS_NAME="wx-config"
-   AC_ARG_WITH(wx-config,
-     [    --with-wx-config=NAME      wx-config name (default is wx-config)],
+diff -ur o-vlc-0.8.1/configure.ac vlc-0.8.1/configure.ac
+--- o-vlc-0.8.1/configure.ac	2004-11-14 09:10:56.000000000 -0700
++++ vlc-0.8.1/configure.ac	2005-02-06 08:13:36.434615764 -0700
+@@ -3468,18 +3468,15 @@
+   WXWINDOWS_PATH="${PATH}"
+   AC_ARG_WITH(wx-config-path,
+     [    --with-wx-config-path=PATH wx-config path (default search in \$PATH)],
 +  # look for wx-config
-     [ if test "${with_wx_config}" != "no"
+     [ if test "${with_wx_config_path}" != "no"
        then
--        WXWINDOWS_NAME="${with_wx_config}"
+-        WXWINDOWS_PATH="${with_wx_config_path}:${PATH}"
 -      fi ])
 -  # look for wx-config
-+  AC_PATH_PROG(WX_CONFIG, ${with_wx_config}, no)
++  AC_PATH_PROG(WX_CONFIG, ${with_wx_config_path}, no)
 +		else
-   AC_PATH_PROG(WX_CONFIG, ${WXWINDOWS_NAME}, no, ${WXWINDOWS_PATH})
+   AC_PATH_PROG(WX_CONFIG, wx-config, no, ${WXWINDOWS_PATH})
 +      fi ])
-   if test "${WX_CONFIG}" != "no" -a "${CXX}" != ""
+   if test "${WX_CONFIG}" != "no"
    then
 -    if expr 2.3.0 \> `${WX_CONFIG} --version` >/dev/null
 -    then
 -      AC_MSG_ERROR([Your development package for wxWindows is too old, you need at least version 2.3.0. Please upgrade and try again. Alternatively you can also configure with --disable-wxwindows.])
 -    fi
      AC_LANG_PUSH(C++)
-     # Turn this error:
-     #   playlist.cpp:1351: error: ISO C++ forbids cast to non-reference type
+     VLC_ADD_CXXFLAGS([wxwindows],[`${WX_CONFIG} --cxxflags`])
+     VLC_ADD_LDFLAGS([wxwindows],[`${WX_CONFIG} --libs`])
