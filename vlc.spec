@@ -50,11 +50,11 @@ BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libdvdcss-devel
-BuildRequires:	libebml-devel
+BuildRequires:	libebml-devel >= 0.7.3
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
-BuildRequires:	libmatroska-devel
+BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
@@ -69,7 +69,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	speex-devel
 BuildRequires:	svgalib-devel
 BuildRequires:	vcdimager-devel
-BuildRequires:	wxGTK2-devel
+BuildRequires:	wxGTK2-devel >= 2.5.5
 BuildRequires:	xosd-devel
 BuildRequires:	xvid-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -252,7 +252,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
-	--with-wx-config-path=wxgtk2-2.4-config \
+	--with-wx-config-path=wx-gtk2-ansi-config \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 # echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
