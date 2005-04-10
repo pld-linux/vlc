@@ -310,7 +310,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/packetizer
 %attr(755,root,root) %{_libdir}/vlc/audio_output
 %exclude %{_libdir}/%{name}/audio_output/libaout_sdl_plugin.so
-%exclude %{_libdir}/%{name}/audio_output/libalsa_plugin.so
+%{?with_alsa:%exclude %{_libdir}/%{name}/audio_output/libalsa_plugin.so}
+%exclude %{_libdir}/%{name}/audio_output/libesd_plugin.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/http
 %dir %{_datadir}/%{name}/http/vlm
@@ -344,7 +345,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/gui/libwxwindows_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output
-%exclude %{_libdir}/%{name}/video_output/libggi_plugin.so
+%{?with_ggi:%exclude %{_libdir}/%{name}/video_output/libggi_plugin.so}
 %exclude %{_libdir}/%{name}/video_output/libvout_sdl_plugin.so
 %exclude %{_libdir}/%{name}/video_output/libfb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/visualization/libxosd_plugin.so
