@@ -6,7 +6,7 @@
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	ggi	# don't build ggi plugin
-%bcond_without	live	# build with live.com support
+%bcond_without	live	# build without live.com support
 %bcond_with	mozilla	# build mozilla plugin
 %bcond_with	slp	# build with slp, broken
 #
