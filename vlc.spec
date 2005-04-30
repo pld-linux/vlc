@@ -2,20 +2,19 @@
 # TODO:
 # - check the altivec patch 
 # - add proper package descriptions/translations
-# - change group for vlc and framebuffer video out (it's not the X11)
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	ggi	# don't build ggi plugin
+%bcond_without	live	# build with live.com support
 %bcond_with	mozilla	# build mozilla plugin
-%bcond_with	live	# build with live.com support
 %bcond_with	slp	# build with slp, broken
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.1
-Release:	1.2
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
