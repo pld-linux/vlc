@@ -14,7 +14,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.1
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -27,6 +27,7 @@ Patch3:		%{name}-wxgtk2.patch
 Patch4:		%{name}-defaultfont.patch
 Patch5:		%{name}-speex.patch
 Patch6:		%{name}-live.patch
+Patch7:		%{name}-types.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -201,6 +202,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 mv -f po/{no,nb}.po
 
