@@ -1,0 +1,51 @@
+--- vlc-0.8.1/modules/gui/wxwindows/open.cpp.orig	2004-11-06 17:35:24.000000000 +0100
++++ vlc-0.8.1/modules/gui/wxwindows/open.cpp	2005-05-02 20:20:11.000000000 +0200
+@@ -390,7 +390,7 @@
+                                                 wxU(_("Open:")) );
+     mrl_combo = new wxComboBox( panel, MRL_Event, wxT(""),
+                                 wxPoint(20,25), wxSize(120, -1),
+-                                0, NULL );
++                                0, NULL, 0 );
+     mrl_combo->SetToolTip( wxU(_("You can use this field directly by typing "
+         "the full MRL you want to open.\n""Alternatively, the field will be "
+         "filled automatically when you use the controls below.")) );
+@@ -581,7 +581,7 @@
+     wxBoxSizer *file_sizer = new wxBoxSizer( wxHORIZONTAL );
+ 
+     file_combo = new wxComboBox( panel, FileName_Event, wxT(""),
+-                                 wxPoint(20,25), wxSize(200, -1), 0, NULL );
++                                 wxPoint(20,25), wxSize(200, -1), 0, NULL, 0 );
+     wxButton *browse_button = new wxButton( panel, FileBrowse_Event,
+                                             wxU(_("Browse...")) );
+     file_sizer->Add( file_combo, 1, wxALL, 5 );
+--- vlc-0.8.1/modules/gui/wxwindows/streamout.cpp.orig	2004-11-06 17:35:26.000000000 +0100
++++ vlc-0.8.1/modules/gui/wxwindows/streamout.cpp	2005-05-02 20:21:08.000000000 +0200
+@@ -168,7 +168,7 @@
+     wxStaticText *mrl_label = new wxStaticText( panel, -1,
+                                                 wxU(_("Destination Target:")));
+     mrl_combo = new wxComboBox( panel, MRL_Event, wxT(""),
+-                                wxPoint(20,25), wxSize(120, -1), 0, NULL );
++                                wxPoint(20,25), wxSize(120, -1), 0, NULL, 0 );
+     mrl_combo->SetToolTip( wxU(_("You can use this field directly by typing "
+         "the full MRL you want to open.\n""Alternatively, the field will be "
+         "filled automatically when you use the controls below")) );
+@@ -452,7 +452,7 @@
+     subpanel_sizer = new wxFlexGridSizer( 3, 2, 20 );
+     label = new wxStaticText( access_subpanels[1], -1, wxU(_("Filename")) );
+     file_combo = new wxComboBox( access_subpanels[1], FileName_Event, wxT(""),
+-                                 wxPoint(20,25), wxSize(200, -1), 0, NULL );
++                                 wxPoint(20,25), wxSize(200, -1), 0, NULL, 0 );
+     wxButton *browse_button = new wxButton( access_subpanels[1],
+                                   FileBrowse_Event, wxU(_("Browse...")) );
+     subpanel_sizer->Add( label, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL );
+--- vlc-0.8.1/modules/gui/wxwindows/subtitles.cpp.orig	2004-11-06 17:35:26.000000000 +0100
++++ vlc-0.8.1/modules/gui/wxwindows/subtitles.cpp	2005-05-02 20:23:12.000000000 +0200
+@@ -85,7 +85,7 @@
+     char *psz_subsfile = config_GetPsz( p_intf, "sub-file" );
+     if( !psz_subsfile ) psz_subsfile = strdup("");
+     file_combo = new wxComboBox( panel, -1, wxL2U(psz_subsfile),
+-                                 wxPoint(20,25), wxSize(300, -1), 0, NULL );
++                                 wxPoint(20,25), wxSize(300, -1), 0, NULL, 0 );
+     if( psz_subsfile ) free( psz_subsfile );
+     wxButton *browse_button = new wxButton( panel, FileBrowse_Event,
+                                             wxU(_("Browse...")) );
