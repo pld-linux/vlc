@@ -1,0 +1,19 @@
+--- vlc-0.8.1/configure.ac.orig	2005-05-04 20:37:33.000000000 +0200
++++ vlc-0.8.1/configure.ac	2005-05-04 21:41:54.000000000 +0200
+@@ -676,11 +676,11 @@
+ fi
+ 
+ dnl Check for hal
+-PKG_CHECK_MODULES(HAL, hal >= 0.2.97,
+-  [AC_DEFINE(HAVE_HAL, [], [Define if you have the HAL library])
+-   VLC_ADD_LDFLAGS([vlc],[$HAL_LIBS])
+-   VLC_ADD_CFLAGS([vlc],[$HAL_CFLAGS])],
+-  [AC_MSG_WARN(HAL library not found)])
++dnl PKG_CHECK_MODULES(HAL, hal >= 0.2.97,
++dnl   [AC_DEFINE(HAVE_HAL, [], [Define if you have the HAL library])
++dnl   VLC_ADD_LDFLAGS([vlc],[$HAL_LIBS])
++dnl   VLC_ADD_CFLAGS([vlc],[$HAL_CFLAGS])],
++dnl  [AC_MSG_WARN(HAL library not found)])
+ 
+ dnl Build the gtk_main plugins?
+ NEED_GTK_MAIN=no
