@@ -5,10 +5,13 @@
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
+%bcond_without	arts	# don't build arts plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	live	# build without live.com support
 %bcond_with	mozilla	# build mozilla plugin
 %bcond_with	slp	# build with slp, broken
+%bcond_with	svgalib	# build with svgalib video_output
+%bcond_with	hal	# build with hal support
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -28,13 +31,14 @@ Patch4:		%{name}-defaultfont.patch
 Patch5:		%{name}-speex.patch
 Patch6:		%{name}-live.patch
 Patch7:		%{name}-types.patch
+Patch8:		%{name}-disablehal.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	aalib-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-BuildRequires:	artsc-devel
+%{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	esound-devel
@@ -43,7 +47,7 @@ BuildRequires:	ffmpeg-devel >= 0.4.9
 BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-BuildRequires:	hal-devel >= 0.2.97
+%{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 BuildRequires:	libcaca-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
@@ -72,7 +76,7 @@ BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	speex-devel > 1.1.0
-BuildRequires:	svgalib-devel
+%{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-devel >= 2.5.5
 BuildRequires:	xosd-devel
@@ -203,6 +207,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%{!?with_hal:%patch8 -p1}
 
 mv -f po/{no,nb}.po
 
@@ -218,7 +223,8 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %endif
 	--enable-aa \
 	%{?with_alsa:--enable-alsa} \
-	--enable-arts \
+	%{?with_arts:--enable-arts} \
+	%{!?with_arts:--disable-arts} \
 	--enable-caca \
 	--enable-dsp \
 	--enable-dummy \
@@ -251,9 +257,9 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-sdl \
 	--with-sdl=/usr \
 	--enable-skins2 \
-	%{?with_slp:--enable-slp } \
-	%{!?with_slp:--disable-slp } \
-	--enable-svgalib \
+	%{?with_slp:--enable-slp} \
+	%{!?with_slp:--disable-slp} \
+	%{?with_svgalib:--enable-svgalib} \
 	--enable-tarkin \
 	--enable-theora \
 	--enable-tremor \
