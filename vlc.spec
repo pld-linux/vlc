@@ -309,6 +309,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/audio_filter
 %attr(755,root,root) %{_libdir}/vlc/packetizer
 %attr(755,root,root) %{_libdir}/vlc/audio_output
+%attr(755,root,root) %{_libdir}/vlc/access_filter
+%attr(755,root,root) %{_libdir}/vlc/services_discovery
 %exclude %{_libdir}/%{name}/audio_output/libaout_sdl_plugin.so
 %{?with_alsa:%exclude %{_libdir}/%{name}/audio_output/libalsa_plugin.so}
 %exclude %{_libdir}/%{name}/audio_output/libesd_plugin.so
