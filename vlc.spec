@@ -16,22 +16,18 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.1
-Release:	3
+Version:	0.8.2
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3fb3ac4ed456f092d51a00d50159790f
+# Source0-md5:	0e56141a54055686c28e3de4dbed5990
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
-Patch1:		%{name}-po.patch
-Patch2:		%{name}-buildflags.patch
-Patch3:		%{name}-wxgtk2.patch
-Patch4:		%{name}-defaultfont.patch
-Patch5:		%{name}-speex.patch
-Patch6:		%{name}-live.patch
-Patch7:		%{name}-types.patch
-Patch8:		%{name}-disablehal.patch
+Patch1:		%{name}-buildflags.patch
+Patch2:		%{name}-defaultfont.patch
+Patch3:		%{name}-live.patch
+Patch4:		%{name}-types.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -199,17 +195,13 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 
 %prep
 %setup -q
-# %patch0 -p1
-%patch1 -p1
-%patch2 -p0
+## %patch0 -p1
+%patch1 -p0
+%patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%{!?with_hal:%patch8 -p1}
+#%patch4 -p1 # need update
 
-mv -f po/{no,nb}.po
+#mv -f po/{no,nb}.po
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -269,7 +261,8 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
-	--with-wx-config-path=wx-gtk2-ansi-config \
+	--with-wx-config=wx-gtk2-ansi-config \
+	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 # echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
