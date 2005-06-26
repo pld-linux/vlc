@@ -17,7 +17,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.2
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -27,7 +27,7 @@ Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
 Patch2:		%{name}-defaultfont.patch
 Patch3:		%{name}-live.patch
-Patch4:		%{name}-types.patch
+Patch4:		%{name}-x8864.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -199,9 +199,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
-#%patch4 -p1 # need update
-
-#mv -f po/{no,nb}.po
+%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -278,6 +276,11 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_mandir}/man1}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
+%ifarch %{x8664} sparc64
+install -d $RPM_BUILD_ROOT%{_prefix}/lib
+ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
+%endif
+
 %find_lang %{name}
 
 %clean
@@ -289,6 +292,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/bugreport-howto.txt doc/intf-cdda.txt
 %doc doc/intf-vcd.txt doc/translations.txt
 %attr(755,root,root) %{_bindir}/vlc
+%ifarch %{x8664} sparc64
+%{_prefix}/lib/vlc
+%endif
 %dir %{_libdir}/vlc
 %dir %{_libdir}/vlc/gui
 %dir %{_libdir}/vlc/visualization
