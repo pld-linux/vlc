@@ -276,7 +276,7 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_mandir}/man1}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-%ifarch %{x8664} sparc64
+%if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
 ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
@@ -292,7 +292,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/bugreport-howto.txt doc/intf-cdda.txt
 %doc doc/intf-vcd.txt doc/translations.txt
 %attr(755,root,root) %{_bindir}/vlc
-%ifarch %{x8664} sparc64
+%if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
 %endif
 %dir %{_libdir}/vlc
