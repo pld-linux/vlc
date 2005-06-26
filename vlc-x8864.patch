@@ -1,0 +1,20 @@
+--- vlc-0.8.2/src/misc/cpu.c.orig	2005-06-26 17:16:22.460587560 +0000
++++ vlc-0.8.2/src/misc/cpu.c	2005-06-26 17:18:39.593740152 +0000
+@@ -52,7 +52,7 @@
+ #ifdef HAVE_SIGNAL_H
+ static jmp_buf env;
+ static int     i_illegal;
+-#if defined( __i386__ ) || defined( __x86_64__ )
++#if defined( __i386__ ) 
+ static char   *psz_capability;
+ #endif
+ #endif
+@@ -79,7 +79,7 @@
+ 
+     return i_capabilities;
+ 
+-#elif defined( __i386__ ) || defined( __x86_64__ )
++#elif defined( __i386__ ) 
+     volatile unsigned int  i_eax, i_ebx, i_ecx, i_edx;
+     volatile vlc_bool_t    b_amd;
+ 
