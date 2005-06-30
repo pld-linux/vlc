@@ -8,6 +8,7 @@
 %bcond_without	arts	# don't build arts plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	live	# build without live.com support
+%bcond_without	speex	# don't build speex plugin
 %bcond_with	mozilla	# build mozilla plugin
 %bcond_with	slp	# build with slp, broken
 %bcond_with	svgalib	# build with svgalib video_output
@@ -71,7 +72,7 @@ BuildRequires:	mpeg2dec-devel
 BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
-BuildRequires:	speex-devel > 1.1.0
+%{?with_speex:BuildRequires:	speex-devel > 1.1.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-devel >= 2.5.5
@@ -234,6 +235,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	%{?with_ggi:--enable-ggi} \
 	%{?with_ggi:--with-ggi} \
 	%{!?with_ggi:--disable-ggi} \
+	%{!?with_speex:--disable-speex} \
 	--disable-glide \
 	--enable-lirc \
 	--enable-mad \
