@@ -18,7 +18,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.2
-Release:	0.4
+Release:	0.5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -313,7 +313,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_chroma
 %attr(755,root,root) %{_libdir}/vlc/audio_mixer
 %attr(755,root,root) %{_libdir}/vlc/video_filter
-%attr(755,root,root) %{_libdir}/vlc/video_output
+%dir %{_libdir}/vlc/video_output
 %attr(755,root,root) %{_libdir}/vlc/stream_out
 %attr(755,root,root) %{_libdir}/vlc/audio_filter
 %attr(755,root,root) %{_libdir}/vlc/packetizer
