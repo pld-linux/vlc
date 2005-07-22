@@ -2,6 +2,7 @@
 # TODO:
 # - check the altivec patch 
 # - add proper package descriptions/translations
+# - alsa doesn't build - "Unknown endian" message in config.log
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
