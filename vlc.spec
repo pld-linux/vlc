@@ -2,7 +2,6 @@
 # TODO:
 # - check the altivec patch 
 # - add proper package descriptions/translations
-# - alsa doesn't build - "Unknown endian" message in config.log
 #
 # Conditional build:
 %bcond_without	alsa	# don't build alsa plugin
@@ -19,7 +18,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.2
-Release:	0.5
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
