@@ -18,7 +18,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.2
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
@@ -28,7 +28,10 @@ Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
 Patch2:		%{name}-defaultfont.patch
 Patch3:		%{name}-live.patch
-Patch4:		%{name}-x8864.patch
+Patch4:		%{name}-x8664.patch
+Patch5:		%{name}-samba.patch
+Patch6:		%{name}-pic-mmx.patch
+Patch7:		%{name}-matroska-shared.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -62,6 +65,7 @@ BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libsmbclient-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
@@ -201,6 +205,9 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -251,6 +258,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-skins2 \
 	%{?with_slp:--enable-slp} \
 	%{!?with_slp:--disable-slp} \
+	--enable-smb \
 	%{?with_svgalib:--enable-svgalib} \
 	--enable-tarkin \
 	--enable-theora \
