@@ -17,21 +17,19 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.2
-Release:	4
+Version:	0.8.4
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0e56141a54055686c28e3de4dbed5990
+# Source0-md5:	9cd5ca752f7236167715ca1916da92ad
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
 Patch2:		%{name}-defaultfont.patch
 Patch3:		%{name}-live.patch
-Patch4:		%{name}-x8664.patch
-Patch5:		%{name}-samba.patch
-Patch6:		%{name}-pic-mmx.patch
-Patch7:		%{name}-matroska-shared.patch
+Patch4:		%{name}-pic-mmx.patch
+Patch5:		%{name}-matroska-shared.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
@@ -57,7 +55,7 @@ BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libdvdcss-devel
-BuildRequires:	libebml-devel >= 0.7.3
+BuildRequires:	libebml-devel >= 0.7.6
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
@@ -206,8 +204,6 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
