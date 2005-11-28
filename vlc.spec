@@ -265,7 +265,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
-	--with-wx-config=wx-gtk2-ansi-config \
+	--with-wx-config=wx-gtk2-unicode-config \
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
@@ -338,8 +338,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/http/admin/.access
 %{_datadir}/%{name}/http/style.css
 %{_datadir}/%{name}/http/*.html
-%{_datadir}/%{name}/ui.rc
+%{_datadir}/%{name}/http/*.png
+%{_datadir}/%{name}/http/*.ico
 %{_mandir}/man1/vlc.1*
+%dir %{_datadir}/%{name}/osdmenu/
+%{_datadir}/%{name}/osdmenu/*
 
 %files devel
 %defattr(644,root,root,755)
@@ -357,7 +360,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/svlc
 %attr(755,root,root) %{_bindir}/wxvlc
 %attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/gui/libwxwindows_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/gui/libwxwidgets_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output
 %{?with_ggi:%exclude %{_libdir}/%{name}/video_output/libggi_plugin.so}
@@ -370,6 +373,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/skins2/skin.dtd
 %{_datadir}/%{name}/vlc*.xpm
 %{_datadir}/%{name}/vlc*.png
+%{_datadir}/%{name}/vlc*.ico
 %{_desktopdir}/*
 
 %if %{with ggi}
