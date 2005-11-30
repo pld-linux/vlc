@@ -77,7 +77,7 @@ BuildRequires:	pkgconfig
 %{?with_speex:BuildRequires:	speex-devel > 1.1.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
-BuildRequires:	wxGTK2-devel >= 2.5.5
+BuildRequires:	wxGTK2-unicode-devel >= 2.5.5
 BuildRequires:	xosd-devel
 BuildRequires:	xvid-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
