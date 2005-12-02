@@ -74,7 +74,7 @@ BuildRequires:	mpeg2dec-devel
 BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
-%{?with_speex:BuildRequires:	speex-devel > 1.1.0}
+%{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-unicode-devel >= 2.5.5
