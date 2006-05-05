@@ -2,8 +2,14 @@
 # TODO:
 # - check the altivec patch 
 # - add proper package descriptions/translations
-#
+# - bcondize this damn spec! (it should be automated too)
+# - go through the configure --help and add all options with proper
+#   reqs and bconds
 # Conditional build:
+%bcond_without	aa
+%bcond_without	caca
+%bcond_without	dv
+%bcond_without	lirc
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
 %bcond_without	ggi	# don't build ggi plugin
@@ -14,15 +20,17 @@
 %bcond_with	svgalib	# build with svgalib video_output
 %bcond_with	hal	# build with hal support
 #
+%define 	_test	test4
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.4a
-Release:	1
+Version:	0.8.5
+Release:	0.%{_test}.1
 License:	GPL
 Group:		X11/Applications/Multimedia
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	fd4d98255dc1599a58779f77ade9ff65
+# use the bz2 src, its a 4mb difference
+Source0:	http://downloads.videolan.org/pub/videolan/testing/%{name}-%{version}-%{_test}/%{name}-%{version}-%{_test}.tar.bz2
+# Source0-md5:	c7e06ee27097493cb3dcdffe5d8be36e
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
@@ -34,7 +42,7 @@ URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
-BuildRequires:	aalib-devel
+%{?with_aa:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -46,11 +54,11 @@ BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
-BuildRequires:	libcaca-devel
+%{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
 BuildRequires:	libdts-devel
-BuildRequires:	libdv-devel
+%{?with_dv:BuildRequires:	libdv-devel}
 BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
@@ -67,7 +75,7 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
-BuildRequires:	lirc-devel
+%{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live >= 2005.03.11}
 BuildRequires:	mpeg2dec-devel
 %{?with_mozilla:BuildRequires:	mozilla-devel}
@@ -197,7 +205,7 @@ ALSA audio output plugin for VLC.
 Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{_test}
 ## %patch0 -p1
 %patch1 -p0
 %patch2 -p1
@@ -215,14 +223,14 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %ifarch ppc
 	--disable-altivec \
 %endif
-	--enable-aa \
+	--%{?with_aa:en}%{!?with_aa:dis}able-aa \
 	%{?with_alsa:--enable-alsa} \
 	%{?with_arts:--enable-arts} \
 	%{!?with_arts:--disable-arts} \
-	--enable-caca \
+	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
 	--enable-dsp \
 	--enable-dummy \
-	--enable-dv \
+	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
 	--enable-dvb \
 	--enable-dvbpsi \
 	--with-dvdcss \
@@ -235,12 +243,11 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-fribidi \
 	--enable-ffmpeg \
 	--enable-flac \
-	%{?with_ggi:--enable-ggi} \
+	--%{?with_ggi:en}%{!?with_ggi:dis}able-ggi \
 	%{?with_ggi:--with-ggi} \
-	%{!?with_ggi:--disable-ggi} \
 	%{!?with_speex:--disable-speex} \
 	--disable-glide \
-	--enable-lirc \
+	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
 	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
@@ -327,19 +334,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_libdir}/%{name}/audio_output/libaout_sdl_plugin.so
 %{?with_alsa:%exclude %{_libdir}/%{name}/audio_output/libalsa_plugin.so}
 %exclude %{_libdir}/%{name}/audio_output/libesd_plugin.so
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/http
-%dir %{_datadir}/%{name}/http/vlm
-%dir %{_datadir}/%{name}/http/admin
-%dir %{_datadir}/%{name}/skins2
-%dir %{_datadir}/%{name}/skins2/fonts
-%{_datadir}/%{name}/http/vlm/*.html
-%{_datadir}/%{name}/http/admin/*.html
-%{_datadir}/%{name}/http/admin/.access
-%{_datadir}/%{name}/http/style.css
-%{_datadir}/%{name}/http/*.html
-%{_datadir}/%{name}/http/*.png
-%{_datadir}/%{name}/http/*.ico
+%{_datadir}/%{name}/http
 %{_mandir}/man1/vlc.1*
 %dir %{_datadir}/%{name}/osdmenu/
 %{_datadir}/%{name}/osdmenu/*
@@ -371,7 +366,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/skins2/fonts/FreeSans.ttf
 %{_datadir}/%{name}/skins2/skin.catalog
 %{_datadir}/%{name}/skins2/skin.dtd
+%{_datadir}/%{name}/skins2/winamp2.xml
 %{_datadir}/%{name}/vlc*.xpm
+%{_datadir}/%{name}/pda*.xpm
 %{_datadir}/%{name}/vlc*.png
 %{_datadir}/%{name}/vlc*.ico
 %{_desktopdir}/*
