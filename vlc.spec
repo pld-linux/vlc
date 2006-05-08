@@ -54,6 +54,7 @@ BuildRequires:	flac-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
+%{?with_dv:BuildRequires:	libavc1394-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
@@ -71,8 +72,10 @@ BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
+%{?with_dv:BuildRequires:	libraw1394-devel}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libtheora-devel
+BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
