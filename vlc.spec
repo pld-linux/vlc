@@ -10,6 +10,7 @@
 %bcond_without	caca
 %bcond_without	dv
 %bcond_without	lirc
+%bcond_without	x264
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
 %bcond_without	ggi	# don't build ggi plugin
@@ -77,6 +78,7 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
+%{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live >= 2005.03.11}
@@ -274,6 +276,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-tremor \
 	--enable-v4l\
 	--enable-x11 \
+	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
 	--enable-xvid \
 	--enable-oss \
