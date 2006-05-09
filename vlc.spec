@@ -39,6 +39,7 @@ Patch3:		%{name}-live.patch
 Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-matroska-shared.patch
 Patch6:		%{name}-real_codecs_path.patch
+Patch7:		%{name}-osdmenu_path.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -218,6 +219,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
