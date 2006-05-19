@@ -5,12 +5,13 @@
 # - bcondize this damn spec! (it should be automated too)
 # - go through the configure --help and add all options with proper
 #   reqs and bconds
+#
 # Conditional build:
-%bcond_without	aa
-%bcond_without	caca
-%bcond_without	dv
-%bcond_without	lirc
-%bcond_without	x264
+%bcond_without	aa	# build without aalib support
+%bcond_without	caca	# build without caca support
+%bcond_without	dv	# build without dv support
+%bcond_without	lirc	# build without lirc support
+%bcond_without	x264	# build without x264 support
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
 %bcond_without	ggi	# don't build ggi plugin
