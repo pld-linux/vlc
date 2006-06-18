@@ -253,7 +253,6 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-ffmpeg \
 	--enable-flac \
 	--%{?with_ggi:en}%{!?with_ggi:dis}able-ggi \
-	%{?with_ggi:--with-ggi} \
 	%{!?with_speex:--disable-speex} \
 	--disable-glide \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
