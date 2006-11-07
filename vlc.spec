@@ -379,7 +379,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/pda*.xpm
 %{_datadir}/%{name}/vlc*.png
 %{_datadir}/%{name}/vlc*.ico
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
 
 %if %{with ggi}
 %files GGI
