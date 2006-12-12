@@ -1,6 +1,6 @@
 #
 # TODO:
-# - check the altivec patch 
+# - check the altivec patch
 # - add proper package descriptions/translations
 # - bcondize this damn spec! (it should be automated too)
 # - go through the configure --help and add all options with proper
@@ -25,22 +25,23 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.5
-Release:	2
+Version:	0.8.6
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	16bb5bf87ed94879a8eb7b0ff9b4f16f
+# Source0-md5:	77a275f3408c4c9feae451d4eae47f89
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
 Patch2:		%{name}-defaultfont.patch
 Patch3:		%{name}-live.patch
 Patch4:		%{name}-pic-mmx.patch
-Patch5:		%{name}-matroska-shared.patch
+#Patch5: %{name}-matroska-shared.patch
 Patch6:		%{name}-real_codecs_path.patch
 Patch7:		%{name}-osdmenu_path.patch
+Patch8:		%{name}-gcc-hack.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -59,14 +60,14 @@ BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_dv:BuildRequires:	libavc1394-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
-BuildRequires:	libcdio-devel
 BuildRequires:	libcddb-devel
+BuildRequires:	libcdio-devel
 BuildRequires:	libdts-devel
 %{?with_dv:BuildRequires:	libdv-devel}
 BuildRequires:	libdvbpsi-devel
+BuildRequires:	libdvdcss-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
-BuildRequires:	libdvdcss-devel
 BuildRequires:	libebml-devel >= 0.7.6
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libid3tag-devel
@@ -84,8 +85,8 @@ BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live >= 2005.03.11}
-BuildRequires:	mpeg2dec-devel >= 0.3.2
 %{?with_mozilla:BuildRequires:	mozilla-devel}
+BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
@@ -98,19 +99,19 @@ BuildRequires:	xvid-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-VLC (initially VideoLAN Client) is a multimedia player for various 
+VLC (initially VideoLAN Client) is a multimedia player for various
 audio and video formats (MPEG-1, MPEG-2, MPEG-4, DivX, MP3, Ogg, ...)
-as well as DVDs, VCDs, and various streaming protocols. It can also 
-be used as a server to stream in unicast or multicast in IPv4 
-or IPv6 on a high-bandwidth network.
+as well as DVDs, VCDs, and various streaming protocols. It can also be
+used as a server to stream in unicast or multicast in IPv4 or IPv6 on
+a high-bandwidth network.
 
 %description -l pl
-VLC (wcze¶niej znany pod nazw± VideoLAN Client) jest odtwarzaczem 
-multimedialnym dla wielu formatów wideo i d¼wiêku (MPEG-1, MPEG-2, 
-MPEG-4, DivX, MP3, Ogg, ...), p³yt DVD, VCD oraz ró¿nych protoko³ów 
-strumieniowych. Mo¿e byæ wykorzystany jako serwer do wysy³ania 
-strumieni unicast lub multicast w protoko³ach IPv4 lub IPv6 
-w wysokoprzepustowych sieciach.
+VLC (wcze¶niej znany pod nazw± VideoLAN Client) jest odtwarzaczem
+multimedialnym dla wielu formatów wideo i d¼wiêku (MPEG-1, MPEG-2,
+MPEG-4, DivX, MP3, Ogg, ...), p³yt DVD, VCD oraz ró¿nych protoko³ów
+strumieniowych. Mo¿e byæ wykorzystany jako serwer do wysy³ania
+strumieni unicast lub multicast w protoko³ach IPv4 lub IPv6 w
+wysokoprzepustowych sieciach.
 
 %package devel
 Summary:	VLC header files
@@ -148,8 +149,8 @@ Obsoletes:	vlc-gtk
 X11 output plugin for VLC. Contains GUI image/icon resources.
 
 %description X11 -l pl
-Wtyczka wyj¶cia X11 dla klienta VLC. Zawiera zasoby interfejsu 
-GUI (obrazy/ikony).
+Wtyczka wyj¶cia X11 dla klienta VLC. Zawiera zasoby interfejsu GUI
+(obrazy/ikony).
 
 %package GGI
 Summary:	VLC - GGI output plugin
@@ -218,9 +219,10 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
+#%patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -385,7 +387,7 @@ rm -rf $RPM_BUILD_ROOT
 %files GGI
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libggi_plugin.so
-%endif 
+%endif
 
 %files SDL
 %defattr(644,root,root,755)
