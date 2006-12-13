@@ -1,0 +1,5 @@
+- double % in %changelog
+- bcond --without ggi
+- more and more BRs
+- vlc-{gnome/gtk} requires vlc-x11 package
+- removed double %lang - already in %find_lang (?)
