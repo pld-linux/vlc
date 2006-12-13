@@ -259,9 +259,9 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-mad \
 	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
-	%{?with_live:--enable-livedotcom } \
-	%{!?with_live:--disable-livedotcom } \
-	--with-livedotcom-tree=%{_libdir}/liveMedia \
+	%{?with_live:--enable-live555 } \
+	%{!?with_live:--disable-live555 } \
+	--with-live555-tree=%{_libdir}/liveMedia \
 	--enable-ncurses \
 	--enable-pvr \
 	--enable-real \
