@@ -72,6 +72,7 @@ BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
+BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libogg-devel
 BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
