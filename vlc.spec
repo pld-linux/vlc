@@ -5,6 +5,7 @@
 # - bcondize this damn spec! (it should be automated too)
 # - go through the configure --help and add all options with proper
 #   reqs and bconds
+# - flac plugin doesn't work with mono files
 #
 # Conditional build:
 %bcond_without	aa	# build without aalib support
@@ -41,6 +42,7 @@ Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
 Patch7:		%{name}-wx.patch
+Patch8:		%{name}-flac.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -53,7 +55,7 @@ BuildRequires:	automake
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9
-BuildRequires:	flac-devel
+BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
@@ -222,6 +224,7 @@ Wtyczka wyj¶cia d¼wiêku ALSA dla klienta VLC.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
