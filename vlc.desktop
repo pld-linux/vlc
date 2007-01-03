@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=VLC media player
-Comment= VLC media player
-Exec=vlc
-Icon=/usr/share/vlc/vlc48x48.png
-Terminal=false
-Type=Application
-Categories=AudioVideo;Player;
