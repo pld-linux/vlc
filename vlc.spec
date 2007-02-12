@@ -24,7 +24,7 @@
 %bcond_with	hal	# build with hal support
 #
 Summary:	VLC - a multimedia player and stream server
-Summary(pl.UTF-8):   VLC - odtwarzacz multimedialny oraz serwer strumieni
+Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.6
 Release:	5
@@ -117,7 +117,7 @@ wysokoprzepustowych sieciach.
 
 %package devel
 Summary:	VLC header files
-Summary(pl.UTF-8):   Pliki nagłówkowe VLC
+Summary(pl.UTF-8):	Pliki nagłówkowe VLC
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -129,7 +129,7 @@ Pliki nagłówkowe VLC.
 
 %package static
 Summary:	VLC static libraries
-Summary(pl.UTF-8):   Biblioteki statyczne VLC
+Summary(pl.UTF-8):	Biblioteki statyczne VLC
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -141,7 +141,7 @@ Biblioteki statyczne VLC.
 
 %package X11
 Summary:	VLC - X11 output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia X11
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	vlc-gnome
@@ -156,7 +156,7 @@ Wtyczka wyjścia X11 dla klienta VLC. Zawiera zasoby interfejsu GUI
 
 %package GGI
 Summary:	VLC - GGI output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia GGI
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia GGI
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
@@ -168,7 +168,7 @@ Wtyczka wyjścia GGI dla klienta VLC.
 
 %package fb
 Summary:	VLC - fb output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia fb
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia fb
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
@@ -180,7 +180,7 @@ Wtyczka wyjścia fb dla klienta VLC.
 
 %package SDL
 Summary:	VLC - SDL output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia SDL
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia SDL
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
@@ -192,7 +192,7 @@ Wtyczka wyjścia SDL dla klienta VLC.
 
 %package esd
 Summary:	VLC - EsounD audio output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia dźwięku EsounD
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia dźwięku EsounD
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
@@ -204,7 +204,7 @@ Wtyczka wyjścia dźwięku EsounD dla klienta VLC.
 
 %package alsa
 Summary:	VLC - ALSA audio output plugin
-Summary(pl.UTF-8):   Klient VLC - wtyczka wyjścia dźwięku ALSA
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia dźwięku ALSA
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
