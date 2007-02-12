@@ -22,7 +22,7 @@
 #
 %define 	_test	test4
 Summary:	VLC - a multimedia player and stream server
-Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
+Summary(pl.UTF-8):   VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.5
 Release:	0.%{_test}.1
@@ -97,41 +97,41 @@ as well as DVDs, VCDs, and various streaming protocols. It can also
 be used as a server to stream in unicast or multicast in IPv4 
 or IPv6 on a high-bandwidth network.
 
-%description -l pl
-VLC (wcze∂niej znany pod nazw± VideoLAN Client) jest odtwarzaczem 
-multimedialnym dla wielu formatÛw wideo i dºwiÍku (MPEG-1, MPEG-2, 
-MPEG-4, DivX, MP3, Ogg, ...), p≥yt DVD, VCD oraz rÛønych protoko≥Ûw 
-strumieniowych. Moøe byÊ wykorzystany jako serwer do wysy≥ania 
-strumieni unicast lub multicast w protoko≥ach IPv4 lub IPv6 
+%description -l pl.UTF-8
+VLC (wcze≈õniej znany pod nazwƒÖ VideoLAN Client) jest odtwarzaczem 
+multimedialnym dla wielu format√≥w wideo i d≈∫wiƒôku (MPEG-1, MPEG-2, 
+MPEG-4, DivX, MP3, Ogg, ...), p≈Çyt DVD, VCD oraz r√≥≈ºnych protoko≈Ç√≥w 
+strumieniowych. Mo≈ºe byƒá wykorzystany jako serwer do wysy≈Çania 
+strumieni unicast lub multicast w protoko≈Çach IPv4 lub IPv6 
 w wysokoprzepustowych sieciach.
 
 %package devel
 Summary:	VLC header files
-Summary(pl):	Pliki nag≥Ûwkowe VLC
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe VLC
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 VLC header files.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe VLC.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe VLC.
 
 %package static
 Summary:	VLC static libraries
-Summary(pl):	Biblioteki statyczne VLC
+Summary(pl.UTF-8):   Biblioteki statyczne VLC
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 VLC static libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteki statyczne VLC.
 
 %package X11
 Summary:	VLC - X11 output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia X11
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	vlc-gnome
@@ -140,69 +140,69 @@ Obsoletes:	vlc-gtk
 %description X11
 X11 output plugin for VLC. Contains GUI image/icon resources.
 
-%description X11 -l pl
-Wtyczka wyj∂cia X11 dla klienta VLC. Zawiera zasoby interfejsu 
+%description X11 -l pl.UTF-8
+Wtyczka wyj≈õcia X11 dla klienta VLC. Zawiera zasoby interfejsu 
 GUI (obrazy/ikony).
 
 %package GGI
 Summary:	VLC - GGI output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia GGI
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia GGI
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description GGI
 GGI output plugin for VLC.
 
-%description GGI -l pl
-Wtyczka wyj∂cia GGI dla klienta VLC.
+%description GGI -l pl.UTF-8
+Wtyczka wyj≈õcia GGI dla klienta VLC.
 
 %package fb
 Summary:	VLC - fb output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia fb
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia fb
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description fb
 fb output plugin for VLC.
 
-%description fb -l pl
-Wtyczka wyj∂cia fb dla klienta VLC.
+%description fb -l pl.UTF-8
+Wtyczka wyj≈õcia fb dla klienta VLC.
 
 %package SDL
 Summary:	VLC - SDL output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia SDL
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia SDL
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description SDL
 SDL output plugin for VLC.
 
-%description SDL -l pl
-Wtyczka wyj∂cia SDL dla klienta VLC.
+%description SDL -l pl.UTF-8
+Wtyczka wyj≈õcia SDL dla klienta VLC.
 
 %package esd
 Summary:	VLC - EsounD audio output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia dºwiÍku EsounD
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia d≈∫wiƒôku EsounD
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description esd
 EsounD audio output plugin for VLC.
 
-%description esd -l pl
-Wtyczka wyj∂cia dºwiÍku EsounD dla klienta VLC.
+%description esd -l pl.UTF-8
+Wtyczka wyj≈õcia d≈∫wiƒôku EsounD dla klienta VLC.
 
 %package alsa
 Summary:	VLC - ALSA audio output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia dºwiÍku ALSA
+Summary(pl.UTF-8):   Klient VLC - wtyczka wyj≈õcia d≈∫wiƒôku ALSA
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description alsa
 ALSA audio output plugin for VLC.
 
-%description alsa -l pl
-Wtyczka wyj∂cia dºwiÍku ALSA dla klienta VLC.
+%description alsa -l pl.UTF-8
+Wtyczka wyj≈õcia d≈∫wiƒôku ALSA dla klienta VLC.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_test}
