@@ -309,7 +309,7 @@ install -d $RPM_BUILD_ROOT%{_prefix}/lib
 ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
 
-rm -rd $RPM_BUILD_ROOT%{_datadir}/locale/co
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/co
 
 %find_lang %{name}
 
