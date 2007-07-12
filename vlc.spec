@@ -26,13 +26,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.6b
-Release:	2
+Version:	0.8.6c
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	eef8e95e34a3e0d2414b080cb7a1f749
+# Source0-md5:	c207f931f768e4dcde4bfaffdbf378cd
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
@@ -42,7 +42,6 @@ Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
 Patch7:		%{name}-wx.patch
-Patch8:		%{name}-flac.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -224,14 +223,12 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
 %{__gettextize}
 %{__aclocal} -I m4
 %{__autoconf}
-CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %configure \
 %ifarch ppc
 	--disable-altivec \
