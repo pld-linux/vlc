@@ -284,6 +284,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
+	--disable-macosx \
 	--with-wx-config=wx-gtk2-unicode-config \
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
