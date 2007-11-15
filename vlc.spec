@@ -5,6 +5,7 @@
 # - bcondize this damn spec! (it should be automated too)
 # - go through the configure --help and add all options with proper
 #   reqs and bconds
+# - flac plugin doesn't work with mono files
 #
 # Conditional build:
 %bcond_without	aa	# build without aalib support
@@ -23,15 +24,15 @@
 %bcond_with	hal	# build with hal support
 #
 Summary:	VLC - a multimedia player and stream server
-Summary(pl):	VLC - odtwarzacz multimedialny oraz serwer strumieni
+Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.6
-Release:	4
+Version:	0.8.6c
+Release:	5
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	77a275f3408c4c9feae451d4eae47f89
+# Source0-md5:	c207f931f768e4dcde4bfaffdbf378cd
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
@@ -53,7 +54,7 @@ BuildRequires:	automake
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9
-BuildRequires:	flac-devel
+BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
@@ -105,41 +106,41 @@ as well as DVDs, VCDs, and various streaming protocols. It can also be
 used as a server to stream in unicast or multicast in IPv4 or IPv6 on
 a high-bandwidth network.
 
-%description -l pl
-VLC (wcze∂niej znany pod nazw± VideoLAN Client) jest odtwarzaczem
-multimedialnym dla wielu formatÛw wideo i dºwiÍku (MPEG-1, MPEG-2,
-MPEG-4, DivX, MP3, Ogg, ...), p≥yt DVD, VCD oraz rÛønych protoko≥Ûw
-strumieniowych. Moøe byÊ wykorzystany jako serwer do wysy≥ania
-strumieni unicast lub multicast w protoko≥ach IPv4 lub IPv6 w
+%description -l pl.UTF-8
+VLC (wcze≈õniej znany pod nazwƒÖ VideoLAN Client) jest odtwarzaczem
+multimedialnym dla wielu format√≥w wideo i d≈∫wiƒôku (MPEG-1, MPEG-2,
+MPEG-4, DivX, MP3, Ogg, ...), p≈Çyt DVD, VCD oraz r√≥≈ºnych protoko≈Ç√≥w
+strumieniowych. Mo≈ºe byƒá wykorzystany jako serwer do wysy≈Çania
+strumieni unicast lub multicast w protoko≈Çach IPv4 lub IPv6 w
 wysokoprzepustowych sieciach.
 
 %package devel
 Summary:	VLC header files
-Summary(pl):	Pliki nag≥Ûwkowe VLC
+Summary(pl.UTF-8):	Pliki nag≈Ç√≥wkowe VLC
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 VLC header files.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe VLC.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe VLC.
 
 %package static
 Summary:	VLC static libraries
-Summary(pl):	Biblioteki statyczne VLC
+Summary(pl.UTF-8):	Biblioteki statyczne VLC
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 VLC static libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteki statyczne VLC.
 
 %package X11
 Summary:	VLC - X11 output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia X11
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	vlc-gnome
@@ -148,69 +149,69 @@ Obsoletes:	vlc-gtk
 %description X11
 X11 output plugin for VLC. Contains GUI image/icon resources.
 
-%description X11 -l pl
-Wtyczka wyj∂cia X11 dla klienta VLC. Zawiera zasoby interfejsu GUI
+%description X11 -l pl.UTF-8
+Wtyczka wyj≈õcia X11 dla klienta VLC. Zawiera zasoby interfejsu GUI
 (obrazy/ikony).
 
 %package GGI
 Summary:	VLC - GGI output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia GGI
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia GGI
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description GGI
 GGI output plugin for VLC.
 
-%description GGI -l pl
-Wtyczka wyj∂cia GGI dla klienta VLC.
+%description GGI -l pl.UTF-8
+Wtyczka wyj≈õcia GGI dla klienta VLC.
 
 %package fb
 Summary:	VLC - fb output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia fb
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia fb
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description fb
 fb output plugin for VLC.
 
-%description fb -l pl
-Wtyczka wyj∂cia fb dla klienta VLC.
+%description fb -l pl.UTF-8
+Wtyczka wyj≈õcia fb dla klienta VLC.
 
 %package SDL
 Summary:	VLC - SDL output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia SDL
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia SDL
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description SDL
 SDL output plugin for VLC.
 
-%description SDL -l pl
-Wtyczka wyj∂cia SDL dla klienta VLC.
+%description SDL -l pl.UTF-8
+Wtyczka wyj≈õcia SDL dla klienta VLC.
 
 %package esd
 Summary:	VLC - EsounD audio output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia dºwiÍku EsounD
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia d≈∫wiƒôku EsounD
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description esd
 EsounD audio output plugin for VLC.
 
-%description esd -l pl
-Wtyczka wyj∂cia dºwiÍku EsounD dla klienta VLC.
+%description esd -l pl.UTF-8
+Wtyczka wyj≈õcia d≈∫wiƒôku EsounD dla klienta VLC.
 
 %package alsa
 Summary:	VLC - ALSA audio output plugin
-Summary(pl):	Klient VLC - wtyczka wyj∂cia dºwiÍku ALSA
+Summary(pl.UTF-8):	Klient VLC - wtyczka wyj≈õcia d≈∫wiƒôku ALSA
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 
 %description alsa
 ALSA audio output plugin for VLC.
 
-%description alsa -l pl
-Wtyczka wyj∂cia dºwiÍku ALSA dla klienta VLC.
+%description alsa -l pl.UTF-8
+Wtyczka wyj≈õcia d≈∫wiƒôku ALSA dla klienta VLC.
 
 %prep
 %setup -q
@@ -228,7 +229,6 @@ cp -f /usr/share/automake/config.* .
 %{__gettextize}
 %{__aclocal} -I m4
 %{__autoconf}
-CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 %configure \
 %ifarch ppc
 	--disable-altivec \
@@ -284,6 +284,7 @@ CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
 	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
+	--disable-macosx \
 	--with-wx-config=wx-gtk2-unicode-config \
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
@@ -305,6 +306,8 @@ install doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
 ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
+
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/co
 
 %find_lang %{name}
 
