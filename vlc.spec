@@ -8,7 +8,7 @@
 # - flac plugin doesn't work with mono files
 #
 # Conditional build:
-%bcond_without	aa	# build without aalib support
+%bcond_without	aalib	# build without aalib support
 %bcond_without	caca	# build without caca support
 %bcond_without	dv	# build without dv support
 %bcond_without	lirc	# build without lirc support
@@ -46,7 +46,7 @@ URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
-%{?with_aa:BuildRequires:	aalib-devel}
+%{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -233,7 +233,7 @@ cp -f /usr/share/automake/config.* .
 %ifarch ppc
 	--disable-altivec \
 %endif
-	--%{?with_aa:en}%{!?with_aa:dis}able-aa \
+	--%{?with_aalib:en}%{!?with_aalib:dis}able-aa \
 	%{?with_alsa:--enable-alsa} \
 	%{?with_arts:--enable-arts} \
 	%{!?with_arts:--disable-arts} \
