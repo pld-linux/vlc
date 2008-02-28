@@ -26,13 +26,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.6d
-Release:	2
+Version:	0.8.6e
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	c11e4c38c3347e74ad9004e41208782e
+# Source0-md5:	f1da822e36240836da5c765e593766c2
 Source1:	%{name}.desktop
 Patch0:		%{name}-altivec.patch
 Patch1:		%{name}-buildflags.patch
@@ -42,7 +42,6 @@ Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
 Patch7:		%{name}-wx.patch
-Patch8:		%{name}-ffmpeg.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -224,7 +223,6 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
