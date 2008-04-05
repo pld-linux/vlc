@@ -54,6 +54,7 @@ BuildRequires:	esound-devel
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
+BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
