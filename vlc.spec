@@ -561,8 +561,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/gui/libwxwidgets_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so
+%{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so}
+%{?with_caca:%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/video_output/libglx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output/libimage_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output/libmga_plugin.so
