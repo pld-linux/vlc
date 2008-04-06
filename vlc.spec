@@ -15,6 +15,7 @@
 %bcond_without	x264	# build without x264 support
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
+%bcond_without	esound	# don't build esound plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	live	# build without live.com support
 %bcond_without	speex	# don't build speex plugin
@@ -50,7 +51,7 @@ BuildRequires:	a52dec-libs-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	esound-devel
+%{?with_esound:BuildRequires:	esound-devel}
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
@@ -244,7 +245,7 @@ cp -f /usr/share/automake/config.* .
 	--with-dvdcss \
 	--enable-dvdnav \
 	--enable-dvdread \
-	--enable-esd \
+	%{?with_esound:--enable-esd} \
 	--enable-faad \
 	--enable-fb \
 	--enable-freetype \
@@ -384,7 +385,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/audio_mixer/libtrivial_mixer_plugin.so
 %dir %{_libdir}/vlc/audio_output
 %attr(755,root,root) %{_libdir}/vlc/audio_output/libaout_file_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so
+%{?with_arts:%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/audio_output/liboss_plugin.so
 %dir %{_libdir}/vlc/codec
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
@@ -591,9 +592,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libfb_plugin.so
 
+%if %{with esound}
 %files esd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/audio_output/libesd_plugin.so
+%endif
 
 %if %{with alsa}
 %files alsa
