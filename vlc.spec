@@ -63,7 +63,6 @@ BuildRequires:	gettext-devel
 BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libdts-devel
-%{?with_dv:BuildRequires:	libdv-devel}
 BuildRequires:	libdvbpsi-devel
 BuildRequires:	libdvdcss-devel
 BuildRequires:	libdvdnav-devel
@@ -325,7 +324,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc
 %dir %{_libdir}/vlc/access
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_directory_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/access/libaccess_dv_plugin.so
+%{?with_dv:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_dv_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_fake_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_ftp_plugin.so
@@ -413,12 +412,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/codec/libsvcdsub_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libtelx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libvorbis_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/codec/libx264_plugin.so
+%{?with_x264:%attr(755,root,root) %{_libdir}/vlc/codec/libx264_plugin.so}
 %dir %{_libdir}/vlc/control
 %attr(755,root,root) %{_libdir}/vlc/control/libgestures_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/control/libhotkeys_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/control/libhttp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/control/liblirc_plugin.so
+%{?with_lirc:%attr(755,root,root) %{_libdir}/vlc/control/liblirc_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/control/libnetsync_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/control/librc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/control/libshowintf_plugin.so
