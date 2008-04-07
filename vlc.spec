@@ -13,6 +13,7 @@
 %bcond_without	aalib	# build without aalib support
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
+%bcond_without	bonjour # bonjour plugin
 %bcond_without	caca	# build without caca support
 %bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
@@ -52,6 +53,7 @@ BuildRequires:	a52dec-libs-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
+%{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 %{?with_esound:BuildRequires:	esound-devel}
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
@@ -238,6 +240,7 @@ cp -f /usr/share/automake/config.* .
 	%{?with_alsa:--enable-alsa} \
 	%{?with_arts:--enable-arts} \
 	%{!?with_arts:--disable-arts} \
+	%{!?with_bonjour:--disable-bonjour} \
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
 	--enable-dsp \
 	--enable-dummy \
@@ -496,6 +499,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/packetizer/libpacketizer_mpegvideo_plugin.so
 %dir %{_libdir}/vlc/services_discovery
 %{?with_hal:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libhal_plugin.so}
+%{?with_bonjour:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libbonjour_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
