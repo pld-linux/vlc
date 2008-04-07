@@ -33,6 +33,7 @@
 %bcond_without	portaudio	# portaudio library support
 %bcond_without	shout	# shout plugin
 %bcond_without	speex	# don't build speex plugin
+%bcond_without	svg	# svg plugin
 %bcond_without	svgalib	# build with svgalib video_output
 %bcond_without	x264	# build without x264 support
 #
@@ -117,6 +118,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
+%{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-unicode-devel >= 2.6.2-2
@@ -311,7 +313,10 @@ cp -f /usr/share/automake/config.* .
 	%{?with_shout:--enable-shout} \
 	--enable-skins2 \
 	--enable-smb \
+	--enable-snapshot \
+	--enable-sout \
 	%{!?with_speex:--disable-speex} \
+	%{?with_svg:--enable-svg} \
 	%{?with_svgalib:--enable-svgalib} \
 	--enable-tarkin \
 	--enable-theora \
@@ -523,6 +528,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy_plugin.so
 %{?with_notify:%attr(755,root,root) %{_libdir}/vlc/misc/libnotify_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/misc/libscreensaver_plugin.so
+%{?with_svg:%attr(755,root,root) %{_libdir}/vlc/misc/libsvg_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/misc/libvod_rtsp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libxml_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libxtag_plugin.so
@@ -590,6 +596,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/video_output
 %{?with_svgalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so}
 %{?with_directfb:%attr(755,root,root) %{_libdir}/vlc/video_output/libdirectfb_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc//video_output/libsnapshot_plugin.so
 %dir %{_libdir}/vlc/visualization
 %attr(755,root,root) %{_libdir}/vlc/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
