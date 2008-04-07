@@ -31,6 +31,7 @@
 %bcond_without	mozilla	# build mozilla plugin
 %bcond_without	notify	# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
+%bcond_without	shout	# shout plugin
 %bcond_without	speex	# don't build speex plugin
 %bcond_without	svgalib	# build with svgalib video_output
 %bcond_without	x264	# build without x264 support
@@ -101,6 +102,7 @@ BuildRequires:	libogg-devel
 %{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
+%{?with_shout:BuildRequires:	libshout-devel}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libtool
@@ -306,6 +308,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-realrtsp \
 	--enable-sdl \
 	--with-sdl=/usr \
+	%{?with_shout:--enable-shout} \
 	--enable-skins2 \
 	--enable-smb \
 	%{!?with_speex:--disable-speex} \
@@ -389,6 +392,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_http_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_shout_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/audio_filter
 %attr(755,root,root) %{_libdir}/vlc/audio_filter/liba52tofloat32_plugin.so
