@@ -17,6 +17,7 @@
 %bcond_without	caca	# build without caca support
 %bcond_without	daap	# DAAP plugin
 %bcond_without	dirac	# dirac plugin
+%bcond_without	directfb	# directfb plugin
 %bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
 %bcond_without	ggi	# don't build ggi plugin
@@ -48,7 +49,9 @@ Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
 Patch7:		%{name}-cdparanoia.patch
 Patch8:		%{name}-dirac.patch
+Patch9:		%{name}-directfb.patch
 URL:		http://www.videolan.org/vlc/
+%{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
@@ -234,6 +237,7 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -253,6 +257,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-cddax \
 	%{!?with_daap:--disable-daap} \
 	%{?with_dirac:--enable-dirac} \
+	%{?with_directfb:--enable-directfb} \
 	--enable-dsp \
 	--enable-dummy \
 	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
@@ -560,6 +565,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
 %dir %{_libdir}/vlc/video_output
 %{?with_svgalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so}
+%{?with_directfb:%attr(755,root,root) %{_libdir}/vlc/video_output/libdirectfb_plugin.so}
 %dir %{_libdir}/vlc/visualization
 %attr(755,root,root) %{_libdir}/vlc/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
