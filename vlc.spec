@@ -20,6 +20,8 @@
 %bcond_without	directfb	# directfb plugin
 %bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
+%bcond_without	galaktos	# OpenGL visualisation plugin
+%bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	hal	# build with hal support
 %bcond_without	lirc	# build without lirc support
@@ -53,6 +55,7 @@ Patch9:		%{name}-directfb.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
+%{?with_galaktos:BuildRequires:	 OpenGL-GLU-devel}
 BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -69,6 +72,7 @@ BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
+%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_dv:BuildRequires:	libavc1394-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
@@ -273,8 +277,9 @@ cp -f /usr/share/automake/config.* .
 	--enable-fribidi \
 	--enable-ffmpeg \
 	--enable-flac \
+	%{?with_galaktos:--enable-galaktos} \
 	--%{?with_ggi:en}%{!?with_ggi:dis}able-ggi \
-	%{!?with_speex:--disable-speex} \
+	%{!?with_gnomevfs:--disable-gnomevfs} \
 	--disable-glide \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
@@ -290,9 +295,8 @@ cp -f /usr/share/automake/config.* .
 	--enable-sdl \
 	--with-sdl=/usr \
 	--enable-skins2 \
-	%{?with_slp:--enable-slp} \
-	%{!?with_slp:--disable-slp} \
 	--enable-smb \
+	%{!?with_speex:--disable-speex} \
 	%{?with_svgalib:--enable-svgalib} \
 	--enable-tarkin \
 	--enable-theora \
@@ -590,6 +594,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/wxvlc
 %attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/gui/libwxwidgets_plugin.so
+%{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_gnomevfs_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
 %{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so}
 %{?with_caca:%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so}
@@ -599,6 +604,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_output/libopengl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output/libx11_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_output/libxvideo_plugin.so
+%{?with_galaktos:%attr(755,root,root) %{_libdir}/vlc/visualization/libgalaktos_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/visualization/libxosd_plugin.so
 %{_datadir}/%{name}/skins2
 %{_datadir}/%{name}/vlc*.xpm
