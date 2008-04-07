@@ -10,6 +10,11 @@
 # - install mozilla plugin to some nice dir (now _libdir/mozilla/plugins/libvlcplugin.so)
 # - why mozilla plugin is linked with libXt?
 # - why mkv plugin is linked with libsysfs?
+# - create specs and build plugins:
+#	- libtar - http://www.feep.net/libtar
+#	- tremor - http://xiph.org/vorbis
+#	- goom - http://www.ios-software.com/?page=projet&quoi=1
+#	- tarkin - http://xiph.org/vorbis (obsolete?)
 #
 # Conditional build:
 %bcond_without	aalib	# build without aalib support
@@ -38,6 +43,7 @@
 %bcond_without	svg	# svg plugin
 %bcond_without	twolame # twolame plugin
 %bcond_without	svgalib	# build with svgalib video_output
+%bcond_without	upnp	# upnp plugin
 %bcond_without	x264	# build without x264 support
 #
 Summary:	VLC - a multimedia player and stream server
@@ -91,7 +97,6 @@ BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libdts-devel
 BuildRequires:	libdvbpsi-devel
-BuildRequires:	libdvdcss-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 0.7.6
@@ -108,9 +113,9 @@ BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
 %{?with_shout:BuildRequires:	libshout-devel}
 BuildRequires:	libsmbclient-devel
-BuildRequires:	libsysfs-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libtool
+%{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libvorbis-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
@@ -122,6 +127,7 @@ BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
+BuildRequires:	sysfsutils-devel
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 %{?with_twolame:BuildRequires:	twolame-devel}
 BuildRequires:	vcdimager-devel
@@ -326,6 +332,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-theora \
 	--enable-tremor \
 	%{?with_twolame:--enable-twolame} \
+	%{?with_upnp:--enable-upnp} \
 	--enable-v4l\
 	--enable-vcdx \
 	--enable-x11 \
@@ -560,6 +567,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
+%{?with_upnp:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libupnp_intel_plugin.so}
 %dir %{_libdir}/vlc/stream_out
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_bridge_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_description_plugin.so
