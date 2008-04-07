@@ -1,10 +1,5 @@
 #
 # TODO:
-# - check the altivec patch
-# - add proper package descriptions/translations
-# - bcondize this damn spec! (it should be automated too)
-# - go through the configure --help and add all options with proper
-#   reqs and bconds
 # - flac plugin doesn't work with mono files
 # - what really changes live bcond?
 # - install mozilla plugin to some nice dir (now _libdir/mozilla/plugins/libvlcplugin.so)
@@ -57,16 +52,15 @@ Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
 # Source0-md5:	c3aded2583fcdb9f4c71d3fc3601b73b
 Source1:	%{name}.desktop
-Patch0:		%{name}-altivec.patch
-Patch1:		%{name}-buildflags.patch
-Patch2:		%{name}-defaultfont.patch
-Patch3:		%{name}-live.patch
-Patch4:		%{name}-pic-mmx.patch
-Patch5:		%{name}-real_codecs_path.patch
-Patch6:		%{name}-osdmenu_path.patch
-Patch7:		%{name}-cdparanoia.patch
-Patch8:		%{name}-dirac.patch
-Patch9:		%{name}-directfb.patch
+Patch0:		%{name}-buildflags.patch
+Patch1:		%{name}-defaultfont.patch
+Patch2:		%{name}-live.patch
+Patch3:		%{name}-pic-mmx.patch
+Patch4:		%{name}-real_codecs_path.patch
+Patch5:		%{name}-osdmenu_path.patch
+Patch6:		%{name}-cdparanoia.patch
+Patch7:		%{name}-dirac.patch
+Patch8:		%{name}-directfb.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -254,8 +248,8 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 
 %prep
 %setup -q
-## %patch0 -p1
-%patch1 -p0
+%patch0 -p0
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
@@ -263,7 +257,6 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -402,10 +395,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/access/libv4l_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libvcd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libvcdx_plugin.so
-%dir %{_libdir}/vlc/access_output
+%dir %{_libdir}/vlc/access_filter
 %attr(755,root,root) %{_libdir}/vlc/access_filter/libaccess_filter_dump_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_filter/libaccess_filter_record_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_filter/libaccess_filter_timeshift_plugin.so
+%dir %{_libdir}/vlc/access_output
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_http_plugin.so
