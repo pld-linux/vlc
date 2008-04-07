@@ -25,6 +25,7 @@
 %bcond_without	gnutls	# gnutls plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	hal	# build with hal support
+%bcond_without	jack	# jack audio module
 %bcond_without	lirc	# build without lirc support
 %bcond_without	live	# build without live.com support
 %bcond_without	mozilla	# build mozilla plugin
@@ -76,6 +77,7 @@ BuildRequires:	gettext-devel
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
+%{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 %{?with_dv:BuildRequires:	libavc1394-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcddb-devel
@@ -284,6 +286,7 @@ cp -f /usr/share/automake/config.* .
 	--disable-glide \
 	%{!?with_gnomevfs:--disable-gnomevfs} \
 	%{!?with_gnutls:--disable-gnutls} \
+	%{?with_jack:--enable-jack} \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
 	--enable-mga \
@@ -417,6 +420,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/audio_output
 %attr(755,root,root) %{_libdir}/vlc/audio_output/libaout_file_plugin.so
 %{?with_arts:%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so}
+%{?with_jack:%attr(755,root,root) %{_libdir}/vlc/audio_output/libjack_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/audio_output/liboss_plugin.so
 %dir %{_libdir}/vlc/codec
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
