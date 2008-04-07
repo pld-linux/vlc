@@ -6,23 +6,24 @@
 # - go through the configure --help and add all options with proper
 #   reqs and bconds
 # - flac plugin doesn't work with mono files
+# - what really changes live bcond?
+# - install mozilla plugin to some nice dir (now _libdir/mozilla/plugins/libvlcplugin.so)
 #
 # Conditional build:
 %bcond_without	aalib	# build without aalib support
-%bcond_without	caca	# build without caca support
-%bcond_without	dv	# build without dv support
-%bcond_without	lirc	# build without lirc support
-%bcond_without	x264	# build without x264 support
 %bcond_without	alsa	# don't build alsa plugin
 %bcond_without	arts	# don't build arts plugin
+%bcond_without	caca	# build without caca support
+%bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
 %bcond_without	ggi	# don't build ggi plugin
+%bcond_without	hal	# build with hal support
+%bcond_without	lirc	# build without lirc support
 %bcond_without	live	# build without live.com support
+%bcond_without	mozilla	# build mozilla plugin
 %bcond_without	speex	# don't build speex plugin
-%bcond_with	mozilla	# build mozilla plugin
-%bcond_with	slp	# build with slp, broken
-%bcond_with	svgalib	# build with svgalib video_output
-%bcond_with	hal	# build with hal support
+%bcond_without	svgalib	# build with svgalib video_output
+%bcond_without	x264	# build without x264 support
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
@@ -86,7 +87,6 @@ BuildRequires:	libvorbis-devel
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live >= 2005.03.11}
-%{?with_mozilla:BuildRequires:	mozilla-devel}
 BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
@@ -95,7 +95,9 @@ BuildRequires:	pkgconfig
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-unicode-devel >= 2.6.2-2
+%{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
 BuildRequires:	xosd-devel
+%{?with_mozilla:BuildRequires:	xulrunner-devel}
 BuildRequires:	xvid-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -493,6 +495,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/packetizer/libpacketizer_mpeg4video_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/packetizer/libpacketizer_mpegvideo_plugin.so
 %dir %{_libdir}/vlc/services_discovery
+%{?with_hal:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libhal_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
@@ -536,6 +539,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtransform_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
 %dir %{_libdir}/vlc/video_output
+%{?with_svgalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so}
 %dir %{_libdir}/vlc/visualization
 %attr(755,root,root) %{_libdir}/vlc/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
