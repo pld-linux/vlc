@@ -30,6 +30,7 @@
 %bcond_without	live	# build without live.com support
 %bcond_without	mozilla	# build mozilla plugin
 %bcond_without	notify	# libnotify notification plugin
+%bcond_without	portaudio	# portaudio library support
 %bcond_without	speex	# don't build speex plugin
 %bcond_without	svgalib	# build with svgalib video_output
 %bcond_without	x264	# build without x264 support
@@ -112,6 +113,7 @@ BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
+%{?with_portaudio:BuildRequires:	portaudio-devel}
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	vcdimager-devel
@@ -298,6 +300,7 @@ cp -f /usr/share/automake/config.* .
 	--with-live555-tree=%{_libdir}/liveMedia \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
+	%{?with_portaudio:--enable-portaudio} \
 	--enable-pvr \
 	--enable-real \
 	--enable-realrtsp \
@@ -424,6 +427,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/audio_output/libaout_file_plugin.so
 %{?with_arts:%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so}
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/audio_output/libjack_plugin.so}
+%{?with_portaudio:%attr(755,root,root) %{_libdir}/vlc/audio_output/libportaudio_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/audio_output/liboss_plugin.so
 %dir %{_libdir}/vlc/codec
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
