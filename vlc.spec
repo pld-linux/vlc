@@ -44,6 +44,7 @@ Patch3:		%{name}-live.patch
 Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
+Patch7:		%{name}-cdparanoia.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -226,6 +227,7 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -242,6 +244,7 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_arts:--disable-arts} \
 	%{!?with_bonjour:--disable-bonjour} \
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
+	--enable-cddax \
 	--enable-dsp \
 	--enable-dummy \
 	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
@@ -282,6 +285,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-theora \
 	--enable-tremor \
 	--enable-v4l\
+	--enable-vcdx \
 	--enable-x11 \
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
@@ -341,12 +345,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_tcp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_udp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libcdda_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/access/libcddax_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libdvb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libdvdnav_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libdvdread_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libpvr_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libv4l_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libvcd_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/access/libvcdx_plugin.so
 %dir %{_libdir}/vlc/access_output
 %attr(755,root,root) %{_libdir}/vlc/access_filter/libaccess_filter_dump_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_filter/libaccess_filter_record_plugin.so
