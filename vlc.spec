@@ -8,6 +8,8 @@
 # - flac plugin doesn't work with mono files
 # - what really changes live bcond?
 # - install mozilla plugin to some nice dir (now _libdir/mozilla/plugins/libvlcplugin.so)
+# - why mozilla plugin is linked with libXt?
+# - why mkv plugin is linked with libsysfs?
 #
 # Conditional build:
 %bcond_without	aalib	# build without aalib support
@@ -34,6 +36,7 @@
 %bcond_without	shout	# shout plugin
 %bcond_without	speex	# don't build speex plugin
 %bcond_without	svg	# svg plugin
+%bcond_without	twolame # twolame plugin
 %bcond_without	svgalib	# build with svgalib video_output
 %bcond_without	x264	# build without x264 support
 #
@@ -105,6 +108,7 @@ BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
 %{?with_shout:BuildRequires:	libshout-devel}
 BuildRequires:	libsmbclient-devel
+BuildRequires:	libsysfs-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
@@ -114,12 +118,12 @@ BuildRequires:	libxml2-devel
 %{?with_live:BuildRequires:	live >= 2005.03.11}
 BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
-%{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
+%{?with_twolame:BuildRequires:	twolame-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	wxGTK2-unicode-devel >= 2.6.2-2
 %{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
@@ -321,6 +325,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-tarkin \
 	--enable-theora \
 	--enable-tremor \
+	%{?with_twolame:--enable-twolame} \
 	--enable-v4l\
 	--enable-vcdx \
 	--enable-x11 \
@@ -464,6 +469,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/codec/libsubsdec_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libsvcdsub_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libtelx_plugin.so
+%{?with_twolame:%attr(755,root,root) %{_libdir}/vlc/codec/libtwolame_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/codec/libvorbis_plugin.so
 %{?with_x264:%attr(755,root,root) %{_libdir}/vlc/codec/libx264_plugin.so}
 %dir %{_libdir}/vlc/control
