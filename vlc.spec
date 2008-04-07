@@ -29,6 +29,7 @@
 %bcond_without	lirc	# build without lirc support
 %bcond_without	live	# build without live.com support
 %bcond_without	mozilla	# build mozilla plugin
+%bcond_without	notify	# libnotify notification plugin
 %bcond_without	speex	# don't build speex plugin
 %bcond_without	svgalib	# build with svgalib video_output
 %bcond_without	x264	# build without x264 support
@@ -94,6 +95,7 @@ BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
+%{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libogg-devel
 %{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
@@ -295,6 +297,7 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_live:--disable-live555 } \
 	--with-live555-tree=%{_libdir}/liveMedia \
 	--enable-ncurses \
+	%{!?with_notify:--disable-notify} \
 	--enable-pvr \
 	--enable-real \
 	--enable-realrtsp \
@@ -510,6 +513,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/misc/libipv6_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/liblogger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy_plugin.so
+%{?with_notify:%attr(755,root,root) %{_libdir}/vlc/misc/libnotify_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/misc/libscreensaver_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libvod_rtsp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libxml_plugin.so
