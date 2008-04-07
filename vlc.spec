@@ -407,7 +407,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/codec/librawvideo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/librealaudio_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libsdl_image_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/codec/libspeex_plugin.so
+%{?with_speex:%attr(755,root,root) %{_libdir}/vlc/codec/libspeex_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/codec/libspudec_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libsubsdec_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libsvcdsub_plugin.so
