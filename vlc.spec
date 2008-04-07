@@ -15,6 +15,7 @@
 %bcond_without	arts	# don't build arts plugin
 %bcond_without	bonjour # bonjour plugin
 %bcond_without	caca	# build without caca support
+%bcond_without	daap	# DAAP plugin
 %bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
 %bcond_without	ggi	# don't build ggi plugin
@@ -80,6 +81,7 @@ BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libogg-devel
+%{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
 BuildRequires:	libsmbclient-devel
@@ -245,6 +247,7 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_bonjour:--disable-bonjour} \
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
 	--enable-cddax \
+	%{!?with_daap:--disable-daap} \
 	--enable-dsp \
 	--enable-dummy \
 	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
@@ -506,6 +509,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/services_discovery
 %{?with_hal:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libhal_plugin.so}
 %{?with_bonjour:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libbonjour_plugin.so}
+%{?with_daap:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libdaap_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
