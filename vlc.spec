@@ -22,6 +22,7 @@
 %bcond_without	esound	# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
+%bcond_without	gnutls	# gnutls plugin
 %bcond_without	ggi	# don't build ggi plugin
 %bcond_without	hal	# build with hal support
 %bcond_without	lirc	# build without lirc support
@@ -73,6 +74,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
+%{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_dv:BuildRequires:	libavc1394-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
@@ -279,8 +281,9 @@ cp -f /usr/share/automake/config.* .
 	--enable-flac \
 	%{?with_galaktos:--enable-galaktos} \
 	--%{?with_ggi:en}%{!?with_ggi:dis}able-ggi \
-	%{!?with_gnomevfs:--disable-gnomevfs} \
 	--disable-glide \
+	%{!?with_gnomevfs:--disable-gnomevfs} \
+	%{!?with_gnutls:--disable-gnutls} \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
 	--enable-mga \
@@ -497,6 +500,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/misc/libdummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libexport_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libfreetype_plugin.so
+%{?with_gnutls:%attr(755,root,root) %{_libdir}/vlc/misc/libgnutls_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/misc/libgrowl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libipv4_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libipv6_plugin.so
