@@ -16,6 +16,7 @@
 %bcond_without	bonjour # bonjour plugin
 %bcond_without	caca	# build without caca support
 %bcond_without	daap	# DAAP plugin
+%bcond_without	dirac	# dirac plugin
 %bcond_without	dv	# build without dv support
 %bcond_without	esound	# don't build esound plugin
 %bcond_without	ggi	# don't build ggi plugin
@@ -46,6 +47,7 @@ Patch4:		%{name}-pic-mmx.patch
 Patch5:		%{name}-real_codecs_path.patch
 Patch6:		%{name}-osdmenu_path.patch
 Patch7:		%{name}-cdparanoia.patch
+Patch8:		%{name}-dirac.patch
 URL:		http://www.videolan.org/vlc/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL_image-devel >= 1.2
@@ -56,6 +58,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
+%{?with_dirac:BuildRequires:	dirac-devel}
 %{?with_esound:BuildRequires:	esound-devel}
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
@@ -230,6 +233,7 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -248,6 +252,7 @@ cp -f /usr/share/automake/config.* .
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
 	--enable-cddax \
 	%{!?with_daap:--disable-daap} \
+	%{?with_dirac:--enable-dirac} \
 	--enable-dsp \
 	--enable-dummy \
 	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
@@ -408,6 +413,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/codec/libcinepak_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libcmml_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libcvdsub_plugin.so
+%{?with_dirac:%attr(755,root,root) %{_libdir}/vlc/codec/libdirac_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/codec/libdts_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libdvbsub_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libfaad_plugin.so
