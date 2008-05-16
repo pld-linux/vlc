@@ -1,0 +1,3 @@
+- 0.8.6e
+- security fixes [CVE-2007-6681, CVE-2007-6682, CVE-2007-6684, CVE-2008-0295, CVE-2008-0296, CVE-2008-0984]
+- patch8 not needed any more
