@@ -45,7 +45,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.8.6g
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
