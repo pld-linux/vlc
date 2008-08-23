@@ -1,0 +1,29 @@
+--- configure.ac~	2008-08-23 13:28:39.345133267 +0200
++++ configure.ac	2008-08-23 13:32:37.887192145 +0200
+@@ -5135,7 +5135,7 @@
+   if test "${with_mozilla_sdk_path}" = "" -o "${with_mozilla_sdk_path}" = "no"
+   then
+     dnl New firefox-1.5 SDK api
+-    PKG_CHECK_MODULES([FIREFOX], [firefox-plugin],
++    PKG_CHECK_MODULES([FIREFOX], [mozilla-plugin],
+       [
+         PKG_CHECK_MODULES([FIREFOX_XPCOM], [firefox-xpcom],
+           [],
+@@ -5152,7 +5152,7 @@
+               ]
+             )
+           ])
+-        CPPFLAGS="${CPPFLAGS_save} ${FIREFOX_CFLAGS} ${FIREFOX_XPCOM_CFLAGS} ${MOZILLA_NSPR_CFLAGS} ${NSPR_CFLAGS} ${MOZILLA_CPPFLAGS}"
++        CPPFLAGS="${CPPFLAGS_save} -I/usr/include/xulrunner ${FIREFOX_CFLAGS} ${FIREFOX_XPCOM_CFLAGS} ${MOZILLA_NSPR_CFLAGS} ${NSPR_CFLAGS} ${MOZILLA_CPPFLAGS}"
+         MOZILLA_REQUIRED_HEADERS=1
+         AC_CHECK_HEADERS(mozilla-config.h,,MOZILLA_REQUIRED_HEADERS=0)
+         AC_CHECK_HEADERS(npapi.h,,MOZILLA_REQUIRED_HEADERS=0)
+@@ -5166,7 +5166,7 @@
+         fi
+         MOZILLA_REQUIRED_HEADERS=
+         mozilla=:
+-        firefox_include=`pkg-config --variable=includedir firefox-plugin`
++        firefox_include=`pkg-config --variable=includedir mozilla-plugin`
+         if test -f "${firefox_include}/mozilla-config.h" -a -f "${firefox_include}/mozilla-config32.h"; then
+             MOZILLA_CONFIG_H="${firefox_include}/mozilla-config32.h"
+         elif test -f "${firefox_include}/mozilla-config.h" -a -f "${firefox_include}/mozilla-config64.h"; then
