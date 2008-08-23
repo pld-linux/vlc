@@ -12,34 +12,34 @@
 #	- tarkin - http://xiph.org/vorbis (obsolete?)
 #
 # Conditional build:
-%bcond_without	aalib	# build without aalib support
-%bcond_without	alsa	# don't build alsa plugin
-%bcond_without	arts	# don't build arts plugin
-%bcond_without	bonjour # bonjour plugin
-%bcond_without	caca	# build without caca support
-%bcond_without	daap	# DAAP plugin
-%bcond_without	dirac	# dirac plugin
+%bcond_without	aalib		# build without aalib support
+%bcond_without	alsa		# don't build alsa plugin
+%bcond_without	arts		# don't build arts plugin
+%bcond_without	bonjour		# bonjour plugin
+%bcond_without	caca		# build without caca support
+%bcond_without	daap		# DAAP plugin
+%bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
-%bcond_without	dv	# build without dv support
-%bcond_without	esound	# don't build esound plugin
+%bcond_without	dv		# build without dv support
+%bcond_without	esound		# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
-%bcond_without	gnutls	# gnutls plugin
-%bcond_without	ggi	# don't build ggi plugin
-%bcond_without	hal	# build with hal support
-%bcond_without	jack	# jack audio module
-%bcond_without	lirc	# build without lirc support
-%bcond_without	live	# build without live.com support
-%bcond_without	mozilla	# build mozilla plugin
-%bcond_without	notify	# libnotify notification plugin
+%bcond_without	gnutls		# gnutls plugin
+%bcond_without	ggi		# don't build ggi plugin
+%bcond_without	hal		# build with hal support
+%bcond_without	jack		# jack audio module
+%bcond_without	lirc		# build without lirc support
+%bcond_without	live		# build without live.com support
+%bcond_without	mozilla		# build mozilla plugin
+%bcond_without	notify		# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
-%bcond_without	shout	# shout plugin
-%bcond_without	speex	# don't build speex plugin
-%bcond_without	svg	# svg plugin
-%bcond_without	twolame # twolame plugin
-%bcond_without	svgalib	# build with svgalib video_output
-%bcond_without	upnp	# upnp plugin
-%bcond_without	x264	# build without x264 support
+%bcond_without	shout		# shout plugin
+%bcond_without	speex		# don't build speex plugin
+%bcond_without	svg		# svg plugin
+%bcond_without	twolame		# twolame plugin
+%bcond_without	svgalib		# build with svgalib video_output
+%bcond_without	upnp		# upnp plugin
+%bcond_without	x264		# build without x264 support
 #
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
