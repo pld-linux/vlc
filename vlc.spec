@@ -44,13 +44,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.8.6g
-Release:	2
+Version:	0.8.6i
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	4a5bc9e326c0233c68a7bccbed043a1f
+# Source0-md5:	3c90520c9f22a68d287458d5a8af989e
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
@@ -58,7 +58,7 @@ Patch2:		%{name}-live.patch
 Patch3:		%{name}-pic-mmx.patch
 Patch4:		%{name}-real_codecs_path.patch
 Patch5:		%{name}-osdmenu_path.patch
-Patch6:		%{name}-cdparanoia.patch
+Patch6:		%{name}-build.patch
 Patch7:		%{name}-dirac.patch
 Patch8:		%{name}-directfb.patch
 URL:		http://www.videolan.org/vlc/
@@ -254,12 +254,13 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
+%patch6 -p0
 %patch7 -p1
 %patch8 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
+%{__libtoolize}
 %{__gettextize}
 %{__aclocal} -I m4
 %{__autoconf}
@@ -277,12 +278,9 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_daap:--disable-daap} \
 	%{?with_dirac:--enable-dirac} \
 	%{?with_directfb:--enable-directfb} \
-	--enable-dsp \
-	--enable-dummy \
 	--%{?with_dv:en}%{!?with_dv:dis}able-dv \
 	--enable-dvb \
 	--enable-dvbpsi \
-	--with-dvdcss \
 	--enable-dvdnav \
 	--enable-dvdread \
 	%{?with_esound:--enable-esd} \
@@ -312,7 +310,6 @@ cp -f /usr/share/automake/config.* .
 	--enable-real \
 	--enable-realrtsp \
 	--enable-sdl \
-	--with-sdl=/usr \
 	%{?with_shout:--enable-shout} \
 	--enable-skins2 \
 	--enable-smb \
@@ -331,7 +328,6 @@ cp -f /usr/share/automake/config.* .
 	--enable-x11 \
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
-	--enable-xvid \
 	--enable-oss \
 	--disable-testsuite \
 	--disable-macosx \
