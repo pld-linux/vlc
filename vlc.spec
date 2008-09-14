@@ -61,10 +61,9 @@ Patch6:		%{name}-build.patch
 Patch7:		%{name}-dirac.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
-BuildRequires:	OpenGL-devel
 %{?with_galaktos:BuildRequires:	 OpenGL-GLU-devel}
+BuildRequires:	OpenGL-devel
 BuildRequires:	QtGui-devel >= 4.2.0
-BuildRequires:	qt4-build
 BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -108,6 +107,7 @@ BuildRequires:	libogg-devel
 %{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
 %{?with_dv:BuildRequires:	libraw1394-devel}
+%{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 %{?with_shout:BuildRequires:	libshout-devel}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libtar-devel
@@ -124,11 +124,11 @@ BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
+BuildRequires:	qt4-build
 BuildRequires:	schroedinger-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
-%{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
-BuildRequires:	sysfsutils-devel
 %{?with_svgalib:BuildRequires:	svgalib-devel}
+BuildRequires:	sysfsutils-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	xorg-lib-libXpm-devel
@@ -365,21 +365,31 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 
 # rm -f *.{a,la}
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex ".*\.?a$" -exec rm -f {} \;
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/co
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
+# needs fixed?
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{co,my,no,ps,tet}
 
 %find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS README THANKS
 %doc doc/bugreport-howto.txt doc/intf-cdda.txt
 %doc doc/intf-vcd.txt doc/translations.txt
-%attr(755,root,root) %{_bindir}/vlc
+%attr(755,root,root) %{_bindir}/cvlc
+%attr(755,root,root) %{_bindir}/rvlc
+%attr(755,root,root) %{_bindir}/vlc*
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libvlc.so.2
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.0
 
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
@@ -544,21 +554,34 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/demux/libwav_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libxa_plugin.so
 %dir %{_libdir}/vlc/gui
+%dir %{_libdir}/vlc/meta_engine
+%attr(755,root,root) %{_libdir}/vlc/meta_engine/libfolder_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/meta_engine/libid3tag_plugin.so
 %dir %{_libdir}/vlc/misc
+%attr(755,root,root) %{_libdir}/vlc/misc/libaudioscrobbler_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libdummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libexport_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libfreetype_plugin.so
 %{?with_gnutls:%attr(755,root,root) %{_libdir}/vlc/misc/libgnutls_plugin.so}
-#%attr(755,root,root) %{_libdir}/vlc/misc/libgrowl_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/misc/libipv4_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/misc/libipv6_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libinhibit_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/liblogger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy_plugin.so
+
+# arch-specific? - needs verify
+%attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy3dn_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libmemcpymmx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libmemcpymmxext_plugin.so
+
 %{?with_notify:%attr(755,root,root) %{_libdir}/vlc/misc/libnotify_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/misc/libosd_parser_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libprobe_hal_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libscreensaver_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libstats_plugin.so
 %{?with_svg:%attr(755,root,root) %{_libdir}/vlc/misc/libsvg_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/misc/libtelepathy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libvod_rtsp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libxml_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/misc/libxosd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libxtag_plugin.so
 %dir %{_libdir}/vlc/mux
 %attr(755,root,root) %{_libdir}/vlc/mux/libmux_asf_plugin.so
@@ -599,17 +622,44 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_standard_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_transcode_plugin.so
 %dir %{_libdir}/vlc/video_chroma
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libgrey_yuv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_ymga_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_i420_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libyuy2_i420_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libyuy2_i422_plugin.so
+
+# arch-specific? - needs verify
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_mmx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_sse2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_ymga_mmx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_mmx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_sse2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_mmx_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_sse2_plugin.so
+
 %dir %{_libdir}/vlc/video_filter
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libadjust_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libalphamask_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libatmo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libblend_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libblendbench_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libbluescreen_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libcanvas_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libchain_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libclone_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libcolorthres_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libcrop_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libcroppadd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libdeinterlace_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/video_filter/libdistort_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libdynamicoverlay_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/liberase_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libextract_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libgaussianblur_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libgradient_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libgrain_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libinvert_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/liblogo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libmagnify_plugin.so
@@ -617,13 +667,23 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libmosaic_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libmotionblur_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libmotiondetect_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libnoise_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libosdmenu_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libpanoramix_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libpostproc_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libpsychedelic_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libpuzzle_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libremoteosd_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libripple_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/librotate_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/librss_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/librv32_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libscale_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/video_filter/libtime_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libsharpen_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libswscale_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtransform_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libwave_plugin.so
 %dir %{_libdir}/vlc/video_output
 %{?with_svgalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libsvgalib_plugin.so}
 %{?with_directfb:%attr(755,root,root) %{_libdir}/vlc/video_output/libdirectfb_plugin.so}
