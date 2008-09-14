@@ -402,6 +402,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_ftp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_http_plugin.so
+%{?with_jack:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_jack_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_mmap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_mms_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_realrtsp_plugin.so
