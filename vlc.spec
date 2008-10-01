@@ -19,7 +19,7 @@
 %bcond_without	daap		# DAAP plugin
 %bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
-%bcond_without	dv		# build without dv support
+%bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
 %bcond_without	esound		# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
@@ -43,13 +43,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.9.2
-Release:	0.1
+Version:	0.9.3
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	f7d843d0725abb57196c4012eeb0e636
+# Source0-md5:	f38aa41ad3ac8b411f2d4a12e3525120
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
@@ -84,7 +84,10 @@ BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
-%{?with_dv:BuildRequires:	libavc1394-devel}
+%if %{with dv}
+BuildRequires:	libavc1394-devel
+BuildRequires:	libraw1394-devel < 2.0.0
+%endif
 %{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
@@ -122,11 +125,13 @@ BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
+BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build
 BuildRequires:	schroedinger-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	sysfsutils-devel
+BuildRequires:	taglib-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 BuildRequires:	vcdimager-devel
 BuildRequires:	xorg-lib-libXpm-devel
@@ -134,6 +139,7 @@ BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xosd-devel
 %{?with_mozilla:BuildRequires:	xulrunner-devel}
 BuildRequires:	xvid-devel
+BuildRequires:	zvbi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -382,9 +388,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/rvlc
 %attr(755,root,root) %{_bindir}/vlc*
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlc.so.2
+%attr(755,root,root) %ghost %{_libdir}/libvlc.so.[0-9]
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.0
+%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.[0-9]
 
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
@@ -458,6 +464,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_arts:%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so}
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/audio_output/libjack_plugin.so}
 %{?with_portaudio:%attr(755,root,root) %{_libdir}/vlc/audio_output/libportaudio_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/audio_output/libpulse_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/audio_output/liboss_plugin.so
 %dir %{_libdir}/vlc/codec
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
@@ -496,6 +503,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_twolame:%attr(755,root,root) %{_libdir}/vlc/codec/libtwolame_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/codec/libvorbis_plugin.so
 %{?with_x264:%attr(755,root,root) %{_libdir}/vlc/codec/libx264_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/codec/libzvbi_plugin.so
 %dir %{_libdir}/vlc/control
 %attr(755,root,root) %{_libdir}/vlc/control/libdbus_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/control/libgestures_plugin.so
@@ -553,6 +561,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/meta_engine
 %attr(755,root,root) %{_libdir}/vlc/meta_engine/libfolder_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/meta_engine/libid3tag_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/meta_engine/libtaglib_plugin.so
 %dir %{_libdir}/vlc/misc
 %attr(755,root,root) %{_libdir}/vlc/misc/libaudioscrobbler_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libdummy_plugin.so
@@ -617,6 +626,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_rtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_standard_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_transcode_plugin.so
+
 %dir %{_libdir}/vlc/video_chroma
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libgrey_yuv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_plugin.so
@@ -691,12 +701,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/http
 %{_datadir}/%{name}/mozilla
 %{_datadir}/%{name}/osdmenu
+%dir %{_datadir}/%{name}/utils
+%attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
+
 %{_mandir}/man1/vlc.1*
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/%{name}
 %{_pkgconfigdir}/*.pc
+%attr(755,root,root) %{_libdir}/libvlc.so
+%attr(755,root,root) %{_libdir}/libvlccore.so
 
 %files static
 %defattr(644,root,root,755)
