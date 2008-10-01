@@ -44,7 +44,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.9.3
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -572,10 +572,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/misc/liblogger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy_plugin.so
 
-# arch-specific? - needs verify
+%ifarch %{ix86} %{x8664}
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy3dn_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpymmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpymmxext_plugin.so
+%endif
 
 %{?with_notify:%attr(755,root,root) %{_libdir}/vlc/misc/libnotify_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/misc/libosd_parser_plugin.so
@@ -637,7 +638,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libyuy2_i420_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libyuy2_i422_plugin.so
 
-# arch-specific? - needs verify
+%ifarch %{ix86} %{x8664}
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_sse2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_ymga_mmx_plugin.so
@@ -645,6 +646,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_sse2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_sse2_plugin.so
+%endif
 
 %dir %{_libdir}/vlc/video_filter
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libadjust_plugin.so
