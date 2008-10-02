@@ -1,15 +1,20 @@
---- vlc-config.in.in.orig	2004-10-14 12:37:30.795197390 +0200
-+++ vlc-config.in.in	2004-10-14 12:38:42.448875646 +0200
-@@ -14,10 +14,10 @@
- builtins="@BUILTINS@"
- 
- cppflags=""
--cflags=""
-+cflags="-I/usr/include/ncurses"
- cxxflags=""
- objcflags=""
--ldflags=""
-+ldflags="-lpostproc"
- 
- cflags_tuning="@CFLAGS_TUNING@"
- cflags_optim="@CFLAGS_OPTIM@"
+--- vlc-0.9.3/configure.ac.orig	2008-09-25 20:23:10.000000000 +0200
++++ vlc-0.9.3/configure.ac	2008-10-02 21:57:13.000000000 +0200
+@@ -1651,7 +1651,7 @@
+ 		  plugins (default enabled)]))
+ if test "${enable_lua}" != "no"
+ then
+-  PKG_CHECK_MODULES(LUA, lua5.1,
++  PKG_CHECK_MODULES(LUA, lua51,
+     [ have_lua=yes ],
+     [
+     AC_MSG_WARN([lua5.1 not found, trying lua >= 5.1 instead])
+@@ -3111,7 +3111,7 @@
+       VLC_SAVE_FLAGS
+       CPPFLAGS="${CPPFLAGS} ${POSTPROC_CFLAGS}"
+       CFLAGS="${CFLAGS} ${POSTPROC_CFLAGS}"
+-      AC_CHECK_HEADERS(libpostproc/postproc.h postproc/postprocess.h)
++      AC_CHECK_HEADERS(libpostproc/postproc.h libpostproc/postprocess.h)
+       VLC_ADD_PLUGIN([postproc])
+       VLC_ADD_LIBS([postproc],[$POSTPROC_LIBS])
+       VLC_ADD_CFLAGS([postproc],[$POSTPROC_CFLAGS])
