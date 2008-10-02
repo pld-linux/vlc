@@ -258,7 +258,7 @@ Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 
 %prep
 %setup -q
-#%patch0 -p0
+%patch0 -p1
 %patch1 -p1
 # obsolete?
 #%patch2 -p1
@@ -277,6 +277,10 @@ cp -f /usr/share/automake/config.* .
 %ifarch ppc
 	--disable-altivec \
 %endif
+	--disable-gme \
+	--disable-hd1000v \
+	--disable-macosx \
+	--disable-testsuite \
 	--%{?with_aalib:en}%{!?with_aalib:dis}able-aa \
 	%{?with_alsa:--enable-alsa} \
 	%{?with_arts:--enable-arts} \
@@ -341,8 +345,6 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
 	--enable-oss \
-	--disable-testsuite \
-	--disable-macosx \
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
