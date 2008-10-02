@@ -570,6 +570,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/misc/libexport_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libfreetype_plugin.so
 %{?with_gnutls:%attr(755,root,root) %{_libdir}/vlc/misc/libgnutls_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/misc/liblua_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libinhibit_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/liblogger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/misc/libmemcpy_plugin.so
@@ -703,6 +704,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/http
+%{_datadir}/%{name}/lua
 %{_datadir}/%{name}/mozilla
 %{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
