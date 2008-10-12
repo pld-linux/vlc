@@ -119,7 +119,7 @@ BuildRequires:	libvorbis-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live >= 2005.03.11}
+%{?with_live:BuildRequires:	live >= 2008.07.06}
 BuildRequires:	lua51-devel
 BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
