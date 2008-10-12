@@ -44,7 +44,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	0.9.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -274,6 +274,7 @@ cp -f /usr/share/automake/config.* .
 %{__aclocal} -I m4
 %{__autoconf}
 %configure \
+	CFLAGS="%{rpmcflags} -I/usr/include/ncurses" \
 %ifarch ppc
 	--disable-altivec \
 %endif
@@ -348,7 +349,6 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
-# echo "CFLAGS += -I/usr/include/ncurses" >> Makefile.opts
 %{__make}
 
 %install
@@ -387,6 +387,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/bugreport-howto.txt doc/intf-cdda.txt
 %doc doc/intf-vcd.txt doc/translations.txt
 %attr(755,root,root) %{_bindir}/cvlc
+%attr(755,root,root) %{_bindir}/nvlc
 %attr(755,root,root) %{_bindir}/rvlc
 %attr(755,root,root) %{_bindir}/vlc*
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
@@ -560,6 +561,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/demux/libwav_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libxa_plugin.so
 %dir %{_libdir}/vlc/gui
+%attr(755,root,root) %{_libdir}/vlc/gui/libncurses_plugin.so
 %dir %{_libdir}/vlc/meta_engine
 %attr(755,root,root) %{_libdir}/vlc/meta_engine/libfolder_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/meta_engine/libid3tag_plugin.so
