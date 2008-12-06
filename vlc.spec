@@ -708,7 +708,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/http
 %{_datadir}/%{name}/lua
 %{_datadir}/%{name}/mozilla
-%attr(755,root,root) %{_libdir}/mozilla/plugins/libvlcplugin.so
 %{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
