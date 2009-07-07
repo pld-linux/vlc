@@ -13,7 +13,6 @@
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
 %bcond_without	alsa		# don't build alsa plugin
-%bcond_without	arts		# don't build arts plugin
 %bcond_without	bonjour		# bonjour plugin
 %bcond_without	caca		# build without caca support
 %bcond_without	daap		# DAAP plugin
@@ -43,13 +42,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	0.9.9
+Version:	1.0.0
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	b7c2a75194ad5c73979c3d880aebbe38
+Source0:	http://download.videolan.org/pub/videolan/vlc/latest/%{name}-%{version}.tar.bz2
+# Source0-md5:	fc78904ab5fa73f518d8fe4e852e7f67
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
@@ -66,7 +65,6 @@ BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-%{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
@@ -92,7 +90,7 @@ BuildRequires:	libraw1394-devel < 2.0.0
 BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
 BuildRequires:	libdts-devel
-BuildRequires:	libdvbpsi-devel
+BuildRequires:	libdvbpsi-devel >= 0.1.6
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 0.7.6
@@ -116,6 +114,7 @@ BuildRequires:	libtheora-devel
 BuildRequires:	libtool
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libvorbis-devel
+BuildRequires:	libv4l-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -232,18 +231,6 @@ SDL output plugin for VLC.
 %description SDL -l pl.UTF-8
 Wtyczka wyjścia SDL dla klienta VLC.
 
-%package esd
-Summary:	VLC - EsounD audio output plugin
-Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia dźwięku EsounD
-Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-
-%description esd
-EsounD audio output plugin for VLC.
-
-%description esd -l pl.UTF-8
-Wtyczka wyjścia dźwięku EsounD dla klienta VLC.
-
 %package alsa
 Summary:	VLC - ALSA audio output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia dźwięku ALSA
@@ -274,7 +261,7 @@ cp -f /usr/share/automake/config.* .
 %{__aclocal} -I m4
 %{__autoconf}
 %configure \
-	CFLAGS="%{rpmcflags} -I/usr/include/ncurses" \
+	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/plugin" \
 %ifarch ppc
 	--disable-altivec \
 %endif
@@ -284,8 +271,6 @@ cp -f /usr/share/automake/config.* .
 	--disable-testsuite \
 	--%{?with_aalib:en}%{!?with_aalib:dis}able-aa \
 	%{?with_alsa:--enable-alsa} \
-	%{?with_arts:--enable-arts} \
-	%{!?with_arts:--disable-arts} \
 	%{!?with_bonjour:--disable-bonjour} \
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
 	--enable-cddax \
@@ -298,7 +283,6 @@ cp -f /usr/share/automake/config.* .
 	--enable-dvbpsi \
 	--enable-dvdnav \
 	--enable-dvdread \
-	%{?with_esound:--enable-esd} \
 	--enable-faad \
 	--enable-fb \
 	--enable-freetype \
@@ -464,7 +448,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/audio_mixer/libtrivial_mixer_plugin.so
 %dir %{_libdir}/vlc/audio_output
 %attr(755,root,root) %{_libdir}/vlc/audio_output/libaout_file_plugin.so
-%{?with_arts:%attr(755,root,root) %{_libdir}/vlc/audio_output/libarts_plugin.so}
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/audio_output/libjack_plugin.so}
 %{?with_portaudio:%attr(755,root,root) %{_libdir}/vlc/audio_output/libportaudio_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/audio_output/libpulse_plugin.so
@@ -765,12 +748,6 @@ rm -rf $RPM_BUILD_ROOT
 %files fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/video_output/libfb_plugin.so
-
-%if %{with esound}
-%files esd
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/audio_output/libesd_plugin.so
-%endif
 
 %if %{with alsa}
 %files alsa

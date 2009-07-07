@@ -6,14 +6,6 @@
  action	key-play-pause (0,0)
  	unselect unselected.png
  	select   selection/play_pause.png
---- vlc.orig/share/osdmenu/dvd.cfg
-+++ vlc/share/osdmenu/dvd.cfg
-@@ -1,4 +1,4 @@
--dir share/osdmenu/dvd
-+dir /usr/share/vlc/osdmenu/dvd
- action	key-play (0,0)
- 	unselect unselect/barroff.png
- 	select   selection/play.png
 --- vlc.orig/modules/video_filter/osdmenu.c
 +++ vlc/modules/video_filter/osdmenu.c
 @@ -90,7 +90,7 @@
