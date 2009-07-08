@@ -2,8 +2,6 @@
 # TODO:
 # - flac plugin doesn't work with mono files
 # - what really changes live bcond?
-# - make a nice browser-plugin-vlc package for libvlcplugin.so
-#   (mozilla compatible browser plugin)
 # - why mozilla plugin is linked with libXt?
 # - why mkv plugin is linked with libsysfs?
 # - create specs and build plugins:
@@ -244,6 +242,20 @@ ALSA audio output plugin for VLC.
 %description alsa -l pl.UTF-8
 Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 
+%package -n browser-plugin-%{name}
+Summary:	VLC - Mozilla compatible browser plugin
+Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Mozilla
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	browser-plugins >= 2.0 
+Requires:	browser-plugins(%{_target_base_arch})
+
+%description -n browser-plugin-%{name}
+Mozilla compatible browser plugin.
+
+%description -n browser-plugin-%{name} -l pl.UTF-8
+Wtyczka do przeglądarki internetowej Mozilla.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -358,12 +370,25 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # needs fixed?
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,my,no,ps,tet}
 
+# mozilla compatible browser plugin
+install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
+cp -a projects/mozilla/.libs/libvlcplugin.so $RPM_BUILD_ROOT%{_browserpluginsdir}
+
 %find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post   -n browser-plugin-%{name}
+%update_browser_plugins
+
 %post	-p /sbin/ldconfig
+
+%postun -n browser-plugin-%{name}
+if [ "$1" = 0 ]; then
+        %update_browser_plugins
+fi
+
 %postun	-p /sbin/ldconfig
 
 %files -f %{name}.lang
@@ -767,3 +792,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/audio_output/libalsa_plugin.so
 %endif
+
+%files -n browser-plugin-%{name}
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_browserpluginsdir}/libvlcplugin.so
