@@ -46,7 +46,7 @@ Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
-Source0:	http://download.videolan.org/pub/videolan/vlc/latest/%{name}-%{version}.tar.bz2
+Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 # Source0-md5:	fc78904ab5fa73f518d8fe4e852e7f67
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
