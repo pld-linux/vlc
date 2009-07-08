@@ -42,7 +42,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -663,11 +663,14 @@ fi
 
 %ifarch %{ix86} %{x8664}
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_mmx_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_sse2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_ymga_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_mmx_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_sse2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_mmx_plugin.so
+%endif
+
+%ifnarch i486 i586
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_sse2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_yuy2_sse2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi422_yuy2_sse2_plugin.so
 %endif
 
