@@ -409,7 +409,6 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_jack_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_mmap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_mms_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/access/libaccess_mtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_oss_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_realrtsp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_rtmp_plugin.so
@@ -614,7 +613,6 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_hal:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libhal_plugin.so}
 %{?with_bonjour:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libbonjour_plugin.so}
 #%{?with_daap:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libdaap_plugin.so}
-%attr(755,root,root) %{_libdir}/vlc/services_discovery/libmtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
