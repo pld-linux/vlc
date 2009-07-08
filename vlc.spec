@@ -2,6 +2,8 @@
 # TODO:
 # - flac plugin doesn't work with mono files
 # - what really changes live bcond?
+# - make a nice browser-plugin-vlc package for libvlcplugin.so
+#   (mozilla compatible browser plugin)
 # - why mozilla plugin is linked with libXt?
 # - why mkv plugin is linked with libsysfs?
 # - create specs and build plugins:
@@ -55,7 +57,6 @@ Patch2:		%{name}-live.patch
 Patch3:		%{name}-pic-mmx.patch
 Patch4:		%{name}-real_codecs_path.patch
 Patch5:		%{name}-osdmenu_path.patch
-Patch6:		%{name}-iceweasel.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_galaktos:BuildRequires:	 OpenGL-GLU-devel}
@@ -101,6 +102,7 @@ BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
+BuildRequires:	libmpeg2-devel
 %{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libogg-devel
 %{?with_daap:BuildRequires:	libopendaap-devel}
@@ -120,7 +122,6 @@ BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live >= 2008.07.06}
 BuildRequires:	lua51-devel
-BuildRequires:	mpeg2dec-devel >= 0.3.2
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
@@ -243,19 +244,6 @@ ALSA audio output plugin for VLC.
 %description alsa -l pl.UTF-8
 Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 
-%package iceweasel-plugin
-Summary:	VLC - Iceweasel browser plugin
-Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Iceweasel
-Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	iceweasel
-
-%description iceweasel-plugin
-Iceweasel browser plugin for VLC.
-
-%description iceweasel-plugin -l pl.UTF-8
-Wtyczka do przeglądarki Iceweasel dla klienta VLC.
-
 %prep
 %setup -q
 %patch0 -p1
@@ -266,7 +254,6 @@ Wtyczka do przeglądarki Iceweasel dla klienta VLC.
 #%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -777,10 +764,4 @@ rm -rf $RPM_BUILD_ROOT
 %files alsa
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/audio_output/libalsa_plugin.so
-%endif
-
-%if %{with mozilla}
-%files iceweasel-plugin
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/iceweasel/plugins/libvlcplugin.so
 %endif
