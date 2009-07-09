@@ -42,7 +42,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -274,7 +274,9 @@ cp -f /usr/share/automake/config.* .
 %{__aclocal} -I m4
 %{__autoconf}
 %configure \
-	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/plugin -I/usr/include/xulrunner/java" \
+	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable" \
+	--enable-shared \
+	--enable-static \
 %ifarch ppc
 	--disable-altivec \
 %endif
@@ -482,6 +484,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/audio_output/liboss_plugin.so
 %dir %{_libdir}/vlc/codec
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/codec/libaes3_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libadpcm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libaes3_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libaraw_plugin.so
@@ -625,7 +628,6 @@ fi
 %dir %{_libdir}/vlc/services_discovery
 %{?with_hal:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libhal_plugin.so}
 %{?with_bonjour:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libbonjour_plugin.so}
-#%{?with_daap:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libdaap_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libmtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
@@ -717,6 +719,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libsharpen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libswscale_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtransform_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/video_filter/libyuvp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwave_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libyuvp_plugin.so
@@ -748,8 +751,8 @@ fi
 %attr(755,root,root) %{_libdir}/libvlc.so
 %attr(755,root,root) %{_libdir}/libvlccore.so
 
-%files static
-%defattr(644,root,root,755)
+#%files static
+#%defattr(644,root,root,755)
 #%{_libdir}/libvlc.a
 #%{_libdir}/%{name}/*.a
 
@@ -759,8 +762,6 @@ fi
 %attr(755,root,root) %{_bindir}/svlc
 %attr(755,root,root) %{_libdir}/vlc/gui/libqt4_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/gui/libskins2_plugin.so
-#%{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_gnomevfs_plugin.so}
-#%%attr(755,root,root) %{_libdir}/vlc/access/libscreen_plugin.so
 %{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/video_output/libaa_plugin.so}
 %{?with_caca:%attr(755,root,root) %{_libdir}/vlc/video_output/libcaca_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/video_output/libglx_plugin.so
