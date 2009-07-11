@@ -101,6 +101,7 @@ BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libmpeg2-devel
+BuildRequires:	libmtp-devel
 %{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libogg-devel
 %{?with_daap:BuildRequires:	libopendaap-devel}
