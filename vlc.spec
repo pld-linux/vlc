@@ -1,14 +1,4 @@
 #
-# TODO:
-# - flac plugin doesn't work with mono files
-# - what really changes live bcond?
-# - why mozilla plugin is linked with libXt?
-# - why mkv plugin is linked with libsysfs?
-# - create specs and build plugins:
-#	- tremor - http://xiph.org/vorbis
-#	- goom - http://www.ios-software.com/?page=projet&quoi=1
-#	- tarkin - http://xiph.org/vorbis (obsolete?)
-#
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
 %bcond_without	alsa		# don't build alsa plugin
@@ -42,7 +32,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	4
+Release:	4.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -402,7 +392,8 @@ fi
 %attr(755,root,root) %{_bindir}/cvlc
 %attr(755,root,root) %{_bindir}/nvlc
 %attr(755,root,root) %{_bindir}/rvlc
-%attr(755,root,root) %{_bindir}/vlc*
+%attr(755,root,root) %{_bindir}/vlc
+%attr(4754,root,video) %{_bindir}/vlc-wrapper
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libvlc.so.[0-9]
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*

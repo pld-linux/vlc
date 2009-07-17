@@ -1,0 +1,9 @@
+# TODO:
+- flac plugin doesn't work with mono files
+- what really changes live bcond?
+- why mozilla plugin is linked with libXt?
+- why mkv plugin is linked with libsysfs?
+- create specs and build plugins:
+      - tremor - http://xiph.org/vorbis
+      - goom - http://www.ios-software.com/?page=projet&quoi=1
+      - tarkin - http://xiph.org/vorbis (obsolete?)
