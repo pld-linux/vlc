@@ -262,7 +262,7 @@ cp -f /usr/share/automake/config.* .
 %{__aclocal} -I m4
 %{__autoconf}
 %configure \
-	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable" \
+	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
 	--enable-shared \
 	--enable-static \
 %ifarch ppc
