@@ -32,7 +32,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	4.1
+Release:	4.2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -41,7 +41,6 @@ Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
-Patch2:		%{name}-live.patch
 Patch3:		%{name}-pic-mmx.patch
 Patch4:		%{name}-real_codecs_path.patch
 Patch5:		%{name}-osdmenu_path.patch
@@ -251,8 +250,6 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-# obsolete?
-#%patch2 -p1
 # check me
 #%patch3 -p1
 %patch4 -p1
@@ -340,6 +337,11 @@ cp -f /usr/share/automake/config.* .
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 %{__make}
+
+### FIXME:
+# Build manually liblive555 plugin - dunno why it's not build by default
+cd modules/demux
+%{__make} liblive555_plugin.la
 
 %install
 rm -rf $RPM_BUILD_ROOT
