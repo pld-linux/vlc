@@ -7,4 +7,3 @@
       - tremor - http://xiph.org/vorbis
       - goom - http://www.ios-software.com/?page=projet&quoi=1
       - tarkin - http://xiph.org/vorbis (obsolete?)
-- rtsp does not work -> live555 is broken for now

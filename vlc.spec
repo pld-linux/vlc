@@ -32,7 +32,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	4.2
+Release:	5
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -108,7 +108,7 @@ BuildRequires:	libv4l-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live >= 2008.07.06}
+%{?with_live:BuildRequires:	live-devel > 2009.07.09-3}
 BuildRequires:	lua51-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
@@ -301,7 +301,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-mad \
 	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
-	%{?with_live:--enable-live555 --with-live555-tree=%{_libdir}/liveMedia} \
+	%{?with_live:--enable-live555 } \
 	%{!?with_live:--disable-live555 } \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
