@@ -475,7 +475,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/codec/liba52_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libaes3_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libadpcm_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/codec/libaes3_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libaraw_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libavcodec_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libcc_plugin.so
@@ -534,6 +533,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/demux/libes_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libflacsys_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libh264_plugin.so
+%{?with_live:%attr(755,root,root) %{_libdir}/vlc/demux/liblive555_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/demux/libm4v_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmjpeg_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/demux/libmkv_plugin.so
@@ -707,7 +707,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libsharpen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libswscale_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libtransform_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/video_filter/libyuvp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwall_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libwave_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_filter/libyuvp_plugin.so
