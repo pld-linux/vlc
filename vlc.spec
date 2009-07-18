@@ -301,7 +301,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-mad \
 	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
-	%{?with_live:--enable-live555 } \
+	%{?with_live:--enable-live555 --with-live555-tree=%{_libdir}/liveMedia} \
 	%{!?with_live:--disable-live555 } \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
@@ -337,11 +337,6 @@ cp -f /usr/share/automake/config.* .
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 %{__make}
-
-### FIXME:
-# Build manually liblive555 plugin - dunno why it's not build by default
-cd modules/demux
-%{__make} liblive555_plugin.la
 
 %install
 rm -rf $RPM_BUILD_ROOT
