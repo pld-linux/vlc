@@ -32,7 +32,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.0
-Release:	5
+Release:	6
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -41,9 +41,9 @@ Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
-Patch3:		%{name}-pic-mmx.patch
-Patch4:		%{name}-real_codecs_path.patch
-Patch5:		%{name}-osdmenu_path.patch
+Patch2:		%{name}-real_codecs_path.patch
+Patch3:		%{name}-osdmenu_path.patch
+Patch4:		%{name}-quickfix.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_galaktos:BuildRequires:	 OpenGL-GLU-devel}
@@ -250,10 +250,9 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-# check me
-#%patch3 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -360,9 +359,11 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # needs fixed?
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,my,no,ps,tet}
 
+%if %{with mozilla}
 # mozilla compatible browser plugin
 install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
 cp -a projects/mozilla/.libs/libvlcplugin.so $RPM_BUILD_ROOT%{_browserpluginsdir}
+%endif
 
 %find_lang %{name}
 
@@ -722,7 +723,9 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/http
 %{_datadir}/%{name}/lua
+%if %{with mozilla}
 %{_datadir}/%{name}/mozilla
+%endif
 %{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
@@ -784,6 +787,8 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/audio_output/libalsa_plugin.so
 %endif
 
+%if %{with mozilla}
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_browserpluginsdir}/libvlcplugin.so
+%endif
