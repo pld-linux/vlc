@@ -1,0 +1,12 @@
+--- ./modules/stream_out/rtp.c.org	2009-07-21 09:29:16.787252342 +0200
++++ ./modules/stream_out/rtp.c	2009-07-21 09:30:11.003199471 +0200
+@@ -1400,6 +1400,9 @@ static int FileSetup( sout_stream_t *p_s
+     sout_stream_sys_t *p_sys = p_stream->p_sys;
+     FILE            *f;
+ 
++    if( p_sys->psz_sdp == NULL )
++	    return VLC_EGENERIC; /* too early */
++
+     if( ( f = utf8_fopen( p_sys->psz_sdp_file, "wt" ) ) == NULL )
+     {
+         msg_Err( p_stream, "cannot open file '%s' (%m)",
