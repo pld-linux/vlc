@@ -7,13 +7,13 @@
 %bcond_without	daap		# DAAP plugin
 %bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
-%bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
+%bcond_with		dv			# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
 %bcond_without	esound		# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
-%bcond_without	ggi		# don't build ggi plugin
-%bcond_without	hal		# build with hal support
+%bcond_without	ggi			# don't build ggi plugin
+%bcond_without	hal			# build with hal support
 %bcond_without	jack		# jack audio module
 %bcond_without	lirc		# build without lirc support
 %bcond_without	live		# build without live.com support
@@ -22,7 +22,7 @@
 %bcond_without	portaudio	# portaudio library support
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
-%bcond_without	svg		# svg plugin
+%bcond_without	svg			# svg plugin
 %bcond_without	twolame		# twolame plugin
 %bcond_without	svgalib		# build with svgalib video_output
 %bcond_without	upnp		# upnp plugin
@@ -31,19 +31,20 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	1.0.1
-Release:	1
+Version:	1.0.3
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	6e299d373e7751bb36de001cdc6a2989
+# Source0-md5:	d0945c2489551c102a3f0f15e4591555
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-real_codecs_path.patch
 Patch3:		%{name}-osdmenu_path.patch
 Patch4:		%{name}-rtp_segv.patch
+Patch5:		%{name}-system-minizip.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_galaktos:BuildRequires:	OpenGL-GLU-devel}
@@ -253,6 +254,7 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -497,6 +499,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/codec/librawvideo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/librealaudio_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/librealvideo_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/codec/libschroedinger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/codec/libsdl_image_plugin.so
 %{?with_speex:%attr(755,root,root) %{_libdir}/vlc/codec/libspeex_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/codec/libspudec_plugin.so
@@ -642,7 +645,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_rtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_standard_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_transcode_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/stream_out/libstream_out_transrate_plugin.so
 %dir %{_libdir}/vlc/video_chroma
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libgrey_yuv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/video_chroma/libi420_rgb_plugin.so
