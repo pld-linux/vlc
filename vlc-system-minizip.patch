@@ -1,0 +1,24 @@
+--- vlc-1.0.3/modules/access/zip/zip.h~	2009-05-19 18:28:15.000000000 +0200
++++ vlc-1.0.3/modules/access/zip/zip.h	2009-11-09 08:55:10.291272459 +0100
+@@ -35,8 +35,8 @@
+ #include <vlc_arrays.h>
+ #include <vlc_plugin.h>
+ #include <vlc_stream.h>
+-#include "unzip.h"
+-#include "ioapi.h"
++#include <minizip/unzip.h>
++#include <minizip/ioapi.h>
+ 
+ #include <assert.h>
+ 
+--- vlc-1.0.3/modules/gui/skins2/src/theme_loader.hpp~	2009-05-11 01:03:55.000000000 +0200
++++ vlc-1.0.3/modules/gui/skins2/src/theme_loader.hpp	2009-11-09 09:03:05.275599954 +0100
+@@ -28,7 +28,7 @@
+ #include "skin_common.hpp"
+ #include <string>
+ #if defined( HAVE_ZLIB_H )
+-#   include "unzip.h"
++#   include <minizip/unzip.h>
+ #endif
+ 
+ class ThemeLoader: public SkinObject
