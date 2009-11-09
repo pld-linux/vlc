@@ -25,6 +25,7 @@
 %bcond_without	svg			# svg plugin
 %bcond_without	twolame		# twolame plugin
 %bcond_without	svgalib		# build with svgalib video_output
+%bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
 #
@@ -32,7 +33,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.3
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -122,6 +123,7 @@ BuildRequires:	schroedinger-devel
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
+%{?with_udev:BuildRequires:	udev-devel >= 1:142}
 BuildRequires:	vcdimager-devel
 BuildRequires:	xorg-lib-libXpm-devel
 %{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
@@ -327,6 +329,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-theora \
 	--enable-tremor \
 	%{?with_twolame:--enable-twolame} \
+	%{!?with_udev:--disable-udev} \
 	%{?with_upnp:--enable-upnp} \
 	--enable-v4l\
 	--enable-vcdx \
@@ -625,6 +628,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libpodcast_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libsap_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/services_discovery/libshout_plugin.so
+%{?with_udev:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libudev_plugin.so}
 %{?with_upnp:%attr(755,root,root) %{_libdir}/vlc/services_discovery/libupnp_intel_plugin.so}
 %dir %{_libdir}/vlc/stream_filter
 %attr(755,root,root) %{_libdir}/vlc/stream_filter/libdecomp_plugin.so
