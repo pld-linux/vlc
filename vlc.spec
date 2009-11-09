@@ -7,13 +7,13 @@
 %bcond_without	daap		# DAAP plugin
 %bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
-%bcond_with		dv			# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
+%bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
 %bcond_without	esound		# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
-%bcond_without	ggi			# don't build ggi plugin
-%bcond_without	hal			# build with hal support
+%bcond_without	ggi		# don't build ggi plugin
+%bcond_without	hal		# build with hal support
 %bcond_without	jack		# jack audio module
 %bcond_without	lirc		# build without lirc support
 %bcond_without	live		# build without live.com support
@@ -22,7 +22,7 @@
 %bcond_without	portaudio	# portaudio library support
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
-%bcond_without	svg			# svg plugin
+%bcond_without	svg		# svg plugin
 %bcond_without	twolame		# twolame plugin
 %bcond_without	svgalib		# build with svgalib video_output
 %bcond_without	udev		# udev services discovery
