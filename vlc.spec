@@ -112,6 +112,7 @@ BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel > 2009.07.09-3}
 BuildRequires:	lua51-devel
+BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_portaudio:BuildRequires:	portaudio-devel}
