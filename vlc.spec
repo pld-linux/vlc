@@ -1,3 +1,6 @@
+# TODO
+# - use fonts-TTF-freefont as R
+# - %{_prefix}/lib cleanup for x86_64
 #
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
@@ -33,7 +36,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.3
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -350,8 +353,8 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_mandir}/man1}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a install doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
@@ -368,7 +371,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,my,no,ps,tet}
 %if %{with mozilla}
 # mozilla compatible browser plugin
 install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
-cp -a projects/mozilla/.libs/libvlcplugin.so $RPM_BUILD_ROOT%{_browserpluginsdir}
+install -p projects/mozilla/.libs/libvlcplugin.so $RPM_BUILD_ROOT%{_browserpluginsdir}
 %endif
 
 %find_lang %{name}
