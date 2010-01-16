@@ -13,9 +13,9 @@
 %bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
 %bcond_without	esound		# don't build esound plugin
 %bcond_without	galaktos	# OpenGL visualisation plugin
+%bcond_without	ggi		# don't build ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
-%bcond_without	ggi		# don't build ggi plugin
 %bcond_without	hal		# build with hal support
 %bcond_without	jack		# jack audio module
 %bcond_without	lirc		# build without lirc support
@@ -26,8 +26,8 @@
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	svg		# svg plugin
-%bcond_without	twolame		# twolame plugin
 %bcond_without	svgalib		# build with svgalib video_output
+%bcond_without	twolame		# twolame plugin
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
@@ -35,13 +35,13 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	1.0.3
-Release:	5
+Version:	1.0.4
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	d0945c2489551c102a3f0f15e4591555
+# Source0-md5:	3a0db00380b6d5b24dc7eb73e5d8ae51
 Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
