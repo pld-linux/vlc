@@ -42,7 +42,6 @@ Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 # Source0-md5:	3a0db00380b6d5b24dc7eb73e5d8ae51
-Source1:	%{name}.desktop
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-real_codecs_path.patch
@@ -271,7 +270,7 @@ cp -f /usr/share/automake/config.* .
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
 	--enable-shared \
-	--enable-static \
+	--disable-static \
 %ifarch ppc
 	--disable-altivec \
 %endif
@@ -344,17 +343,17 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_hal:--disable-hal} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
-%{__make}
+%{__make} \
+	npvlcdir=%{_browserpluginsdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_mandir}/man1}
 
 %{__make} install \
+	npvlcdir=%{_browserpluginsdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-cp -a doc/vlc.1 $RPM_BUILD_ROOT%{_mandir}/man1
+rm -rf $RPM_BUILD_ROOT/usr/share/doc/vlc
 
 %if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
@@ -362,34 +361,27 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
 
 # rm -f *.{a,la}
-find $RPM_BUILD_ROOT%{_libdir} -type f -regex ".*\.?a$" -exec rm -f {} \;
+find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' -exec rm -f {} ';'
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # needs fixed?
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,my,no,ps,tet}
-
-%if %{with mozilla}
-# mozilla compatible browser plugin
-install -d $RPM_BUILD_ROOT%{_browserpluginsdir}
-install -p projects/mozilla/.libs/libvlcplugin.so $RPM_BUILD_ROOT%{_browserpluginsdir}
-%endif
 
 %find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %post   -n browser-plugin-%{name}
 %update_browser_plugins
 
-%post	-p /sbin/ldconfig
-
 %postun -n browser-plugin-%{name}
 if [ "$1" = 0 ]; then
-        %update_browser_plugins
+	%update_browser_plugins
 fi
-
-%postun	-p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -741,7 +733,6 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
 
 %{_mandir}/man1/vlc.1*
-%{_mandir}/man1/vlc-config.1*
 %{_mandir}/man1/vlc-wrapper.1*
 
 %files devel
@@ -750,11 +741,7 @@ fi
 %{_pkgconfigdir}/*.pc
 %attr(755,root,root) %{_libdir}/libvlc.so
 %attr(755,root,root) %{_libdir}/libvlccore.so
-
-#%files static
-#%defattr(644,root,root,755)
-#%{_libdir}/libvlc.a
-#%{_libdir}/%{name}/*.a
+%{_mandir}/man1/vlc-config.1*
 
 %files X11
 %defattr(644,root,root,755)
