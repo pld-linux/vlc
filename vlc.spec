@@ -36,7 +36,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.4
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -49,6 +49,7 @@ Patch3:		%{name}-osdmenu_path.patch
 Patch4:		%{name}-rtp_segv.patch
 Patch5:		%{name}-system-minizip.patch
 Patch6:		%{name}-libpng.patch
+Patch7:		%{name}-xulrunner.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_galaktos:BuildRequires:	OpenGL-GLU-devel}
@@ -262,6 +263,7 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
