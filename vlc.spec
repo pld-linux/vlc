@@ -133,7 +133,7 @@ BuildRequires:	vcdimager-devel
 BuildRequires:	xorg-lib-libXpm-devel
 %{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
 BuildRequires:	xosd-devel
-%{?with_mozilla:BuildRequires:	xulrunner-devel}
+%{?with_mozilla:BuildRequires:	xulrunner-devel >= 1.9.2}
 BuildRequires:	xvid-devel
 BuildRequires:	zvbi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
