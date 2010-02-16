@@ -36,7 +36,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -368,8 +368,11 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' -exec rm -f {} ';'
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
-# needs fixed?
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,my,no,ps,tet}
+# unsupported:
+# ckb (Sorani Kurdish - maybe ku_IQ/ku_IR?)
+# co (Corsican)
+# tet (Tetum)
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,tet}
 
 %find_lang %{name}
 
