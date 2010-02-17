@@ -72,25 +72,25 @@ BuildRequires:	fluidsynth-devel
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
+#%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 %if %{with dv}
 BuildRequires:	libavc1394-devel
-BuildRequires:	libraw1394-devel < 2.0.0
+#BuildRequires:	libraw1394-devel < 2.0.0
 %endif
 %{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
-BuildRequires:	libdts-devel
+#BuildRequires:	libdts-devel
 BuildRequires:	libdvbpsi-devel >= 0.1.6
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 0.7.6
 BuildRequires:	libgcrypt-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
-BuildRequires:	libid3tag-devel
+#BuildRequires:	libid3tag-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
@@ -99,9 +99,9 @@ BuildRequires:	libmpeg2-devel
 BuildRequires:	libmtp-devel
 %{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libogg-devel
-%{?with_daap:BuildRequires:	libopendaap-devel}
+#%{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
-%{?with_dv:BuildRequires:	libraw1394-devel}
+#%{?with_dv:BuildRequires:	libraw1394-devel}
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 %{?with_shout:BuildRequires:	libshout-devel}
 BuildRequires:	libsmbclient-devel
@@ -134,7 +134,7 @@ BuildRequires:	xorg-lib-libXpm-devel
 %{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
 BuildRequires:	xosd-devel
 %{?with_mozilla:BuildRequires:	xulrunner-devel >= 1.9.2}
-BuildRequires:	xvid-devel
+#BuildRequires:	xvid-devel
 BuildRequires:	zvbi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -245,7 +245,7 @@ Summary:	VLC - Mozilla compatible browser plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Mozilla
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	browser-plugins >= 2.0 
+Requires:	browser-plugins >= 2.0
 Requires:	browser-plugins(%{_target_base_arch})
 
 %description -n browser-plugin-%{name}
