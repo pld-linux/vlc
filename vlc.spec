@@ -26,7 +26,7 @@
 %bcond_without	mozilla		# build mozilla plugin
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
-%bcond_without	rtmp		# RTMP output plugin
+%bcond_with	rtmp		# RTMP output plugin
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	static_libs	# don't build static libraries
@@ -41,7 +41,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.0.6
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
