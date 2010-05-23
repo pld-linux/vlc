@@ -1,5 +1,7 @@
 # TODO
-# - use fonts-TTF-freefont as R
+# - use fonts-TTF-freefont as R (vlc-X11 package) (see also vlc-defaultfont.patch)
+#   ./modules/misc/freetype.c:#define DEFAULT_FONT "/usr/share/vlc/skins2/fonts/FreeSans.ttf"
+#   ./modules/gui/skins2/parser/builder.cpp:            string path = (*it) + sep + "fonts" + sep + "FreeSans.ttf";
 # - %{_prefix}/lib cleanup for x86_64
 #
 # Conditional build:
@@ -31,17 +33,17 @@
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
-#
+
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	1.0.5
-Release:	4
+Version:	1.0.6
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	d3d99e489ba1ae996af7e1065c0ef313
+# Source0-md5:	246a3865ec037f8f5757ef6b973a80fc
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-real_codecs_path.patch
@@ -109,8 +111,8 @@ BuildRequires:	libtar-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	libtool
 %{?with_upnp:BuildRequires:	libupnp-devel}
-BuildRequires:	libvorbis-devel
 BuildRequires:	libv4l-devel
+BuildRequires:	libvorbis-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -246,6 +248,7 @@ Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Mozilla
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Requires:	browser-plugins >= 2.0
+Requires:	browser-plugins >= 2.0
 Requires:	browser-plugins(%{_target_base_arch})
 
 %description -n browser-plugin-%{name}
@@ -357,7 +360,7 @@ rm -rf $RPM_BUILD_ROOT
 	npvlcdir=%{_browserpluginsdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -rf $RPM_BUILD_ROOT/usr/share/doc/vlc
+rm -rf $RPM_BUILD_ROOT%{_docdir}/vlc
 
 %if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
@@ -373,6 +376,9 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # co (Corsican)
 # tet (Tetum)
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,tet}
+
+# .ico is win32 only
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
 
 %find_lang %{name}
 
@@ -401,9 +407,9 @@ fi
 %attr(755,root,root) %{_bindir}/vlc
 %attr(4754,root,video) %{_bindir}/vlc-wrapper
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlc.so.[0-9]
+%attr(755,root,root) %ghost %{_libdir}/libvlc.so.2
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.[0-9]
+%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.2
 
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
@@ -732,9 +738,6 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/http
 %{_datadir}/%{name}/lua
-%if %{with mozilla}
-%{_datadir}/%{name}/mozilla
-%endif
 %{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
@@ -767,7 +770,6 @@ fi
 %{_datadir}/%{name}/skins2
 %{_datadir}/%{name}/vlc*.xpm
 %{_datadir}/%{name}/vlc*.png
-%{_datadir}/%{name}/vlc*.ico
 %{_desktopdir}/*.desktop
 
 %if %{with ggi}
@@ -795,4 +797,5 @@ fi
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_browserpluginsdir}/libvlcplugin.so
+%{_datadir}/%{name}/mozilla
 %endif
