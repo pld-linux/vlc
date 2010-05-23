@@ -25,6 +25,7 @@
 %bcond_without	mozilla		# build mozilla plugin
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
+%bcond_without	rtmp		# RTMP output plugin
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	svg		# svg plugin
@@ -430,7 +431,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_mtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_oss_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_realrtsp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/access/libaccess_rtmp_plugin.so
+%{?with_rtmp:%attr(755,root,root) %{_libdir}/vlc/access/libaccess_rtmp_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_smb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_tcp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access/libaccess_udp_plugin.so
@@ -451,7 +452,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_http_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_rtmp_plugin.so
+%{?with_rtmp:%attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_rtmp_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_shout_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/audio_filter
