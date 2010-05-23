@@ -3,6 +3,7 @@
 #   ./modules/misc/freetype.c:#define DEFAULT_FONT "/usr/share/vlc/skins2/fonts/FreeSans.ttf"
 #   ./modules/gui/skins2/parser/builder.cpp:            string path = (*it) + sep + "fonts" + sep + "FreeSans.ttf";
 # - %{_prefix}/lib cleanup for x86_64
+# - configs to /etc (../http/.hosts)
 #
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
@@ -28,6 +29,7 @@
 %bcond_without	rtmp		# RTMP output plugin
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
+%bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg plugin
 %bcond_without	svgalib		# build with svgalib video_output
 %bcond_without	twolame		# twolame plugin
@@ -278,7 +280,7 @@ cp -f /usr/share/automake/config.* .
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
 	--enable-shared \
-	--disable-static \
+	%{!?with_static_libs:--disable-static} \
 %ifarch ppc
 	--disable-altivec \
 %endif
@@ -330,7 +332,6 @@ cp -f /usr/share/automake/config.* .
 	--enable-smb \
 	--enable-snapshot \
 	--enable-sout \
-	--enable-static \
 	--enable-switcher \
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
@@ -369,7 +370,7 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
 
 # rm -f *.{a,la}
-find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' -exec rm -f {} ';'
+find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs rm -f
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # unsupported:
