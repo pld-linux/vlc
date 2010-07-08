@@ -27,6 +27,7 @@
 %bcond_without	mozilla		# build mozilla plugin
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
+%bcond_without	projectM	# don't build projectM plugin
 %bcond_with	rtmp		# RTMP output plugin
 %bcond_without	shout		# shout plugin
 %bcond_without	speex		# don't build speex plugin
@@ -103,6 +104,7 @@ BuildRequires:	libmtp-devel
 BuildRequires:	libogg-devel
 #%{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
+%{?with_projectM:BuildRequires:	libprojectM-devel >= 2.0.1-3}
 #%{?with_dv:BuildRequires:	libraw1394-devel}
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 %{?with_shout:BuildRequires:	libshout-devel}
@@ -344,6 +346,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-xosd \
 	--enable-oss \
 	%{!?with_hal:--disable-hal} \
+	%{!?with_projectM:--disable-projectm} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
 %{__make} \
@@ -739,6 +742,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvout_wrapper_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libyuv_plugin.so
 %dir %{_libdir}/vlc/plugins/visualization
+%{?with_projectM:%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libprojectm_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/http
