@@ -73,7 +73,7 @@ BuildRequires:	fluidsynth-devel
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	gettext-devel
-#%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
+%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
@@ -420,6 +420,7 @@ fi
 %{?with_dv:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_dv_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_fake_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_ftp_plugin.so
+%{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_gnomevfs_plugin
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_http_plugin.so
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_jack_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_mmap_plugin.so
