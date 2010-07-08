@@ -420,7 +420,7 @@ fi
 %{?with_dv:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_dv_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_fake_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_ftp_plugin.so
-%{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_gnomevfs_plugin
+%{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_gnomevfs_plugin}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_http_plugin.so
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_jack_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_mmap_plugin.so
