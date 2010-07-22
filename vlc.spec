@@ -129,6 +129,7 @@ BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build
 BuildRequires:	schroedinger-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
+BuildRequires:	sqlite3-devel
 %{?with_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel
