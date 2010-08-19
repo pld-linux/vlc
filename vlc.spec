@@ -16,7 +16,6 @@
 %bcond_without	directfb	# directfb plugin
 %bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
 %bcond_without	esound		# don't build esound plugin
-%bcond_without	galaktos	# OpenGL visualisation plugin
 %bcond_without	ggi		# don't build ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
@@ -42,20 +41,19 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	1.1.2
-Release:	2
+Version:	1.1.3
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	dec11ed850e044c518aee6fef7e7f893
+# Source0-md5:	b8ba8b6687d19dadcf3eb148ca525603
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-osdmenu_path.patch
 Patch3:		%{name}-system-minizip.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
-%{?with_galaktos:BuildRequires:	OpenGL-GLU-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	QtGui-devel >= 4.2.0
 BuildRequires:	SDL_image-devel >= 1.2
@@ -281,15 +279,12 @@ cp -f /usr/share/automake/config.* .
 %ifarch ppc
 	--disable-altivec \
 %endif
-	--disable-gme \
 	--disable-hd1000v \
 	--disable-macosx \
-	--disable-testsuite \
 	--%{?with_aalib:en}%{!?with_aalib:dis}able-aa \
 	%{?with_alsa:--enable-alsa} \
 	%{!?with_bonjour:--disable-bonjour} \
 	--%{?with_caca:en}%{!?with_caca:dis}able-caca \
-	--enable-cddax \
 	%{!?with_daap:--disable-daap} \
 	--enable-dbus \
 	%{?with_dirac:--enable-dirac} \
@@ -305,14 +300,12 @@ cp -f /usr/share/automake/config.* .
 	--enable-fribidi \
 	--enable-avcodec \
 	--enable-flac \
-	%{?with_galaktos:--enable-galaktos} \
 	--%{?with_ggi:en}%{!?with_ggi:dis}able-ggi \
 	%{!?with_gnomevfs:--disable-gnomevfs} \
 	%{!?with_gnutls:--disable-gnutls} \
 	%{?with_jack:--enable-jack} \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
-	--enable-mga \
 	%{?with_mozilla:--enable-mozilla } \
 	%{?with_live:--enable-live555 } \
 	%{!?with_live:--disable-live555 } \
@@ -333,7 +326,6 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
 	%{?with_svgalib:--enable-svgalib} \
-	--enable-tarkin \
 	--enable-telepathy \
 	--enable-theora \
 	--enable-tremor \
@@ -342,7 +334,6 @@ cp -f /usr/share/automake/config.* .
 	%{?with_upnp:--enable-upnp} \
 	--enable-v4l\
 	--enable-vcdx \
-	--enable-x11 \
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
 	--enable-oss \
@@ -775,7 +766,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_window_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_x11_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_xv_plugin.so
-#%%{?with_galaktos:%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libgalaktos_plugin.so}
 %{_datadir}/%{name}/skins2
 %{_iconsdir}/hicolor/*/apps/*.png
 %{_iconsdir}/hicolor/*/apps/*.xpm
