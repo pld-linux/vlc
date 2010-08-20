@@ -15,7 +15,6 @@
 %bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
 %bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
-%bcond_without	esound		# don't build esound plugin
 %bcond_without	ggi		# don't build ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
@@ -65,7 +64,6 @@ BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 BuildRequires:	dbus-devel
 %{?with_dirac:BuildRequires:	dirac-devel}
-%{?with_esound:BuildRequires:	esound-devel}
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
