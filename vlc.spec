@@ -59,7 +59,7 @@ BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 BuildRequires:	dbus-devel
