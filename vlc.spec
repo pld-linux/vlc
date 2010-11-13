@@ -31,7 +31,7 @@
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg plugin
-%bcond_without	svgalib		# build with svgalib video_output
+%bcond_with	svgalib		# build with svgalib video_output
 %bcond_without	twolame		# twolame plugin
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
@@ -41,7 +41,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
