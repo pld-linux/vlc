@@ -5,6 +5,7 @@
 # - %{_prefix}/lib cleanup for x86_64
 # - configs to /etc (../http/.hosts)
 # - package lua files
+# - qvlc should be in qt4 or such package not generic X11
 #
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
@@ -41,7 +42,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.5
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -139,6 +140,7 @@ BuildRequires:	xosd-devel
 %{?with_mozilla:BuildRequires:	xulrunner-devel >= 1.9.2}
 #BuildRequires:	xvid-devel
 BuildRequires:	zvbi-devel
+Requires:	xdg-utils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
