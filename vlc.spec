@@ -112,6 +112,7 @@ BuildRequires:	libtheora-devel
 BuildRequires:	libtool
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
+BuildRequires:	libva-devel
 BuildRequires:	libvorbis-devel
 %{?with_x264:BuildRequires:	libx264-devel}
 BuildRequires:	libxml2-devel
@@ -309,6 +310,7 @@ cp -f /usr/share/automake/config.* .
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
 	%{?with_mozilla:--enable-mozilla } \
+	--enable-libva \
 	%{?with_live:--enable-live555 } \
 	%{!?with_live:--disable-live555 } \
 	--enable-ncurses \
