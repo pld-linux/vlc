@@ -41,18 +41,19 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	1.1.5
-Release:	2
+Version:	1.1.6
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	fdc23693351ed57af9f4c85ea885b536
+# Source0-md5:	c47f3ebc886f2aff8c95b98c564d1759
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-osdmenu_path.patch
 Patch3:		%{name}-system-minizip.patch
 Patch4:		%{name}-upnp.patch
+Patch5:		%{name}-build.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -268,6 +269,7 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -326,6 +328,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-smb \
 	--enable-snapshot \
 	--enable-sout \
+	--enable-sqlite \
 	--enable-switcher \
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
