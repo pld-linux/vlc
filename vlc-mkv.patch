@@ -1,0 +1,47 @@
+From 7be936ca451fa0c052069895460dcc0e67f4dfa3 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@robux4-desktop.(none)>
+Date: Fri, 28 Jan 2011 18:57:50 +0100
+Subject: [PATCH] MKV: Multi tags don't exist anymore
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ modules/demux/mkv/matroska_segment.cpp |    2 ++
+ modules/demux/mkv/mkv.hpp              |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/modules/demux/mkv/matroska_segment.cpp b/modules/demux/mkv/matroska_segment.cpp
+index 2856b93..fac4f45 100644
+--- a/modules/demux/mkv/matroska_segment.cpp
++++ b/modules/demux/mkv/matroska_segment.cpp
+@@ -267,6 +267,7 @@ void matroska_segment_c::LoadTags( KaxTags *tags )
+             {
+                 if( MKV_IS_ID( el, KaxTagTargets ) )
+                     PARSE_TAG( "Targets" );
++#if 0 // not valid anymore
+                 else if( MKV_IS_ID( el, KaxTagGeneral ) )
+                     PARSE_TAG( "General" );
+                 else if( MKV_IS_ID( el, KaxTagGenres ) )
+@@ -303,6 +304,7 @@ void matroska_segment_c::LoadTags( KaxTags *tags )
+                 {
+                     msg_Dbg( &sys.demuxer, "|   + Multi Title" );
+                 }
++#endif
+                 else if( MKV_IS_ID( el, KaxTagSimple ) )
+                     ParseSimpleTags( static_cast<KaxTagSimple*>( el ) );
+                 else
+diff --git a/modules/demux/mkv/mkv.hpp b/modules/demux/mkv/mkv.hpp
+index 664cafa..c7b6194 100644
+--- a/modules/demux/mkv/mkv.hpp
++++ b/modules/demux/mkv/mkv.hpp
+@@ -86,7 +86,7 @@
+ #include "matroska/KaxSegment.h"
+ #include "matroska/KaxTag.h"
+ #include "matroska/KaxTags.h"
+-#include "matroska/KaxTagMulti.h"
++//#include "matroska/KaxTagMulti.h"
+ #include "matroska/KaxTracks.h"
+ #include "matroska/KaxTrackAudio.h"
+ #include "matroska/KaxTrackVideo.h"
+-- 
+1.6.5.GIT
+
