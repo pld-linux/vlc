@@ -14,21 +14,21 @@ index 2856b93..fac4f45 100644
 --- a/modules/demux/mkv/matroska_segment.cpp
 +++ b/modules/demux/mkv/matroska_segment.cpp
 @@ -267,6 +267,7 @@ void matroska_segment_c::LoadTags( KaxTags *tags )
-             {
-                 if( MKV_IS_ID( el, KaxTagTargets ) )
-                     PARSE_TAG( "Targets" );
+                     }
+                     ep->Up();
+                 }
 +#if 0 // not valid anymore
                  else if( MKV_IS_ID( el, KaxTagGeneral ) )
-                     PARSE_TAG( "General" );
-                 else if( MKV_IS_ID( el, KaxTagGenres ) )
+                 {
+                     msg_Dbg( &sys.demuxer, "|   + General" );
 @@ -303,6 +304,7 @@ void matroska_segment_c::LoadTags( KaxTags *tags )
                  {
                      msg_Dbg( &sys.demuxer, "|   + Multi Title" );
                  }
 +#endif
-                 else if( MKV_IS_ID( el, KaxTagSimple ) )
-                     ParseSimpleTags( static_cast<KaxTagSimple*>( el ) );
                  else
+                 {
+                     msg_Dbg( &sys.demuxer, "|   + LoadTag Unknown (%s)", typeid( *el ).name() );
 diff --git a/modules/demux/mkv/mkv.hpp b/modules/demux/mkv/mkv.hpp
 index 664cafa..c7b6194 100644
 --- a/modules/demux/mkv/mkv.hpp
