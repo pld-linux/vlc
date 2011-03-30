@@ -78,6 +78,7 @@ BuildRequires:	gettext-devel
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
+BuildRequires:	kde4-kdelibs
 %if %{with dv}
 BuildRequires:	libavc1394-devel
 #BuildRequires:	libraw1394-devel < 2.0.0
