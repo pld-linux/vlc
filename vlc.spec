@@ -428,7 +428,7 @@ fi
 %attr(755,root,root) %{_bindir}/rvlc
 %attr(755,root,root) %{_bindir}/vlc
 %attr(4754,root,video) %{_bindir}/vlc-wrapper
-%attr(755,root,root) %{_libdir}/vlc-cache-gen
+%attr(755,root,root) %{_libdir}/vlc/vlc-cache-gen
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libvlc.so.5
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
