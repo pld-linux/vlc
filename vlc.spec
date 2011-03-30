@@ -247,6 +247,30 @@ ALSA audio output plugin for VLC.
 %description alsa -l pl.UTF-8
 Wtyczka wyjścia dźwięku ALSA dla klienta VLC.
 
+%package lua
+Summary:	VLC - Lua plugins
+Summary(pl.UTF-8):	Klient VLC - wtyczki Lua
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description lua
+Lua plugins for VLC.
+
+%description lua -l pl.UTF-8
+Wtyczki Lua dla klienta VLC.
+
+%package solid
+Summary:	VLC - actions for Solid
+Summary(pl.UTF-8):	Klient VLC - akcje dla Solid
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description solid
+VLC actions for Solid.
+
+%description solid -l pl.UTF-8
+Akcje klienta VLC dla Solid.
+
 %package -n browser-plugin-%{name}
 Summary:	VLC - Mozilla compatible browser plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Mozilla
@@ -404,6 +428,7 @@ fi
 %attr(755,root,root) %{_bindir}/rvlc
 %attr(755,root,root) %{_bindir}/vlc
 %attr(4754,root,video) %{_bindir}/vlc-wrapper
+%attr(755,root,root) %{_libdir}/vlc-cache-gen
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libvlc.so.5
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
@@ -436,6 +461,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_tcp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_udp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libcdda_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libdc1394_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvb_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvdnav_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvdread_plugin.so
@@ -464,6 +490,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libchorus_flanger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libconverter_fixed_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdolby_surround_decoder_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdtstofloat32_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdtstospdif_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libequalizer_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libheadphone_channel_mixer_plugin.so
@@ -504,6 +531,8 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libflac_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libfluidsynth_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libinvmem_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libkate_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/liblibass_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liblibmpeg2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liblpcm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libmpeg_audio_plugin.so
@@ -547,6 +576,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libdirac_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libes_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libflacsys_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/demux/libgme_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libh264_plugin.so
 %{?with_live:%attr(755,root,root) %{_libdir}/vlc/plugins/demux/liblive555_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libmjpeg_plugin.so
@@ -767,6 +797,7 @@ fi
 %attr(755,root,root) %{_bindir}/svlc
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libqt4_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libskins2_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libxscreensaver_plugin.so
 %{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libaa_plugin.so}
 %{?with_caca:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libcaca_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_glx_plugin.so
@@ -798,6 +829,14 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libalsa_plugin.so
 %endif
+
+%files lua
+%defattr(644,root,root,755)
+%{_libdir}/vlc/lua
+
+%files solid
+%defattr(644,root,root,755)
+%{_datadir}/apps/solid/actions/vlc-*.desktop
 
 %if %{with mozilla}
 %files -n browser-plugin-%{name}
