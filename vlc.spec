@@ -72,12 +72,14 @@ BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fluidsynth-devel
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
+BuildRequires:	game-music-emu-devel
 BuildRequires:	gettext-devel
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	kde4-kdelibs
+BuildRequires:	libass-devel
 %if %{with dv}
 BuildRequires:	libavc1394-devel
 #BuildRequires:	libraw1394-devel < 2.0.0
@@ -85,7 +87,8 @@ BuildRequires:	libavc1394-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 BuildRequires:	libcddb-devel
 BuildRequires:	libcdio-devel
-#BuildRequires:	libdts-devel
+BuildRequires:	libdc1394-devel >= 2.1.0
+BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 0.1.6
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
@@ -93,6 +96,7 @@ BuildRequires:	libebml-devel >= 0.7.6
 BuildRequires:	libgcrypt-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 #BuildRequires:	libid3tag-devel
+BuildRequires:	libkate-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.7.5
 BuildRequires:	libmodplug-devel
