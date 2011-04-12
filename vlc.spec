@@ -344,7 +344,7 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_live:--disable-live555 } \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
-	%{?with_portaudio:--enable-portaudio} \
+	--%{?with_portaudio:en}%{!?with_portaudio:dis}able-portaudio \
 	--enable-pvr \
 	--enable-real \
 	--enable-realrtsp \
