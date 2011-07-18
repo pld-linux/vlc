@@ -53,6 +53,7 @@ Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-osdmenu_path.patch
 Patch3:		%{name}-system-minizip.patch
 Patch4:		%{name}-upnp.patch
+Patch5:		%{name}-ffmpeg.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -298,6 +299,7 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
