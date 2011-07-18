@@ -42,7 +42,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.11
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -389,7 +389,7 @@ rm -rf $RPM_BUILD_ROOT
 	npvlcdir=%{_browserpluginsdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -rf $RPM_BUILD_ROOT%{_docdir}/vlc
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/vlc
 
 %if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
@@ -397,17 +397,17 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
 
 # rm -f *.{a,la}
-find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs rm -f
+find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs %{__rm}
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # unsupported:
 # ckb (Sorani Kurdish - maybe ku_IQ/ku_IR?)
 # co (Corsican)
 # tet (Tetum)
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ckb,co,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,ckb,co,ff,tet}
 
 # .ico is win32 only
-rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
 
 %find_lang %{name}
 
