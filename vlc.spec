@@ -195,6 +195,7 @@ Summary:	VLC - X11 output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	desktop-file-utils
 Obsoletes:	vlc-gnome
 Obsoletes:	vlc-gtk
 
@@ -424,6 +425,9 @@ rm -rf $RPM_BUILD_ROOT
 if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
+
+%post X11
+%update_desktop_database
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
