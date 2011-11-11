@@ -19,7 +19,6 @@
 %bcond_without	ggi		# don't build ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
-%bcond_with	hal		# build with hal support
 %bcond_without	jack		# jack audio module
 %bcond_without	lirc		# build without lirc support
 %bcond_without	live		# build without live.com support
@@ -53,6 +52,7 @@ Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-osdmenu_path.patch
 Patch3:		%{name}-system-minizip.patch
 Patch4:		%{name}-upnp.patch
+Patch5:		%{name}-osdmenu_build.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -92,13 +92,13 @@ BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 0.1.6
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
-BuildRequires:	libebml-devel >= 0.7.6
+BuildRequires:	libebml-devel >= 0.7.7
 BuildRequires:	libgcrypt-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 #BuildRequires:	libid3tag-devel
 BuildRequires:	libkate-devel
 BuildRequires:	libmad-devel
-BuildRequires:	libmatroska-devel >= 0.7.5
+BuildRequires:	libmatroska-devel >= 0.8.0
 BuildRequires:	libmodplug-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libmpeg2-devel
@@ -114,6 +114,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libtar-devel
 BuildRequires:	libtheora-devel
+BuildRequires:	libtiger-devel
 BuildRequires:	libtool
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
@@ -127,7 +128,7 @@ BuildRequires:	lua51
 BuildRequires:	lua51-devel
 BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	pkgconfig
+BuildRequires:	pkgconfig >= 0.9.0
 %{?with_portaudio:BuildRequires:	portaudio-devel}
 BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build
@@ -299,6 +300,7 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -374,7 +376,6 @@ cp -f /usr/share/automake/config.* .
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
 	--enable-oss \
-	%{!?with_hal:--disable-hal} \
 	%{!?with_projectM:--disable-projectm} \
 	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
 
@@ -684,7 +685,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_mpegvideo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_vc1_plugin.so
 %dir %{_libdir}/vlc/plugins/services_discovery
-#%%{?with_hal:%attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libhal_plugin.so}
 %{?with_bonjour:%attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libbonjour_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libmediadirs_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libmtp_plugin.so
