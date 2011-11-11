@@ -19,7 +19,7 @@
 %bcond_without	ggi		# don't build ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
-%bcond_without	hal		# build with hal support
+%bcond_with	hal		# build with hal support
 %bcond_without	jack		# jack audio module
 %bcond_without	lirc		# build without lirc support
 %bcond_without	live		# build without live.com support
