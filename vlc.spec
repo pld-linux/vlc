@@ -41,7 +41,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.12
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -826,8 +826,8 @@ fi
 
 %files SDL
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvout_sdl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libaout_sdl_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvout_sdl_plugin.so
 
 %files fb
 %defattr(644,root,root,755)
