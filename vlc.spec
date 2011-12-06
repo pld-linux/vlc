@@ -480,7 +480,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libfilesystem_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libpvr_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcdx_plugin.so
