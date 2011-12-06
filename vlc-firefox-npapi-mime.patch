@@ -1,0 +1,45 @@
+From: Mathieu Trudel-Lapierre <mathieu.trudel-lapierre@canonical.com>
+Subject: NPP_GetMIMEDescription should be const char*.
+Last-Update: 2011-11-15
+
+... So that the definition matches with firefox's npapi.h.
+
+Index: vlc/projects/mozilla/vlcshell.cpp
+===================================================================
+--- vlc.orig/projects/mozilla/vlcshell.cpp	2011-11-15 14:51:04.298445000 -0500
++++ vlc/projects/mozilla/vlcshell.cpp	2011-11-15 17:52:44.416707114 -0500
+@@ -71,7 +71,7 @@
+ /******************************************************************************
+  * UNIX-only API calls
+  *****************************************************************************/
+-char * NPP_GetMIMEDescription( void )
++const char * NPP_GetMIMEDescription( void )
+ {
+     static char mimetype[] = PLUGIN_MIMETYPES;
+     return mimetype;
+Index: vlc/projects/mozilla/vlcshell.h
+===================================================================
+--- vlc.orig/projects/mozilla/vlcshell.h	2011-11-15 14:51:04.298445000 -0500
++++ vlc/projects/mozilla/vlcshell.h	2011-11-15 17:53:08.736706029 -0500
+@@ -24,7 +24,7 @@
+ #ifndef __VLCSHELL_H__
+ #define __VLCSHELL_H__
+ 
+-char * NPP_GetMIMEDescription( void );
++const char * NPP_GetMIMEDescription( void );
+ 
+ NPError NPP_Initialize( void );
+ 
+Index: vlc/projects/mozilla/support/npunix.cpp
+===================================================================
+--- vlc.orig/projects/mozilla/support/npunix.cpp	2011-11-15 14:51:04.298445000 -0500
++++ vlc/projects/mozilla/support/npunix.cpp	2011-11-15 18:06:53.972669237 -0500
+@@ -767,7 +767,7 @@
+  *  - Netscape uses the return value to identify when an object instance
+  *    of this plugin should be created.
+  */
+-char *
++const char *
+ NP_GetMIMEDescription(void)
+ {
+     return NPP_GetMIMEDescription();
