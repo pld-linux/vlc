@@ -1,14 +1,13 @@
-diff -urNp vlc-1.1.12.orig/modules/video_filter/Modules.am vlc-1.1.12/modules/video_filter/Modules.am
---- vlc-1.1.12.orig/modules/video_filter/Modules.am	2011-11-11 15:49:18.410000002 +0100
-+++ vlc-1.1.12/modules/video_filter/Modules.am	2011-11-11 15:47:24.430000002 +0100
-@@ -23,7 +23,10 @@ libosdmenu_plugin_la_SOURCES = osdmenu.c
+--- vlc-1.1.13/modules/video_filter/Modules.am~	2011-10-07 22:31:47.000000000 +0200
++++ vlc-1.1.13/modules/video_filter/Modules.am	2011-12-22 11:07:00.437871107 +0100
+@@ -23,8 +23,11 @@
  libosdmenu_plugin_la_CFLAGS = $(AM_CFLAGS) -DPKGDATADIR=\"$(vlcdatadir)\"
  libosdmenu_plugin_la_LIBADD = $(AM_LIBADD)
  libosdmenu_plugin_la_DEPENDENCIES =
--EXTRA_LTLIBRARIES += libosdmenu_plugin.la
 +
 +if BUILD_OSDMENU
-+libvlc_LTLIBRARIES += libosdmenu_plugin.la
+ EXTRA_LTLIBRARIES += libosdmenu_plugin.la
+ libvlc_LTLIBRARIES += $(LTLIBosdmenu)
 +endif
  
  SOURCES_remoteosd = remoteosd.c remoteosd_rfbproto.h
