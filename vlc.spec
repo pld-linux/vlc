@@ -6,6 +6,7 @@
 # - configs to /etc (../http/.hosts)
 # - package lua files
 # - qvlc should be in qt4 or such package not generic X11
+# - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 #
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
@@ -36,10 +37,10 @@
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
-%bcond_with	v4l1		# video4linux v1
+%bcond_without	v4l1		# video4linux v1
 
-%if "%(test -f %{_includedir}/linux/videodev.h && echo 1 || echo 0)" == "1"
-%global	with_v4l1	1
+%if "%(test -f %{_includedir}/linux/videodev.h && echo 0 || echo 1)" == "1"
+%undefine	with_v4l1
 %endif
 
 Summary:	VLC - a multimedia player and stream server
@@ -392,10 +393,12 @@ cp -f /usr/share/automake/config.* .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	npvlcdir=%{_browserpluginsdir} \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# dir for lua extensions
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/lua/extensions
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/vlc
 
@@ -792,7 +795,8 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libvisual_plugin.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/http
-%{_datadir}/%{name}/lua
+%dir %{_datadir}/%{name}/lua
+%dir %{_datadir}/%{name}/lua/extensions
 %{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
