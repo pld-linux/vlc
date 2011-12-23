@@ -36,12 +36,17 @@
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
+%bcond_with	v4l1		# video4linux v1
+
+%if "%(test -f %{_includedir}/linux/videodev.h && echo 1 || echo 0)" == "1"
+%global	with_v4l1	1
+%endif
 
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.13
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -373,7 +378,8 @@ cp -f /usr/share/automake/config.* .
 	%{?with_twolame:--enable-twolame} \
 	%{!?with_udev:--disable-udev} \
 	%{?with_upnp:--enable-upnp} \
-	--enable-v4l\
+	--%{?with_v4l1:en}%{!?with_v4l1:dis}able-v4l \
+	--enable-v4l2 \
 	--enable-vcdx \
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
@@ -480,7 +486,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libfilesystem_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libpvr_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so
+%{?with_v4l1:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcd_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcdx_plugin.so
