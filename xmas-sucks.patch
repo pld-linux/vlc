@@ -1,0 +1,122 @@
+--- vlc-1.1.13/./modules/gui/qt4/dialogs/help.cpp~	2011-07-12 21:11:24.000000000 +0300
++++ vlc-1.1.13/./modules/gui/qt4/dialogs/help.cpp	2011-12-23 14:17:53.190941666 +0200
+@@ -98,10 +98,7 @@
+     QLabel *introduction = new QLabel(
+             qtr( "VLC media player" ) + qfu( " " VERSION_MESSAGE ) );
+     QLabel *iconVLC = new QLabel;
+-    if( QDate::currentDate().dayOfYear() >= 354 )
+-        iconVLC->setPixmap( QPixmap( ":/logo/vlc48-christmas.png" ) );
+-    else
+-        iconVLC->setPixmap( QPixmap( ":/logo/vlc48.png" ) );
++	iconVLC->setPixmap( QPixmap( ":/logo/vlc48.png" ) );
+     layout->addWidget( iconVLC, 0, 0, 1, 1 );
+     layout->addWidget( introduction, 0, 1, 1, 7 );
+     layout->addWidget( tab, 1, 0, 1, 8 );
+@@ -127,10 +124,7 @@
+     infoLabel->setWordWrap( infoLabel );
+ 
+     QLabel *iconVLC2 = new QLabel;
+-    if( QDate::currentDate().dayOfYear() >= 354 )
+-        iconVLC2->setPixmap( QPixmap( ":/logo/vlc128-christmas.png" ) );
+-    else
+-        iconVLC2->setPixmap( QPixmap( ":/logo/vlc128.png" ) );
++	iconVLC2->setPixmap( QPixmap( ":/logo/vlc128.png" ) );
+     infoLayout->addWidget( iconVLC2 );
+     infoLayout->addWidget( infoLabel );
+ 
+--- vlc-1.1.13/./modules/gui/qt4/qt4.cpp~	2011-07-12 21:11:24.000000000 +0300
++++ vlc-1.1.13/./modules/gui/qt4/qt4.cpp	2011-12-23 14:18:13.438538931 +0200
+@@ -44,7 +44,6 @@
+ #endif
+ 
+ #include "../../../share/icons/32x32/vlc.xpm"
+-#include "../../../share/icons/32x32/vlc-christmas.xpm"
+ #include <vlc_plugin.h>
+ 
+ #ifdef WIN32 /* For static builds */
+@@ -425,10 +424,7 @@
+             QSettings::UserScope, "vlc", "vlc-qt-interface" );
+ 
+     /* Icon setting */
+-    if( QDate::currentDate().dayOfYear() >= 352 ) /* One Week before Xmas */
+-        app.setWindowIcon( QIcon(vlc_christmas_xpm) );
+-    else
+-        app.setWindowIcon( QIcon(vlc_xpm) );
++	app.setWindowIcon( QIcon(vlc_xpm) );
+ 
+     /* Initialize timers and the Dialog Provider */
+     DialogsProvider::getInstance( p_intf );
+--- vlc-1.1.13/./modules/gui/qt4/components/interface_widgets.cpp~	2011-07-12 21:11:24.000000000 +0300
++++ vlc-1.1.13/./modules/gui/qt4/components/interface_widgets.cpp	2011-12-23 14:18:42.366535155 +0200
+@@ -212,11 +212,8 @@
+         pixmapUrl = url;
+     }
+     else
+-    {   /* Xmas joke */
+-        if( QDate::currentDate().dayOfYear() >= 354 )
+-            pixmapUrl = QString( ":/logo/vlc128-christmas.png" );
+-        else
+-            pixmapUrl = QString( ":/logo/vlc128.png" );
++    {
++		pixmapUrl = QString( ":/logo/vlc128.png" );
+     }
+     update();
+ }
+--- vlc-1.1.13/./modules/gui/qt4/main_interface.cpp~	2011-07-12 21:11:24.000000000 +0300
++++ vlc-1.1.13/./modules/gui/qt4/main_interface.cpp	2011-12-23 14:18:58.393938455 +0200
+@@ -920,10 +920,7 @@
+ void MainInterface::createSystray()
+ {
+     QIcon iconVLC;
+-    if( QDate::currentDate().dayOfYear() >= 354 )
+-        iconVLC =  QIcon( ":/logo/vlc128-christmas.png" );
+-    else
+-        iconVLC =  QIcon( ":/logo/vlc128.png" );
++	iconVLC =  QIcon( ":/logo/vlc128.png" );
+     sysTray = new QSystemTrayIcon( iconVLC, this );
+     sysTray->setToolTip( qtr( "VLC media player" ));
+ 
+--- vlc-1.1.13/./share/Makefile.in~	2011-12-20 17:25:31.000000000 +0200
++++ vlc-1.1.13/./share/Makefile.in	2011-12-23 14:19:28.315313669 +0200
+@@ -631,11 +631,10 @@
+ dist_appdata_DATA = vlc.desktop
+ dist_vlcdata_DATA = icons/vlc.ico
+ dist_icons16_DATA = icons/16x16/vlc.png icons/16x16/vlc.xpm
+-dist_icons32_DATA = icons/32x32/vlc.png icons/32x32/vlc.xpm \
+-		    icons/32x32/vlc-christmas.xpm
++dist_icons32_DATA = icons/32x32/vlc.png icons/32x32/vlc.xpm
+ 
+-dist_icons48_DATA = icons/48x48/vlc.png icons/48x48/vlc-christmas.png
+-dist_icons128_DATA = icons/128x128/vlc.png icons/128x128/vlc-christmas.png
++dist_icons48_DATA = icons/48x48/vlc.png
++dist_icons128_DATA = icons/128x128/vlc.png
+ dist_icons256_DATA = icons/256x256/vlc.png
+ nobase_dist_vlcdata_SCRIPTS = \
+ 	utils/gnome-vlc-default.sh \
+--- vlc-1.1.13/./share/Makefile.am~	2011-03-08 23:16:39.000000000 +0200
++++ vlc-1.1.13/./share/Makefile.am	2011-12-23 14:20:06.617074051 +0200
+@@ -14,10 +14,9 @@
+ 
+ dist_vlcdata_DATA = icons/vlc.ico
+ dist_icons16_DATA = icons/16x16/vlc.png icons/16x16/vlc.xpm
+-dist_icons32_DATA = icons/32x32/vlc.png icons/32x32/vlc.xpm \
+-		    icons/32x32/vlc-christmas.xpm
+-dist_icons48_DATA = icons/48x48/vlc.png icons/48x48/vlc-christmas.png
+-dist_icons128_DATA = icons/128x128/vlc.png icons/128x128/vlc-christmas.png
++dist_icons32_DATA = icons/32x32/vlc.png icons/32x32/vlc.xpm
++dist_icons48_DATA = icons/48x48/vlc.png
++dist_icons128_DATA = icons/128x128/vlc.png
+ dist_icons256_DATA = icons/256x256/vlc.png
+ 
+ nobase_dist_vlcdata_SCRIPTS = \
+--- vlc-1.1.13/./modules/gui/qt4/vlc.qrc~	2011-07-12 21:11:24.000000000 +0300
++++ vlc-1.1.13/./modules/gui/qt4/vlc.qrc	2011-12-23 14:20:18.154270979 +0200
+@@ -3,8 +3,6 @@
+         <file alias="vlc128.png" >../../../share/icons/128x128/vlc.png</file>
+         <file alias="vlc16.png" >../../../share/icons/16x16/vlc.png</file>
+         <file alias="vlc48.png" >../../../share/icons/48x48/vlc.png</file>
+-        <file alias="vlc128-christmas.png" >../../../share/icons/128x128/vlc-christmas.png</file>
+-        <file alias="vlc48-christmas.png" >../../../share/icons/48x48/vlc-christmas.png</file>
+     </qresource>
+     <qresource prefix="/menu" >
+         <file alias="help" >pixmaps/menus/help_16px.png</file>
