@@ -37,6 +37,7 @@
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
+%bcond_with	noxmas		# build non-xmas version (icons)
 %bcond_without	v4l1		# video4linux v1
 
 %if "%(test -f %{_includedir}/linux/videodev.h && echo 0 || echo 1)" == "1"
@@ -47,7 +48,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.13
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -310,7 +311,9 @@ Wtyczka do przeglądarki internetowej Mozilla.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%if %{with noxmas}
 %patch7 -p1
+%endif
 
 %build
 cp -f /usr/share/automake/config.* .
