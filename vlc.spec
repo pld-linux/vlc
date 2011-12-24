@@ -158,6 +158,11 @@ BuildRequires:	xosd-devel
 #BuildRequires:	xvid-devel
 BuildRequires:	zvbi-devel
 Requires:	xdg-utils
+Suggests:	dirac-libs > 1.0.0-999
+Suggests:	fluidsynth > 1.0.8-999
+Suggests:	libprojectM > 1.1-999
+Suggests:	pulseaudio-libs > 0.9.15-999
+Suggests:	taglib > 1.5-999
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -205,6 +210,9 @@ Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Requires:	desktop-file-utils
+Suggests:	QtCore > 4.7.4-999
+Suggests:	dbus-x11
+Suggests:	libcaca > 0.99-0.beta12.1
 Obsoletes:	vlc-gnome
 Obsoletes:	vlc-gtk
 
