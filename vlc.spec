@@ -44,11 +44,13 @@
 %undefine	with_v4l1
 %endif
 
+%define		qtver	4.8.0
+
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	1.1.13
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -65,7 +67,7 @@ Patch7:		xmas-sucks.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
-BuildRequires:	QtGui-devel >= 4.2.0
+BuildRequires:	QtGui-devel >= %{qtver}
 BuildRequires:	SDL_image-devel >= 1.2
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -140,7 +142,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig >= 0.9.0
 %{?with_portaudio:BuildRequires:	portaudio-devel}
 BuildRequires:	pulseaudio-devel
-BuildRequires:	qt4-build
+BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 BuildRequires:	sqlite3-devel
@@ -209,6 +211,8 @@ Summary:	VLC - X11 output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	QtCore >= %{qtver}
+Requires:	QtGui >= %{qtver}
 Requires:	desktop-file-utils
 Suggests:	QtCore > 4.7.4-999
 Suggests:	dbus-x11
