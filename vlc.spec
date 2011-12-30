@@ -87,7 +87,6 @@ BuildRequires:	game-music-emu-devel
 BuildRequires:	gettext-devel
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel}
-%{?with_hal:BuildRequires:	hal-devel >= 0.2.97}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	kde4-kdelibs
 BuildRequires:	libass-devel
