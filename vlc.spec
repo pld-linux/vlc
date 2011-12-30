@@ -213,7 +213,6 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	QtCore >= %{qtver}
 Requires:	QtGui >= %{qtver}
 Requires:	desktop-file-utils
-Suggests:	QtCore > 4.7.4-999
 Suggests:	dbus-x11
 Suggests:	libcaca > 0.99-0.beta12.1
 Obsoletes:	vlc-gnome
