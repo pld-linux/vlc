@@ -32,7 +32,7 @@
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg plugin
-%bcond_with	svgalib		# build with svgalib video_output
+%bcond_with	svga		# build with svgalib video_output
 %bcond_without	twolame		# twolame plugin
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
@@ -145,7 +145,7 @@ BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 BuildRequires:	sqlite3-devel
-%{?with_svgalib:BuildRequires:	svgalib-devel}
+%{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
@@ -387,7 +387,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-switcher \
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
-	%{?with_svgalib:--enable-svgalib} \
+	%{?with_svga:--enable-svgalib} \
 	--enable-telepathy \
 	--enable-theora \
 	--enable-tremor \
@@ -799,7 +799,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libwave_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libyuvp_plugin.so
 %dir %{_libdir}/vlc/plugins/video_output
-%{?with_svgalib:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libsvgalib_plugin.so}
+%{?with_svga:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libsvgalib_plugin.so}
 %{?with_directfb:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libdirectfb_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libsnapshot_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvmem_plugin.so
