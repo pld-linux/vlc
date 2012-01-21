@@ -196,6 +196,7 @@ Summary:	VLC header files
 Summary(pl.UTF-8):	Pliki nagłówkowe VLC
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	dbus-devel >= 1.0.0
 
 %description devel
 VLC header files.
