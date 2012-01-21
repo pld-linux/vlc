@@ -1,12 +1,19 @@
 # TODO
+# - subpackage more plugins (at least all built on bconds, better all having external dependencies)
 # - use fonts-TTF-freefont as R (vlc-X11 package) (see also vlc-defaultfont.patch)
 #   ./modules/misc/freetype.c:#define DEFAULT_FONT "/usr/share/vlc/skins2/fonts/FreeSans.ttf"
 #   ./modules/gui/skins2/parser/builder.cpp:            string path = (*it) + sep + "fonts" + sep + "FreeSans.ttf";
 # - %{_prefix}/lib cleanup for x86_64
 # - configs to /etc (../http/.hosts)
-# - package lua files
 # - qvlc should be in qt4 or such package not generic X11
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
+# - --enable-opencv (BR: opencv-devel)
+# - --enable-sftp (BR: libssh2-devel)
+# - --enable-shine (MP3 encoding)
+# - --enable-omxil
+# - --enable-asademux (BR: pcre-devel >= 6.5)
+# - GOOM (libgoom2.pc)
+# - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
 #
 # Conditional build:
 %bcond_without	aalib		# build without aalib support
@@ -16,19 +23,20 @@
 %bcond_without	daap		# DAAP plugin
 %bcond_without	dirac		# dirac plugin
 %bcond_without	directfb	# directfb plugin
-%bcond_with	dv		# build with dv support (FIXME: doesn't build with libraw1394 >= 2.0.0 (new API))
-%bcond_without	ggi		# don't build ggi plugin
+%bcond_without	dv		# dv support
+%bcond_without	ggi		# ggi plugin
 %bcond_without	gnomevfs	# gnomevfs plugin
 %bcond_without	gnutls		# gnutls plugin
 %bcond_without	jack		# jack audio module
+%bcond_without	kde		# KDE Solid actions
 %bcond_without	lirc		# build without lirc support
 %bcond_without	live		# build without live.com support
 %bcond_without	mozilla		# build mozilla plugin
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	portaudio	# portaudio library support
 %bcond_without	projectM	# don't build projectM plugin
-%bcond_with	rtmp		# RTMP output plugin
 %bcond_without	shout		# shout plugin
+%bcond_without	smb		# SMB input module
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg plugin
@@ -68,96 +76,98 @@ URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	QtGui-devel >= %{qtver}
-BuildRequires:	SDL_image-devel >= 1.2
+BuildRequires:	SDL-devel >= 1.2.10
+BuildRequires:	SDL_image-devel >= 1.2.10
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
-%{?with_alsa:BuildRequires:	alsa-lib-devel >= 0.9}
-BuildRequires:	autoconf >= 2.59
+%{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.0}
+BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
-BuildRequires:	dbus-devel
-%{?with_dirac:BuildRequires:	dirac-devel}
+BuildRequires:	dbus-devel >= 1.0.0
+%{?with_dirac:BuildRequires:	dirac-devel >= 0.10.0}
 BuildRequires:	faad2-devel >= 2.5
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fluidsynth-devel >= 1.1.1-3
-BuildRequires:	freetype-devel
+BuildRequires:	fontconfig-devel
+BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel >= 0.17
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
-%{?with_gnutls:BuildRequires:	gnutls-devel}
+%{?with_gnutls:BuildRequires:	gnutls-devel >= 1.7.4}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
-BuildRequires:	kde4-kdelibs
-BuildRequires:	libass-devel
-%if %{with dv}
-BuildRequires:	libavc1394-devel
-#BuildRequires:	libraw1394-devel < 2.0.0
-%endif
-%{?with_caca:BuildRequires:	libcaca-devel}
-BuildRequires:	libcddb-devel
-BuildRequires:	libcdio-devel
+%{?with_kde:BuildRequires:	kde4-kdelibs}
+BuildRequires:	libass-devel >= 0.9.6
+%{?with_dv:BuildRequires:	libavc1394-devel >= 0.5.3}
+%{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
+BuildRequires:	libcddb-devel >= 0.9.5
+BuildRequires:	libcdio-devel >= 0.78.2
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 0.1.6
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 0.7.7
-BuildRequires:	libgcrypt-devel
+BuildRequires:	libgcrypt-devel >= 1.1.94
 %{?with_ggi:BuildRequires:	libggi-devel}
 #BuildRequires:	libid3tag-devel
-BuildRequires:	libkate-devel
+BuildRequires:	libkate-devel >= 0.1.5
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 0.8.0
-BuildRequires:	libmodplug-devel
+BuildRequires:	libmodplug-devel >= 0.8.4
 BuildRequires:	libmpcdec-devel >= 1.2.1
-BuildRequires:	libmpeg2-devel
+BuildRequires:	libmpeg2-devel >= 0.3.2
 BuildRequires:	libmtp-devel >= 1.0.0
 %{?with_notify:BuildRequires:	libnotify-devel}
-BuildRequires:	libogg-devel
+BuildRequires:	libogg-devel >= 1:1.0
 #%{?with_daap:BuildRequires:	libopendaap-devel}
 BuildRequires:	libpng-devel
 %{?with_projectM:BuildRequires:	libprojectM-devel >= 2.0.1-3}
-#%{?with_dv:BuildRequires:	libraw1394-devel}
+BuildRequires:	libproxy-devel
+%{?with_dv:BuildRequires:	libraw1394-devel >= 2.0.0}
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
-%{?with_shout:BuildRequires:	libshout-devel}
-BuildRequires:	libsmbclient-devel
+%{?with_shout:BuildRequires:	libshout-devel >= 2.1}
+%{?with_smb:BuildRequires:	libsmbclient-devel}
 BuildRequires:	libtar-devel
-BuildRequires:	libtheora-devel
-BuildRequires:	libtiger-devel
+BuildRequires:	libtheora-devel >= 1.0
+BuildRequires:	libtiger-devel >= 0.3.1
 BuildRequires:	libtool
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-devel
-BuildRequires:	libvorbis-devel
+BuildRequires:	libvorbis-devel >= 1:1.1
 %{?with_x264:BuildRequires:	libx264-devel}
-BuildRequires:	libxml2-devel
+BuildRequires:	libxcb-devel >= 1.3
+BuildRequires:	libxml2-devel >= 2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel > 2009.07.09-3}
-BuildRequires:	lua51
-BuildRequires:	lua51-devel
+BuildRequires:	lua51 >= 5.1
+BuildRequires:	lua51-devel >= 5.1
 BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	pkgconfig >= 0.9.0
+BuildRequires:	pkgconfig >= 1:0.9.0
 %{?with_portaudio:BuildRequires:	portaudio-devel}
-BuildRequires:	pulseaudio-devel
+BuildRequires:	pulseaudio-devel >= 0.9.22
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
-BuildRequires:	sqlite3-devel
+BuildRequires:	sqlite3-devel >= 3.6.0
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	sysfsutils-devel
-BuildRequires:	taglib-devel
+BuildRequires:	taglib-devel >= 1.5
 %{?with_twolame:BuildRequires:	twolame-devel}
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
-BuildRequires:	vcdimager-devel
-BuildRequires:	xcb-util-keysyms-devel
+BuildRequires:	vcdimager-devel >= 0.7.22
+BuildRequires:	xcb-util-keysyms-devel >= 0.3.4
 BuildRequires:	xorg-lib-libXpm-devel
 %{?with_mozilla:BuildRequires:	xorg-lib-libXt-devel}
 BuildRequires:	xosd-devel
-%{?with_mozilla:BuildRequires:	xulrunner-devel >= 1.9.2}
+%{?with_mozilla:BuildRequires:	xulrunner-devel >= 1.9.1}
 #BuildRequires:	xvid-devel
-BuildRequires:	zvbi-devel
+BuildRequires:	zlib-devel
+BuildRequires:	zvbi-devel >= 0.2.28
 Requires:	xdg-utils
 Suggests:	dirac-libs > 1.0.0-999
 Suggests:	fluidsynth > 1.0.8-999
@@ -333,7 +343,6 @@ cp -f /usr/share/automake/config.* .
 %{__autoconf}
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
-	--enable-shared \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
 %ifarch ppc
@@ -366,13 +375,15 @@ cp -f /usr/share/automake/config.* .
 	%{?with_jack:--enable-jack} \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	--enable-mad \
-	%{?with_mozilla:--enable-mozilla } \
+	%{?with_mozilla:--enable-mozilla} \
 	--enable-libva \
 	%{?with_live:--enable-live555 } \
 	%{!?with_live:--disable-live555 } \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
+	--enable-oss \
 	--%{?with_portaudio:en}%{!?with_portaudio:dis}able-portaudio \
+	%{!?with_projectM:--disable-projectm} \
 	--enable-pvr \
 	--enable-real \
 	--enable-realrtsp \
@@ -380,7 +391,7 @@ cp -f /usr/share/automake/config.* .
 	--enable-shared \
 	%{?with_shout:--enable-shout} \
 	--enable-skins2 \
-	--enable-smb \
+	%{!?with_smb:--disable-smb} \
 	--enable-snapshot \
 	--enable-sout \
 	--enable-sqlite \
@@ -399,9 +410,9 @@ cp -f /usr/share/automake/config.* .
 	--enable-vcdx \
 	%{!?with_x264:--disable-x264} \
 	--enable-xosd \
-	--enable-oss \
-	%{!?with_projectM:--disable-projectm} \
-	--disable-optimizations # we use own RPM_OPT_FLAGS optimalizations
+	--disable-optimizations \
+	%{!?with_kde:--without-kde-solid}
+# --disable-optimizations is to use own RPM_OPT_FLAGS optimalizations
 
 %{__make} \
 	npvlcdir=%{_browserpluginsdir}
@@ -492,8 +503,7 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_mtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_realrtsp_plugin.so
-%{?with_rtmp:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_rtmp_plugin.so}
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_smb_plugin.so
+%{?with_smb:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_smb_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_tcp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_udp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libcdda_plugin.so
@@ -514,7 +524,6 @@ fi
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_http_plugin.so
-%{?with_rtmp:%attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_rtmp_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_shout_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_filter
@@ -821,10 +830,11 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/%{name}
-%{_pkgconfigdir}/*.pc
 %attr(755,root,root) %{_libdir}/libvlc.so
 %attr(755,root,root) %{_libdir}/libvlccore.so
+%{_includedir}/%{name}
+%{_pkgconfigdir}/libvlc.pc
+%{_pkgconfigdir}/vlc-plugin.pc
 %{_mandir}/man1/vlc-config.1*
 
 %files X11
@@ -843,7 +853,7 @@ fi
 %{_datadir}/%{name}/skins2
 %{_iconsdir}/hicolor/*/apps/*.png
 %{_iconsdir}/hicolor/*/apps/*.xpm
-%{_desktopdir}/*.desktop
+%{_desktopdir}/vlc.desktop
 
 %if %{with ggi}
 %files GGI
@@ -869,10 +879,13 @@ fi
 %files lua
 %defattr(644,root,root,755)
 %{_libdir}/vlc/lua
+%{_datadir}/vlc/lua
 
+%if %{with kde}
 %files solid
 %defattr(644,root,root,755)
 %{_datadir}/apps/solid/actions/vlc-*.desktop
+%endif
 
 %if %{with mozilla}
 %files -n browser-plugin-%{name}
