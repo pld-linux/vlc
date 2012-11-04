@@ -411,11 +411,12 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs %{__rm}
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # unsupported:
-# ckb (Sorani Kurdish - maybe ku_IQ/ku_IR?)
+# ach (Acoli)
+# cgg (Chiga)
 # co (Corsican)
+# kmr (Northern Kurdish)
 # tet (Tetum)
-# kmr - ?
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,ckb,co,ff,kmr,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,co,ff,kmr,tet}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
