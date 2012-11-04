@@ -46,7 +46,6 @@
 %bcond_without	speex		# don't build speex plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg plugin
-%bcond_with	svga		# build with svgalib video_output
 %bcond_without	twolame		# twolame plugin
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
@@ -103,7 +102,7 @@ BuildRequires:	gettext-devel >= 0.18.1
 %{?with_kde:BuildRequires:	kde4-kdelibs}
 BuildRequires:	libass-devel >= 0.9.8
 %{?with_dv:BuildRequires:	libavc1394-devel >= 0.5.3}
-BuildRequires:	libbluray >= 0.2.1
+BuildRequires:	libbluray-devel >= 0.2.1
 %{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
 BuildRequires:	libcddb-devel >= 0.9.5
 BuildRequires:	libcdio-devel >= 0.78.2
@@ -114,7 +113,6 @@ BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 1.0.0
 BuildRequires:	libgcrypt-devel >= 1.1.94
-#BuildRequires:	libid3tag-devel
 BuildRequires:	libkate-devel >= 0.3.0
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 1.0.0
@@ -161,7 +159,6 @@ BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 BuildRequires:	sqlite3-devel >= 3.6.0
-%{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel >= 1.5
 %{?with_twolame:BuildRequires:	twolame-devel}
@@ -173,7 +170,6 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xosd-devel
-#BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires:	xdg-utils
@@ -377,7 +373,6 @@ Akcje klienta VLC dla Solid.
 	--enable-switcher \
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
-	%{?with_svga:--enable-svgalib} \
 	--enable-telepathy \
 	--enable-theora \
 	--enable-tremor \
@@ -869,7 +864,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libwave_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libyuvp_plugin.so
 %dir %{_libdir}/vlc/plugins/video_output
-%{?with_svga:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libsvgalib_plugin.so}
 # R: DirectFB
 %{?with_directfb:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libdirectfb_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvdummy_plugin.so
