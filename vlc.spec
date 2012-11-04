@@ -183,6 +183,7 @@ Suggests:	libprojectM > 1.1-999
 Suggests:	pulseaudio-libs > 0.9.15-999
 Suggests:	taglib > 1.5-999
 Obsoletes:	vlc-GGI
+Obsoletes:	vlc-esd
 Obsoletes:	browser-plugin-vlc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
