@@ -51,7 +51,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.0.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 # use the bz2 src, its a 4mb difference
@@ -421,7 +421,8 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 # ckb (Sorani Kurdish - maybe ku_IQ/ku_IR?)
 # co (Corsican)
 # tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,ckb,co,ff,tet}
+# kmr - ?
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,ckb,co,ff,kmr,tet}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
