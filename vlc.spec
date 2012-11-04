@@ -182,6 +182,8 @@ Suggests:	fluidsynth > 1.0.8-999
 Suggests:	libprojectM > 1.1-999
 Suggests:	pulseaudio-libs > 0.9.15-999
 Suggests:	taglib > 1.5-999
+Obsoletes:	vlc-GGI
+Obsoletes:	browser-plugin-vlc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -244,18 +246,6 @@ X11 output plugin for VLC. Contains GUI image/icon resources.
 Wtyczka wyjścia X11 dla klienta VLC. Zawiera zasoby interfejsu GUI
 (obrazy/ikony).
 
-%package GGI
-Summary:	VLC - GGI output plugin
-Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia GGI
-Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-
-%description GGI
-GGI output plugin for VLC.
-
-%description GGI -l pl.UTF-8
-Wtyczka wyjścia GGI dla klienta VLC.
-
 %package fb
 Summary:	VLC - fb output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia fb
@@ -316,21 +306,6 @@ VLC actions for Solid.
 
 %description solid -l pl.UTF-8
 Akcje klienta VLC dla Solid.
-
-%package -n browser-plugin-%{name}
-Summary:	VLC - Mozilla compatible browser plugin
-Summary(pl.UTF-8):	Klient VLC - wtyczka do przeglądarki Mozilla
-Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	browser-plugins >= 2.0
-Requires:	browser-plugins >= 2.0
-Requires:	browser-plugins(%{_target_base_arch})
-
-%description -n browser-plugin-%{name}
-Mozilla compatible browser plugin.
-
-%description -n browser-plugin-%{name} -l pl.UTF-8
-Wtyczka do przeglądarki internetowej Mozilla.
 
 %prep
 %setup -q
@@ -414,13 +389,11 @@ Wtyczka do przeglądarki internetowej Mozilla.
 	--enable-xosd \
 	%{!?with_kde:--without-kde-solid}
 
-%{__make} \
-	npvlcdir=%{_browserpluginsdir}
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
-	npvlcdir=%{_browserpluginsdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # dir for lua extensions
@@ -454,14 +427,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
-
-%post   -n browser-plugin-%{name}
-%update_browser_plugins
-
-%postun -n browser-plugin-%{name}
-if [ "$1" = 0 ]; then
-	%update_browser_plugins
-fi
 
 %post X11
 %update_desktop_database
