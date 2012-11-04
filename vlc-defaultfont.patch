@@ -1,5 +1,5 @@
---- vlc-1.1.10/modules/misc/freetype.c~	2011-06-06 01:31:20.000000000 +0200
-+++ vlc-1.1.10/modules/misc/freetype.c	2011-07-05 08:35:55.978852297 +0200
+--- vlc-1.1.10/modules/text_renderer/freetype.c~	2011-06-06 01:31:20.000000000 +0200
++++ vlc-1.1.10/modules/text_renderer/freetype.c	2011-07-05 08:35:55.978852297 +0200
 @@ -55,8 +55,8 @@
  # define DEFAULT_FONT_FILE "/usr/share/fonts/nokia/nosnb.ttf"
  # define DEFAULT_FAMILY "Nokia Sans Bold"
