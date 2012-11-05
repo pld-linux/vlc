@@ -50,7 +50,7 @@
 %bcond_without	udev		# udev services discovery
 %bcond_without	upnp		# upnp plugin
 %bcond_without	x264		# build without x264 support
-%bcond_with	noxmas		# build non-xmas version (icons)
+%bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
 %define		qtver	4.8.3
 
@@ -66,10 +66,8 @@ Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{vers
 # Source0-md5:	f36dab8f126922c56b372388b7fade47
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
-
-Patch3:		%{name}-system-minizip.patch
-
-Patch7:		xmas-sucks.patch
+Patch2:		%{name}-system-minizip.patch
+Patch3:		xmas-sucks.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -308,11 +306,9 @@ Akcje klienta VLC dla Solid.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-
+%patch2 -p1
+%if %{without xmas}
 %patch3 -p1
-
-%if %{with noxmas}
-%patch7 -p1
 %endif
 
 %build
