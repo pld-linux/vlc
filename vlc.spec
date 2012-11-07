@@ -16,8 +16,7 @@
 # - --enable-asademux (BR: pcre-devel >= 6.5)
 # - --enable-egl (R: OpenGL-devel, EGL-devel)
 # - --enable-media-library (Qt-based?)
-# - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp)
-# - libcrystalhd (libcrystalhd/libcrystalhd_if.h, -lcrystalhd)
+# - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp) [proprietary?]
 # - GOOM (libgoom2.pc)
 # - Hildon (hildon-1.pc hildon-fm-2.pc)
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
