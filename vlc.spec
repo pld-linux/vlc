@@ -24,36 +24,40 @@
 # - mce (Maemo platform)
 #
 # Conditional build:
-%bcond_without	aalib		# build without aalib support
-%bcond_without	alsa		# don't build alsa plugin
-%bcond_without	bonjour		# bonjour plugin
-%bcond_without	caca		# build without caca support
-%bcond_without	daap		# DAAP plugin
-%bcond_without	dirac		# dirac plugin
-%bcond_without	directfb	# directfb plugin
-%bcond_without	dv		# dv support
-%bcond_without	gnomevfs	# gnomevfs plugin
-%bcond_without	gnutls		# gnutls plugin
-%bcond_without	jack		# jack audio module
+%bcond_without	aalib		# aalib video output plugin
+%bcond_without	alsa		# ALSA access/audio output plugins
+%bcond_without	bonjour		# bonjour service discovery plugin
+%bcond_without	caca		# caca video output plugin
+%bcond_without	crystalhd	# crystalhd codec plugin
+%bcond_without	dirac		# dirac codec plugin
+%bcond_without	directfb	# directfb video output plugin
+%bcond_without	dv		# dv access plugins
+%bcond_without	gnomevfs	# gnomevfs access plugin
+%bcond_without	gnutls		# gnutls misc plugin
+%bcond_without	jack		# jack access/audio output plugin
 %bcond_without	kde		# KDE Solid actions
-%bcond_without	lirc		# build without lirc support
-%bcond_without	live		# build without live.com support
+%bcond_without	lirc		# lirc control plugin
+%bcond_without	live		# live555 demuxer plugin
 %bcond_without	notify		# libnotify notification plugin
-%bcond_without	portaudio	# portaudio library support
-%bcond_without	projectM	# don't build projectM plugin
-%bcond_without	shout		# shout plugin
-%bcond_without	smb		# SMB input module
-%bcond_without	speex		# don't build speex plugin
+%bcond_without	portaudio	# portaudio audio output plugin
+%bcond_without	projectM	# projectm visualization plugin
+%bcond_without	shout		# shout access output plugin
+%bcond_without	smb		# SMB access plugin
+%bcond_without	speex		# speex codec plugin
 %bcond_without	static_libs	# don't build static libraries
-%bcond_without	svg		# svg plugin
-%bcond_without	twolame		# twolame plugin
-%bcond_without	udev		# udev services discovery
-%bcond_without	upnp		# upnp plugin
-%bcond_without	x264		# build without x264 support
+%bcond_without	svg		# svg text renderer plugin
+%bcond_without	twolame		# twolame codec plugin
+%bcond_without	udev		# udev service discovery plugin
+%bcond_without	upnp		# upnp service discovery plugin
+%bcond_without	x264		# x264 codec plugin
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
 %define		qtver	4.8.3
 
+%ifnarch i686 pentium4 athlon %{x8664}
+# CrystalHD library requires SSE2 instructions
+%undefine	with_crystalhd
+%endif
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
@@ -104,6 +108,7 @@ BuildRequires:	libbluray-devel >= 0.2.1
 %{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
 BuildRequires:	libcddb-devel >= 0.9.5
 BuildRequires:	libcdio-devel >= 0.78.2
+%{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 0.1.6
@@ -330,7 +335,7 @@ Akcje klienta VLC dla Solid.
 	%{?with_alsa:--enable-alsa} \
 	%{!?with_bonjour:--disable-bonjour} \
 	--enable-caca%{!?with_caca:=no} \
-	%{!?with_daap:--disable-daap} \
+	--enable-crystalhd%{!?with_crystalhd:=no} \
 	--enable-dbus \
 	%{?with_dirac:--enable-dirac} \
 	%{?with_directfb:--enable-directfb} \
@@ -349,8 +354,7 @@ Akcje klienta VLC dla Solid.
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
 	--enable-libva \
-	%{?with_live:--enable-live555 } \
-	%{!?with_live:--disable-live555 } \
+	--enable-live%{!?with_live:=no} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
 	--enable-oss \
@@ -445,6 +449,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 %dir %{_libdir}/vlc
 %dir %{_libdir}/vlc/plugins
+%ghost %{_libdir}/vlc/plugins/plugins.dat
 %dir %{_libdir}/vlc/plugins/access
 %{?with_alsa:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_alsa_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_attachment_plugin.so
@@ -558,6 +563,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libavcodec_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcdg_plugin.so
+# R: libcrystalhd
+%{?with_crystalhd:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcrystalhd_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcvdsub_plugin.so
 # R: dirac >= 0.10.0
 %{?with_dirac:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdirac_plugin.so}
