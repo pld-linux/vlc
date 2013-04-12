@@ -7,6 +7,7 @@
 # - configs to /etc (../http/.hosts)
 # - qvlc should be in qt4 or such package not generic X11
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
+# - [recheck old TODO]: flac plugin doesn't work with mono files
 # - --enable-opencv (BR: opencv-devel)
 # - --enable-sftp (BR: libssh2-devel)
 # - --enable-wma-fixed (fixed-point WMA?)
@@ -64,7 +65,6 @@ Version:	2.0.6
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-# use the bz2 src, its a 4mb difference
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	b45be633c71dca04ca7d6c3d64dd728b
 Patch0:		%{name}-buildflags.patch
