@@ -8,8 +8,6 @@
 # - qvlc should be in qt4 or such package not generic X11
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 # - [recheck old TODO]: flac plugin doesn't work with mono files
-# - --enable-opencv (BR: opencv-devel)
-# - --enable-sftp (BR: libssh2-devel)
 # - --enable-wma-fixed (fixed-point WMA?)
 # - --enable-shine (fixed-point MP3 encoding)
 # - --enable-omxil (openmax il codec)
@@ -18,7 +16,6 @@
 # - --enable-egl (R: OpenGL-devel, EGL-devel)
 # - --enable-media-library (Qt-based?)
 # - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp) [proprietary?]
-# - GOOM (libgoom2.pc)
 # - Hildon (hildon-1.pc hildon-fm-2.pc)
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
 # - mce (Maemo platform)
@@ -39,8 +36,10 @@
 %bcond_without	lirc		# lirc control plugin
 %bcond_without	live		# live555 demuxer plugin
 %bcond_without	notify		# libnotify notification plugin
+%bcond_with	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_without	portaudio	# portaudio audio output plugin
 %bcond_without	projectM	# projectm visualization plugin
+%bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
 %bcond_without	smb		# SMB access plugin
 %bcond_without	speex		# speex codec plugin
@@ -71,6 +70,7 @@ Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
+Patch4:		%{name}-opencv.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -115,6 +115,7 @@ BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 1.0.0
 BuildRequires:	libgcrypt-devel >= 1.1.94
+BuildRequires:	libgoom2-devel
 BuildRequires:	libkate-devel >= 0.3.0
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 1.0.0
@@ -134,6 +135,7 @@ BuildRequires:	libsamplerate-devel
 %{?with_shout:BuildRequires:	libshout-devel >= 2.1}
 BuildRequires:	libsidplay2-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
+%{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtar-devel
 BuildRequires:	libtheora-devel >= 1.0
@@ -153,6 +155,7 @@ BuildRequires:	lua51 >= 5.1
 BuildRequires:	lua51-devel >= 5.1
 BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
+%{?with_opencv:BuildRequires:	opencv-devel}
 BuildRequires:	opus-devel
 BuildRequires:	pkgconfig >= 1:0.9.0
 %{?with_portaudio:BuildRequires:	portaudio-devel}
@@ -314,6 +317,7 @@ Akcje klienta VLC dla Solid.
 %if %{without xmas}
 %patch3 -p1
 %endif
+%patch4 -p1
 
 %build
 %{__libtoolize}
@@ -356,6 +360,7 @@ Akcje klienta VLC dla Solid.
 	--enable-live%{!?with_live:=no} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
+	%{?with_opencv:--enable-opencv} \
 	--enable-oss \
 	--enable-portaudio%{!?with_portaudio:=no} \
 	%{!?with_projectM:--disable-projectm} \
@@ -363,6 +368,7 @@ Akcje klienta VLC dla Solid.
 	--enable-real \
 	--enable-realrtsp \
 	--enable-sdl \
+	%{?with_sftp:--enable-sftp} \
 	--enable-shared \
 	--enable-shout%{!?with_shout:=no} \
 	--enable-skins2 \
@@ -470,6 +476,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_rar_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_realrtsp_plugin.so
+# R: libssh2
+%{?with_sftp:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_sftp_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_shm_plugin.so
 # R: libsmbclient
 %{?with_smb:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_smb_plugin.so}
@@ -872,6 +880,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libvmem_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libyuv_plugin.so
 %dir %{_libdir}/vlc/plugins/visualization
+# R: libgoom2
+%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libgoom_plugin.so
 # R: libprojectM >= 2.0.0
 %{?with_projectM:%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libprojectm_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libvisual_plugin.so
