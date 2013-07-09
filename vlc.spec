@@ -183,9 +183,10 @@ Suggests:	fluidsynth > 1.0.8-999
 Suggests:	libprojectM > 1.1-999
 Suggests:	pulseaudio-libs > 0.9.15-999
 Suggests:	taglib > 1.5-999
+Requires(post):	/sbin/ldconfig
+Obsoletes:	browser-plugin-vlc
 Obsoletes:	vlc-GGI
 Obsoletes:	vlc-esd
-Obsoletes:	browser-plugin-vlc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -410,14 +411,14 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 # rm -f *.{a,la}
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs %{__rm}
 
-mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
+mv -f $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
 # unsupported:
 # ach (Acoli)
 # cgg (Chiga)
 # co (Corsican)
 # kmr (Northern Kurdish)
 # tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ach,cgg,co,ff,kmr,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,ff,kmr,tet}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
