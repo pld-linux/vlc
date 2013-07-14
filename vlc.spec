@@ -72,6 +72,7 @@ Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
 Patch4:		%{name}-opencv.patch
 Patch5:		libva.patch
+Patch6:		%{name}-flac.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -321,6 +322,7 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__libtoolize}
@@ -411,7 +413,7 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 %endif
 
 # rm -f *.{a,la}
-find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.?a$' | xargs %{__rm}
+find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 
 mv -f $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
 # unsupported:
