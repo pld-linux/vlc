@@ -1,0 +1,11 @@
+--- vlc-2.0.7/bin/Makefile.am~	2011-12-08 19:00:25.000000000 +0100
++++ vlc-2.0.7/bin/Makefile.am	2013-07-16 08:10:29.290917828 +0200
+@@ -80,7 +80,7 @@
+ ../modules/plugins.dat: vlc-cache-gen$(EXEEXT)
+ 	$(AM_V_at)rm -f ../modules/plugins.dat
+ 	$(AM_V_GEN)if test "$(build)" = "$(host)"; then \
+-		./vlc-cache-gen$(EXEEXT) ../modules ; \
++		echo "Cache generation skipped!" ; \
+ 	else \
+ 		echo "Cross-compilation: cache generation skipped!" ; \
+ 	fi

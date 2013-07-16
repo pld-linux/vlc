@@ -73,6 +73,7 @@ Patch3:		xmas-sucks.patch
 Patch4:		%{name}-opencv.patch
 Patch5:		libva.patch
 Patch6:		%{name}-flac.patch
+Patch7:		no-cache.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -323,6 +324,7 @@ Akcje klienta VLC dla Solid.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__libtoolize}
