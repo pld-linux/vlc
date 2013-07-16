@@ -61,7 +61,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.0.7
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -424,7 +424,7 @@ mv -f $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
 # co (Corsican)
 # kmr (Northern Kurdish)
 # tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,ff,kmr,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,ff,kmr,tet,or_IN}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
