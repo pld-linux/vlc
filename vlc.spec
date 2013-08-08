@@ -8,13 +8,12 @@
 # - qvlc should be in qt4 or such package not generic X11
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 # - [recheck old TODO]: flac plugin doesn't work with mono files
-# - --enable-wma-fixed (fixed-point WMA?)
-# - --enable-shine (fixed-point MP3 encoding)
-# - --enable-omxil (openmax il codec)
+# - --enable-wma-fixed (fixed-point WMA - does it make sense on non-embedded?)
+## - --enable-shine (fixed-point MP3 encoding)
+## - --enable-omxil (openmax il codec)
 # - --enable-iomx (iomx codec)
-# - --enable-asademux (BR: pcre-devel >= 6.5)
-# - --enable-egl (R: OpenGL-devel, EGL-devel)
-# - --enable-media-library (Qt-based?)
+## - --enable-egl (R: OpenGL-devel, EGL-devel)
+## - --enable-media-library (Qt-based?)
 # - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp) [proprietary?]
 # - Hildon (hildon-1.pc hildon-fm-2.pc)
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
@@ -74,6 +73,9 @@ Patch4:		%{name}-opencv.patch
 Patch5:		libva.patch
 Patch6:		%{name}-flac.patch
 Patch7:		no-cache.patch
+Patch8:		%{name}-ffmpeg.patch
+Patch9:		%{name}-libdvbpsi.patch
+Patch10:	%{name}-live555.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -113,7 +115,7 @@ BuildRequires:	libcdio-devel >= 0.78.2
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdts-devel >= 0.0.5
-BuildRequires:	libdvbpsi-devel >= 0.1.6
+BuildRequires:	libdvbpsi-devel >= 1.1.0
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libdvdread-devel
 BuildRequires:	libebml-devel >= 1.0.0
@@ -325,6 +327,9 @@ Akcje klienta VLC dla Solid.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p0
+%patch10 -p1
 
 %build
 %{__libtoolize}
@@ -332,7 +337,9 @@ Akcje klienta VLC dla Solid.
 %{__aclocal} -I m4
 %{__autoconf}
 %{__automake}
-# NOTE: --disable-optimizations is to use own RPM_OPT_FLAGS optimalizations
+# NOTE:
+# --disable-optimizations is to use own RPM_OPT_FLAGS optimalizations
+# iomx is Android-specific omxil codec option
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
 	--disable-optimizations \
@@ -353,6 +360,7 @@ Akcje klienta VLC dla Solid.
 	--enable-dvbpsi \
 	--enable-dvdnav \
 	--enable-dvdread \
+	--enable-egl \
 	--enable-faad \
 	--enable-freetype \
 	--enable-fribidi \
@@ -363,10 +371,12 @@ Akcje klienta VLC dla Solid.
 	%{?with_jack:--enable-jack} \
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
+	--enable-media-library \
 	--enable-libva \
 	--enable-live%{!?with_live:=no} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
+	--enable-omxil \
 	%{?with_opencv:--enable-opencv} \
 	--enable-oss \
 	--enable-portaudio%{!?with_portaudio:=no} \
@@ -377,6 +387,7 @@ Akcje klienta VLC dla Solid.
 	--enable-sdl \
 	%{?with_sftp:--enable-sftp} \
 	--enable-shared \
+	--enable-shine \
 	--enable-shout%{!?with_shout:=no} \
 	--enable-skins2 \
 	%{!?with_smb:--disable-smb} \
