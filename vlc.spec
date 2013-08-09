@@ -9,11 +9,6 @@
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 # - [recheck old TODO]: flac plugin doesn't work with mono files
 # - --enable-wma-fixed (fixed-point WMA - does it make sense on non-embedded?)
-## - --enable-shine (fixed-point MP3 encoding)
-## - --enable-omxil (openmax il codec)
-# - --enable-iomx (iomx codec)
-## - --enable-egl (R: OpenGL-devel, EGL-devel)
-## - --enable-media-library (Qt-based?)
 # - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp) [proprietary?]
 # - Hildon (hildon-1.pc hildon-fm-2.pc)
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
@@ -59,25 +54,24 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	2.0.7
-Release:	4
+Version:	2.0.8
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	3b0e465b0990097b65abaf3e25589957
+Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}a.tar.xz
+# Source0-md5:	e5000677181406d026ffe448633d1ca0
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
 Patch4:		%{name}-opencv.patch
-Patch5:		libva.patch
-Patch6:		%{name}-flac.patch
 Patch7:		no-cache.patch
 Patch8:		%{name}-ffmpeg.patch
 Patch9:		%{name}-libdvbpsi.patch
 Patch10:	%{name}-live555.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
+BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	QtCore-devel >= %{qtver}
 BuildRequires:	QtGui-devel >= %{qtver}
@@ -324,8 +318,6 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p0
@@ -615,6 +607,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liblibmpeg2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liblpcm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libmpeg_audio_plugin.so
+# R: libomxil-bellagio (dlopened, no .so NEEDED dependency)
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libomxil_plugin.so
 # R: opus
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libopus_plugin.so
 # R: libpng
@@ -625,6 +619,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libschroedinger_plugin.so
 # R: SDL_image >= 1.2.10
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libsdl_image_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libshine_plugin.so
 # R: speex >= 1.0.5
 %{?with_speex:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libspeex_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libspudec_plugin.so
@@ -718,6 +713,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/meta_engine/libfolder_plugin.so
 # R: taglib >= 1.5
 %attr(755,root,root) %{_libdir}/vlc/plugins/meta_engine/libtaglib_plugin.so
+%dir %{_libdir}/vlc/plugins/media_library
+%attr(755,root,root) %{_libdir}/vlc/plugins/media_library/libmedia_library_plugin.so
 %dir %{_libdir}/vlc/plugins/misc
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libaudioscrobbler_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libexport_plugin.so
@@ -726,6 +723,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libinhibit_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/liblogger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libmemcpy_plugin.so
+# R: sqlite3
+%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libsqlite_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libxdg_screensaver_plugin.so
 
 %ifarch %{ix86} %{x8664}
@@ -938,6 +937,10 @@ rm -rf $RPM_BUILD_ROOT
 %{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libaa_plugin.so}
 # R: libcaca >= 0.99-0.beta14
 %{?with_caca:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libcaca_plugin.so}
+# R: EGL, xorg-lib-libX11
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libegl_plugin.so
+# R: OpenGL
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgl_plugin.so
 # R: OpenGL libxcb >= 1.6
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_glx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_window_plugin.so

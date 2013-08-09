@@ -154,3 +154,93 @@
          else
              p_sys->i_buffer_out = p_sys->i_frame_size * p_sys->i_sample_bytes;
          p_sys->p_buffer_out = malloc( p_sys->i_buffer_out );
+--- vlc-2.0.8/modules/stream_out/switcher.c.orig	2013-06-18 00:07:53.000000000 +0200
++++ vlc-2.0.8/modules/stream_out/switcher.c	2013-08-09 18:03:43.092571170 +0200
+@@ -361,27 +361,28 @@
+ 
+         /* Set CPU capabilities */
+         unsigned i_cpu = vlc_CPU();
+-        id->ff_enc_c->dsp_mask = 0;
++	int cpu_flags = av_get_cpu_flags();
+         if( !(i_cpu & CPU_CAPABILITY_MMX) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_MMX;
++            cpu_flags &= ~AV_CPU_FLAG_MMX;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_MMXEXT) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_MMX2;
++            cpu_flags &= ~AV_CPU_FLAG_MMX2;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_3DNOW) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_3DNOW;
++            cpu_flags &= ~AV_CPU_FLAG_3DNOW;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_SSE) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_SSE;
++            cpu_flags &= ~AV_CPU_FLAG_SSE;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_SSE2) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_SSE2;
++            cpu_flags &= ~AV_CPU_FLAG_SSE2;
+         }
++	av_force_cpu_flags(cpu_flags);
+ 
+         id->ff_enc_c->sample_rate = p_fmt->audio.i_rate;
+         id->ff_enc_c->time_base.num = 1;
+@@ -404,7 +405,7 @@
+         }
+         vlc_avcodec_unlock();
+ 
+-        id->p_buffer_out = malloc( AVCODEC_MAX_AUDIO_FRAME_SIZE * 2 );
++        id->p_buffer_out = malloc( 192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */ * 2 );
+         id->p_samples = calloc( id->ff_enc_c->frame_size * p_fmt->audio.i_channels,
+                                 sizeof(int16_t) );
+         if( !id->p_buffer_out || !id->p_samples )
+@@ -762,27 +763,28 @@
+ 
+         /* Set CPU capabilities */
+         unsigned i_cpu = vlc_CPU();
+-        id->ff_enc_c->dsp_mask = 0;
++	int cpu_flags = av_get_cpu_flags();
+         if( !(i_cpu & CPU_CAPABILITY_MMX) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_MMX;
++            cpu_flags &= ~AV_CPU_FLAG_MMX;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_MMXEXT) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_MMX2;
++            cpu_flags &= ~AV_CPU_FLAG_MMX2;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_3DNOW) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_3DNOW;
++            cpu_flags &= ~AV_CPU_FLAG_3DNOW;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_SSE) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_SSE;
++            cpu_flags &= ~AV_CPU_FLAG_SSE;
+         }
+         if( !(i_cpu & CPU_CAPABILITY_SSE2) )
+         {
+-            id->ff_enc_c->dsp_mask |= AV_CPU_FLAG_SSE2;
++            cpu_flags &= ~AV_CPU_FLAG_SSE2;
+         }
++	av_force_cpu_flags(cpu_flags);
+ 
+         id->ff_enc_c->width = p_sys->p_pictures[p_sys->i_cmd-1].format.i_width;
+         id->ff_enc_c->height = p_sys->p_pictures[p_sys->i_cmd-1].format.i_height;
+@@ -969,7 +971,7 @@
+ 
+     (void)p_stream;
+     i_out = avcodec_encode_audio( id->ff_enc_c, id->p_buffer_out,
+-                                  2 * AVCODEC_MAX_AUDIO_FRAME_SIZE,
++                                  2 * 192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */,
+                                   id->p_samples );
+ 
+     if ( i_out <= 0 )
