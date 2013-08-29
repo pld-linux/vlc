@@ -149,7 +149,7 @@ BuildRequires:	libvorbis-devel >= 1:1.1
 BuildRequires:	libxcb-devel >= 1.6
 BuildRequires:	libxml2-devel >= 2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live-devel > 2009.07.09-3}
+%{?with_live:BuildRequires:	live-devel > 2013.07.16}
 BuildRequires:	lua51 >= 5.1
 BuildRequires:	lua51-devel >= 5.1
 BuildRequires:	minizip-devel
@@ -974,5 +974,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with kde}
 %files solid
 %defattr(644,root,root,755)
-%{_datadir}/apps/solid/actions/vlc-*.desktop
+%{_datadir}/kde4/apps/solid/actions/vlc-*.desktop
 %endif
