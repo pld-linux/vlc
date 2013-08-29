@@ -55,7 +55,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.0.8
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}a.tar.xz
@@ -974,5 +974,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with kde}
 %files solid
 %defattr(644,root,root,755)
-%{_datadir}/kde4/apps/solid/actions/vlc-*.desktop
+%{_datadir}/apps/solid/actions/vlc-*.desktop
 %endif
