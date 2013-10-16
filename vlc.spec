@@ -92,6 +92,7 @@ BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fluidsynth-devel >= 1.1.1-3
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2
+BuildRequires:	freerdp-devel >= 1.0.1
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
 BuildRequires:	gettext-devel >= 0.18.1
@@ -508,6 +509,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libpulsesrc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libsdp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libstream_filter_rar_plugin.so
+# R: freerdp
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/librdp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libtimecode_plugin.so
 %{?with_v4l1:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so}
