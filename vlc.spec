@@ -107,6 +107,7 @@ BuildRequires:	libbluray-devel >= 0.2.1
 %{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
 BuildRequires:	libcddb-devel >= 0.9.5
 BuildRequires:	libcdio-devel >= 0.78.2
+BuildRequires:	libchromaprint-devel
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdts-devel >= 0.0.5
