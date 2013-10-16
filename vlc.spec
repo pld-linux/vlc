@@ -31,7 +31,7 @@
 %bcond_without	live		# live555 demuxer plugin
 %bcond_without	notify		# libnotify notification plugin
 %bcond_with	opencv		# OpenCV video filter [needs vlc API update]
-%bcond_without	portaudio	# portaudio audio output plugin
+%bcond_with	oss4		# OSSv4
 %bcond_without	projectM	# projectm visualization plugin
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
@@ -54,19 +54,19 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	2.0.8
-Release:	2
+Version:	2.1.0
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}a.tar.xz
-# Source0-md5:	e5000677181406d026ffe448633d1ca0
+Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	8c77bda671821f5b9ede96b6816e2ade
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
-Patch4:		%{name}-opencv.patch
+
 Patch7:		no-cache.patch
-Patch8:		%{name}-ffmpeg.patch
+
 Patch9:		%{name}-libdvbpsi.patch
 Patch10:	%{name}-live555.patch
 URL:		http://www.videolan.org/vlc/
@@ -157,12 +157,10 @@ BuildRequires:	ncurses-devel
 %{?with_opencv:BuildRequires:	opencv-devel}
 BuildRequires:	opus-devel
 BuildRequires:	pkgconfig >= 1:0.9.0
-%{?with_portaudio:BuildRequires:	portaudio-devel}
 BuildRequires:	pulseaudio-devel >= 0.9.22
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
-BuildRequires:	sqlite3-devel >= 3.6.0
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel >= 1.5
 %{?with_twolame:BuildRequires:	twolame-devel}
@@ -173,7 +171,6 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXpm-devel
-BuildRequires:	xosd-devel
 BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires:	xdg-utils
@@ -317,11 +314,11 @@ Akcje klienta VLC dla Solid.
 %if %{without xmas}
 %patch3 -p1
 %endif
-%patch4 -p1
+
 %patch7 -p1
-%patch8 -p1
-%patch9 -p0
-%patch10 -p1
+
+#%patch9 -p0
+#%patch10 -p1
 
 %build
 %{__libtoolize}
@@ -348,7 +345,7 @@ Akcje klienta VLC dla Solid.
 	--enable-dbus \
 	%{?with_dirac:--enable-dirac} \
 	%{?with_directfb:--enable-directfb} \
-	--enable-dv%{!?with_dv:=no} \
+	--enable-dv1394%{!?with_dv:=no} \
 	--enable-dvbpsi \
 	--enable-dvdnav \
 	--enable-dvdread \
@@ -363,18 +360,14 @@ Akcje klienta VLC dla Solid.
 	%{?with_jack:--enable-jack} \
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
-	--enable-media-library \
 	--enable-libva \
-	--enable-live%{!?with_live:=no} \
+	--enable-live555%{!?with_live:=no} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
 	--enable-omxil \
 	%{?with_opencv:--enable-opencv} \
-	--enable-oss \
-	--enable-portaudio%{!?with_portaudio:=no} \
+	--enable-oss%{!?with_oss4:=no} \
 	%{!?with_projectM:--disable-projectm} \
-	--enable-pvr \
-	--enable-real \
 	--enable-realrtsp \
 	--enable-sdl \
 	%{?with_sftp:--enable-sftp} \
@@ -384,11 +377,8 @@ Akcje klienta VLC dla Solid.
 	--enable-skins2 \
 	%{!?with_smb:--disable-smb} \
 	--enable-sout \
-	--enable-sqlite \
-	--enable-switcher \
 	%{!?with_speex:--disable-speex} \
 	%{?with_svg:--enable-svg} \
-	--enable-telepathy \
 	--enable-theora \
 	--enable-tremor \
 	%{?with_twolame:--enable-twolame} \
@@ -397,7 +387,6 @@ Akcje klienta VLC dla Solid.
 	--enable-v4l2 \
 	--enable-vcdx \
 	%{!?with_x264:--disable-x264} \
-	--enable-xosd \
 	%{!?with_kde:--without-kde-solid}
 
 %{__make}
@@ -420,15 +409,13 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 # rm -f *.{a,la}
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 
-%{__mv} $RPM_BUILD_ROOT%{_localedir}/{or_IN,or}
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
 # unsupported:
 # ach (Acoli)
 # cgg (Chiga)
 # co (Corsican)
-# kmr (Northern Kurdish)
 # tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,kmr,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,tet}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/vlc*.ico
@@ -461,7 +448,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libvlc.so.5
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.5
+%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.7
 
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
@@ -476,7 +463,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_avio_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_bd_plugin.so
 # R: libraw1394 >= 2.0.1 libavc1394 >= 0.5.3
-%{?with_dv:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_dv_plugin.so}
+%{?with_dv:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libdv1394_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_ftp_plugin.so
 # R: gnome-vfs2
 %{?with_gnomevfs:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_gnomevfs_plugin.so}
@@ -487,12 +474,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_mms_plugin.so
 # R: libmtp >= 1.0.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_mtp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so
+%{?with_oss4:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_rar_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_realrtsp_plugin.so
 # R: libssh2
 %{?with_sftp:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_sftp_plugin.so}
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_shm_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libshm_plugin.so
 # R: libsmbclient
 %{?with_smb:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_smb_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_tcp_plugin.so
@@ -503,6 +490,7 @@ rm -rf $RPM_BUILD_ROOT
 # R: libraw1394 >= 2.0.1 libdc1394 >= 2.1.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdc1394_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdtv_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvb_plugin.so
 # R: libdvdnav
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvdnav_plugin.so
 # R: libdvdread
@@ -511,14 +499,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libidummy_plugin.so
 # R: libbluray >= 0.2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibbluray_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibvnc_plugin.so
 # R: zvbi >= 0.2.28
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblinsys_hdsdi_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblinsys_sdi_plugin.so
+# R: live
+%{?with_live:%attr(755,root,root) %{_libdir}/vlc/plugins/access/liblive555_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libpulsesrc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libsdp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libstream_filter_rar_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libpvr_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libtimecode_plugin.so
 %{?with_v4l1:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcd_plugin.so
@@ -542,12 +533,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libaudiobargraph_a_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libchorus_flanger_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libcompressor_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libconverter_fixed_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdolby_surround_decoder_plugin.so
 # R: libdts >= 0.0.5
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdtstofloat32_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libdtstospdif_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libequalizer_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libgain_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libheadphone_channel_mixer_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libkaraoke_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libmono_plugin.so
@@ -555,26 +546,26 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libmpgatofixed32_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libnormvol_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libparam_eq_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libremap_plugin.so
 # R: libsamplerate
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libsamplerate_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libscaletempo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libsimple_channel_mixer_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libspatializer_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libspeex_resampler_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libstereo_widen_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libtrivial_channel_mixer_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libugly_resampler_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_mixer
-%attr(755,root,root) %{_libdir}/vlc/plugins/audio_mixer/libfloat32_mixer_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/audio_mixer/libfixed32_mixer_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_mixer/libfloat_mixer_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_mixer/libinteger_mixer_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_output
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libadummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libamem_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libaout_file_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libafile_plugin.so
 %{?with_jack:%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libjack_plugin.so}
-# R: portaudio
-%{?with_portaudio:%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libportaudio_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/libpulse_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/liboss_plugin.so
+%{?with_oss4:%attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/liboss_plugin.so}
 %dir %{_libdir}/vlc/plugins/codec
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liba52_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaes3_plugin.so
@@ -599,6 +590,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libflac_plugin.so
 # R: fluidsynth
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libfluidsynth_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libg711_plugin.so
 # R: libkate >= 0.3.0 libtiger >= 0.3.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libkate_plugin.so
 # R: libass >= 0.9.8
@@ -614,9 +606,10 @@ rm -rf $RPM_BUILD_ROOT
 # R: libpng
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libpng_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/librawvideo_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/librealvideo_plugin.so
+#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/librealvideo_plugin.so
 # R: schroedinger >= 1.0.10
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libschroedinger_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libscte27_plugin.so
 # R: SDL_image >= 1.2.10
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libsdl_image_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libshine_plugin.so
@@ -631,12 +624,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtelx_plugin.so
 # R: libtheora >= 1.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtheora_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libuleaddvaudio_plugin.so
 # R: twolame-libs
 %{?with_twolame:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtwolame_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvdpau_plugin.so
 # R: libvorbis >= 1.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvorbis_plugin.so
 # R: libx264
 %{?with_x264:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx264_plugin.so}
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libxwd_plugin.so
 # R: zvbi >= 0.2.28
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libzvbi_plugin.so
 %dir %{_libdir}/vlc/plugins/control
@@ -667,8 +664,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libgme_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libh264_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libimage_plugin.so
-# R: live
-%{?with_live:%attr(755,root,root) %{_libdir}/vlc/plugins/demux/liblive555_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libmjpeg_plugin.so
 # R: libebml >= 1.0.0 libmatroska >= 1.0.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libmkv_plugin.so
@@ -713,26 +708,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/meta_engine/libfolder_plugin.so
 # R: taglib >= 1.5
 %attr(755,root,root) %{_libdir}/vlc/plugins/meta_engine/libtaglib_plugin.so
-%dir %{_libdir}/vlc/plugins/media_library
-%attr(755,root,root) %{_libdir}/vlc/plugins/media_library/libmedia_library_plugin.so
 %dir %{_libdir}/vlc/plugins/misc
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libaudioscrobbler_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libdbus_screensaver_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libexport_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libfingerprinter_plugin.so
 # R: gnutls >= 2.0.0
 %{?with_gnutls:%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libgnutls_plugin.so}
-%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libinhibit_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/liblogger_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libmemcpy_plugin.so
-# R: sqlite3
-%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libsqlite_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libxdg_screensaver_plugin.so
 
-%ifarch %{ix86} %{x8664}
-%dir %{_libdir}/vlc/plugins/3dnow
-%attr(755,root,root) %{_libdir}/vlc/plugins/3dnow/libmemcpy3dn_plugin.so
-%endif
-
-%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libosd_parser_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libstats_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libvod_rtsp_plugin.so
 # R: libxml2 >= 2.5
@@ -743,9 +728,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/mmx/libi420_rgb_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/mmx/libi420_yuy2_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/mmx/libi422_yuy2_mmx_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/mmx/libmemcpymmx_plugin.so
-%dir %{_libdir}/vlc/plugins/mmxext
-%attr(755,root,root) %{_libdir}/vlc/plugins/mmxext/libmemcpymmxext_plugin.so
 %ifnarch i486 i586
 %dir %{_libdir}/vlc/plugins/sse2
 %attr(755,root,root) %{_libdir}/vlc/plugins/sse2/libi420_rgb_sse2_plugin.so
@@ -769,9 +751,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins/notify
 # R: libnotify gtk+2
 %attr(755,root,root) %{_libdir}/vlc/plugins/notify/libnotify_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/notify/libtelepathy_plugin.so
-# R: xosd
-%attr(755,root,root) %{_libdir}/vlc/plugins/notify/libxosd_plugin.so
 %endif
 
 %dir %{_libdir}/vlc/plugins/packetizer
@@ -800,12 +779,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libxcb_apps_plugin.so
 %dir %{_libdir}/vlc/plugins/stream_filter
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libdecomp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libstream_filter_dash_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libstream_filter_httplive_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libstream_filter_record_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libdash_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libhttplive_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/librecord_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libsmooth_plugin.so
 %dir %{_libdir}/vlc/plugins/stream_out
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_autodel_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_bridge_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_chromaprint_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_delay_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_description_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_display_plugin.so
@@ -818,11 +799,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_raop_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_record_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_rtp_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_select_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_setid_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_smem_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_standard_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_switcher_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_transcode_plugin.so
 %dir %{_libdir}/vlc/plugins/text_renderer
 # R: freetype >= 2 fribidi
@@ -842,6 +821,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins/video_filter
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libadjust_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libantiflicker_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libanaglyph_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libaudiobargraph_v_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libalphamask_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libatmo_plugin.so
@@ -871,7 +851,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libmosaic_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libmotionblur_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libmotiondetect_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libosdmenu_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_example_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_wrapper_plugin.so
 # R: libxcb >= 1.6
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libpanoramix_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libposterize_plugin.so
@@ -909,7 +890,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lua
 %dir %{_datadir}/%{name}/lua/extensions
-%{_datadir}/%{name}/osdmenu
 %dir %{_datadir}/%{name}/utils
 %attr(755,root,root) %{_datadir}/%{name}/utils/*.sh
 
@@ -932,7 +912,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libqt4_plugin.so
 # R: freetype libtar xorg-lib-lib{Xext,Xinerama,Xpm} QtCore QtGui
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libskins2_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/misc/libxscreensaver_plugin.so
 # R: aalib
 %{?with_aalib:%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libaa_plugin.so}
 # R: libcaca >= 0.99-0.beta14
@@ -941,6 +920,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libegl_plugin.so
 # R: OpenGL
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgl_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglx_plugin.so
 # R: OpenGL libxcb >= 1.6
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_glx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_window_plugin.so
