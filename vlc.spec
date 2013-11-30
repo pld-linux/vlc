@@ -55,7 +55,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.1.0
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -64,7 +64,7 @@ Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
-
+Patch4:		freetype.patch
 Patch7:		no-cache.patch
 
 Patch9:		%{name}-libdvbpsi.patch
@@ -317,6 +317,7 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 
+%patch4 -p1
 %patch7 -p1
 
 #%patch9 -p0

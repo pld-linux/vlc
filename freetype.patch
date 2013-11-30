@@ -1,0 +1,12 @@
+--- vlc-2.1.0/modules/text_renderer/freetype.c~	2013-11-30 20:49:37.741873844 +0100
++++ vlc-2.1.0/modules/text_renderer/freetype.c	2013-11-30 21:01:19.098798390 +0100
+@@ -90,7 +90,8 @@
+ #endif
+ 
+ /* Freetype */
+-#include <freetype/ftsynth.h>
++#include <ft2build.h>
++#include FT_SYNTHESIS_H
+ #include FT_FREETYPE_H
+ #include FT_GLYPH_H
+ #include FT_STROKER_H
