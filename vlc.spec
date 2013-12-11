@@ -55,7 +55,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.1.0
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -502,7 +502,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libidummy_plugin.so
 # R: libbluray >= 0.2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibbluray_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibvnc_plugin.so
+# %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibvnc_plugin.so
 # R: zvbi >= 0.2.28
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblinsys_hdsdi_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblinsys_sdi_plugin.so
