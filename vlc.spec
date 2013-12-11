@@ -54,17 +54,16 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	2.1.0
-Release:	6
+Version:	2.1.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	8c77bda671821f5b9ede96b6816e2ade
+# Source0-md5:	fb6787ad749aadcfaeab3471939b3426
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
-Patch4:		freetype.patch
 Patch7:		no-cache.patch
 
 Patch9:		%{name}-libdvbpsi.patch
@@ -91,8 +90,8 @@ BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fluidsynth-devel >= 1.1.1-3
 BuildRequires:	fontconfig-devel
-BuildRequires:	freetype-devel >= 2
 BuildRequires:	freerdp-devel >= 1.0.1
+BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
 BuildRequires:	gettext-devel >= 0.18.1
@@ -145,6 +144,7 @@ BuildRequires:	libtool >= 2:2
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-x11-devel
+BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 # x264.pc >= 0.86
 %{?with_x264:BuildRequires:	libx264-devel}
@@ -165,6 +165,7 @@ BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel >= 1.5
+BuildRequires:	tremor-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
 BuildRequires:	vcdimager-devel >= 0.7.22
@@ -317,7 +318,6 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 
-%patch4 -p1
 %patch7 -p1
 
 #%patch9 -p0
@@ -502,6 +502,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libidummy_plugin.so
 # R: libbluray >= 0.2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibbluray_plugin.so
+# R: libvncserver >= 0.9.9
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblibvnc_plugin.so
 # R: zvbi >= 0.2.28
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/liblinsys_hdsdi_plugin.so
@@ -589,6 +590,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libddummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdvbsub_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libedummy_plugin.so
+# R: tremor
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtremor_plugin.so
 # R: faad2-libs
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libfaad_plugin.so
 # R: flac
