@@ -56,18 +56,17 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	2.1.4
+Version:	2.1.5
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	7ed67d22f7425011078772bfc62ac222
+# Source0-md5:	3941b561f590cc95ca5e795213cba2f2
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-defaultfont.patch
 Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
 Patch7:		no-cache.patch
-#Patch9:		%{name}-libdvbpsi.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	EGL-devel
@@ -96,7 +95,7 @@ BuildRequires:	freerdp-devel >= 1.0.1
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
-BuildRequires:	gettext-devel >= 0.18.1
+BuildRequires:	gettext-devel >= 0.18.3
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.0.20}
 %{?with_notify:BuildRequires:	gtk+2-devel >= 2.0}
@@ -155,7 +154,7 @@ BuildRequires:	libvorbis-devel >= 1:1.1
 BuildRequires:	libxcb-devel >= 1.6
 BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live-devel > 2014.07.04}
+%{?with_live:BuildRequires:	live-devel >= 2014.07.04}
 # note: vlc now defaults to lua5.2 if it's installed
 #BuildRequires:	lua52 >= 5.2
 #BuildRequires:	lua52-devel >= 5.2
