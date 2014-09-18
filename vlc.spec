@@ -147,6 +147,7 @@ BuildRequires:	libtool >= 2:2
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-x11-devel
+BuildRequires:  libvdpau-devel
 BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 # x264.pc >= 0.86
