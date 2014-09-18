@@ -147,7 +147,7 @@ BuildRequires:	libtool >= 2:2
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-x11-devel
-BuildRequires:  libvdpau-devel
+BuildRequires:	libvdpau-devel
 BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 # x264.pc >= 0.86
@@ -157,10 +157,10 @@ BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel >= 2014.07.04}
 # note: vlc now defaults to lua5.2 if it's installed
-#BuildRequires:	lua52 >= 5.2
-#BuildRequires:	lua52-devel >= 5.2
 BuildRequires:	lua51 >= 5.1
 BuildRequires:	lua51-devel >= 5.1
+#BuildRequires:	lua52 >= 5.2
+#BuildRequires:	lua52-devel >= 5.2
 BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
 %{?with_opencv:BuildRequires:	opencv-devel > 2.0}
