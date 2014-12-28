@@ -96,7 +96,7 @@ BuildRequires:	freerdp-devel >= 1.0.1
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
-BuildRequires:	gettext-devel >= 0.18.3
+BuildRequires:	gettext-tools >= 0.18.3
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel}
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.0.20}
 %{?with_notify:BuildRequires:	gtk+2-devel >= 2.0}
