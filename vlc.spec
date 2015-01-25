@@ -171,7 +171,7 @@ BuildRequires:	pulseaudio-devel >= 0.9.22
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
-%{?with_speex:BuildRequires:	speexdsp-devel > 1:1.1.0}
+%{?with_speex:BuildRequires:	speexdsp-devel >= 1.2}
 BuildRequires:	sysfsutils-devel
 BuildRequires:	taglib-devel >= 1.6.1
 BuildRequires:	tremor-devel
