@@ -1,0 +1,11 @@
+--- vlc-2.2.0/modules/codec/Makefile.am~	2015-02-26 21:11:26.000000000 +0100
++++ vlc-2.2.0/modules/codec/Makefile.am	2015-03-03 14:14:01.553414900 +0100
+@@ -234,7 +234,7 @@
+ libtremor_plugin_la_SOURCES = codec/vorbis.c
+ libtremor_plugin_la_CPPFLAGS = $(AM_CPPFLAGS) -DMODULE_NAME_IS_tremor
+ libtremor_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(codecdir)'
+-libtremor_plugin_la_LIBADD = -lvorbisdec -logg
++libtremor_plugin_la_LIBADD = -lvorbisidec -logg
+ EXTRA_LTLIBRARIES += libtremor_plugin.la
+ codec_LTLIBRARIES += $(LTLIBtremor)
+ 
