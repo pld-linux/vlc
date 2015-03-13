@@ -45,19 +45,23 @@
 %bcond_without	upnp		# upnp service discovery plugin
 %bcond_without	vsxu		# Vovoid VSXu visualization plugin
 %bcond_without	x264		# x264 codec plugin
+%bcond_without	x265		# x265 codec plugin
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
 %define		qtver	4.8.3
 
-%ifnarch i686 pentium4 athlon %{x8664}
+%ifnarch i686 pentium4 athlon %{x8664} x32
 # CrystalHD library requires SSE2 instructions
 %undefine	with_crystalhd
+%endif
+%ifarch x32
+%undefine	with_x265
 %endif
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.2.0
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -148,11 +152,13 @@ BuildRequires:	libtool >= 2:2
 %{?with_upnp:BuildRequires:	libupnp-devel}
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-x11-devel
+BuildRequires:	libva-drm-devel
 BuildRequires:	libvdpau-devel
 BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 # x264.pc >= 0.86
 %{?with_x264:BuildRequires:	libx264-devel}
+%{?with_x265:BuildRequires:	libx265-devel}
 BuildRequires:	libxcb-devel >= 1.6
 BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -397,6 +403,7 @@ Akcje klienta VLC dla Solid.
 	--enable-vcdx \
 	%{!?with_vsxu:--disable-vsxu} \
 	%{!?with_x264:--disable-x264} \
+	%{!?with_x265:--disable-x265} \
 	%{!?with_kde:--without-kde-solid}
 
 %{__make}
@@ -696,7 +703,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvpx_plugin.so
 # R: libx264
 %{?with_x264:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx264_plugin.so}
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx265_plugin.so
+# R: libx265
+%{?with_x265:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx265_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libxwd_plugin.so
 # R: zvbi >= 0.2.28
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libzvbi_plugin.so
@@ -796,7 +804,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/misc/libxml_plugin.so
 
 %dir %{_libdir}/vlc/plugins/video_chroma
-%ifarch %{ix86} %{x8664}
+%ifarch %{ix86} %{x8664} x32
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_chroma/libi420_rgb_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_chroma/libi420_yuy2_mmx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_chroma/libi422_yuy2_mmx_plugin.so
