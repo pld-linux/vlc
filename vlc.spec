@@ -20,7 +20,6 @@
 %bcond_without	bonjour		# bonjour service discovery plugin
 %bcond_without	caca		# caca video output plugin
 %bcond_without	crystalhd	# crystalhd codec plugin
-%bcond_without	dirac		# dirac codec plugin
 %bcond_without	directfb	# directfb video output plugin
 %bcond_without	dv		# dv access plugins
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
@@ -61,7 +60,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.2.0
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -88,7 +87,6 @@ BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 BuildRequires:	dbus-devel >= 1.0.0
 BuildRequires:	desktop-file-utils
-%{?with_dirac:BuildRequires:	dirac-devel >= 0.10.0}
 BuildRequires:	faad2-devel >= 2.5
 %{?with_fdk_aac:BuildRequires:	fdk-aac-devel}
 # libavcodec >= 54.36.0 < 56, libavformat >= 53.21.0, libavutil >= 51.22.0, libswscale, libpostproc
@@ -329,6 +327,8 @@ Akcje klienta VLC dla Solid.
 
 %patch7 -p1
 
+sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
+
 %build
 %{__libtoolize}
 %{__gettextize}
@@ -357,14 +357,12 @@ Akcje klienta VLC dla Solid.
 	--enable-caca%{!?with_caca:=no} \
 	--enable-crystalhd%{!?with_crystalhd:=no} \
 	--enable-dbus \
-	%{?with_dirac:--enable-dirac} \
 	%{?with_directfb:--enable-directfb} \
 	--enable-dv1394%{!?with_dv:=no} \
 	--enable-dvbpsi \
 	--enable-dvdnav \
 	--enable-dvdread \
 	%{?with_fdk_aac:--enable-fdkaac} \
-	--enable-egl \
 	--enable-faad \
 	--enable-flac \
 	--enable-freetype \
@@ -629,10 +627,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcrystalhd_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcvdsub_plugin.so
-%if %{with dirac}
-# R: dirac >= 0.10.0
-#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdirac_plugin.so
-%endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdts_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libddummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdvbsub_plugin.so
