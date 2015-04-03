@@ -29,6 +29,7 @@
 %bcond_without	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
 %bcond_without	live		# live555 demuxer plugin
+%bcond_with	mfx		# Intel QuickSync MPEG4-Part10/MPEG2 (H.264/H.262) encoder
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
@@ -163,6 +164,7 @@ BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_live:BuildRequires:	live-devel >= 2014.07.04}
 BuildRequires:	lua52 >= 5.2
 BuildRequires:	lua52-devel >= 5.2
+%{?with_mfx:BuildRequires:	mfx_dispatch-devel}
 BuildRequires:	minizip-devel
 BuildRequires:	ncurses-devel
 %{?with_opencv:BuildRequires:	opencv-devel > 2.0}
@@ -374,6 +376,7 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 	--enable-mad \
 	--enable-libva \
 	--enable-live555%{!?with_live:=no} \
+	%{!?with_mfx:--disable-mfx} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
 	--enable-omxil \
@@ -663,6 +666,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libopus_plugin.so
 # R: libpng
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libpng_plugin.so
+%if %{with mfx}
+# R: mfx_dispatch
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libqsv_plugin.so
+%endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/librawvideo_plugin.so
 # R: schroedinger >= 1.0.10
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libschroedinger_plugin.so
