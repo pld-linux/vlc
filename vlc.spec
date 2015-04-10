@@ -204,6 +204,7 @@ BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires(post):	/sbin/ldconfig
+Requires:	lua52-libs > 5.2.3-2
 Requires:	xdg-utils
 Obsoletes:	browser-plugin-vlc
 Obsoletes:	vlc-GGI
