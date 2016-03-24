@@ -1,0 +1,493 @@
+diff -ur vlc-2.2.2/configure.ac vlc-2.2.2.ffmpeg3/configure.ac
+--- vlc-2.2.2/configure.ac	2016-03-24 14:55:02.581707871 +0100
++++ vlc-2.2.2.ffmpeg3/configure.ac	2016-03-24 14:42:41.189209910 +0100
+@@ -2323,9 +2323,6 @@
+ [  --enable-avcodec        libavcodec codec (default enabled)])
+ AS_IF([test "${enable_avcodec}" != "no"], [
+   PKG_CHECK_MODULES(AVCODEC,[libavcodec >= 53.34.0 libavutil >= 51.22.0], [
+-    PKG_CHECK_EXISTS([libavutil < 55],, [
+-      AC_MSG_ERROR([libavutil versions 55 and later are not supported.])
+-    ])
+     VLC_SAVE_FLAGS
+     CPPFLAGS="${CPPFLAGS} ${AVCODEC_CFLAGS}"
+     CFLAGS="${CFLAGS} ${AVCODEC_CFLAGS}"
+@@ -2382,9 +2379,6 @@
+ AS_IF([test "${have_vaapi}" = "yes" -a "${have_avcodec}" = "yes"], [
+   case "${avfork}" in
+     ffmpeg)
+-      PKG_CHECK_EXISTS([libavcodec >= 57.10.100], [
+-        AC_MSG_ERROR([VA API requires FFmpeg libavcodec < 57.10 or libav.])
+-      ])
+       ;;
+   esac
+   VLC_SAVE_FLAGS
+@@ -2416,9 +2410,6 @@
+   AS_IF([test "x${have_avcodec}" = "xyes"], [
+     case "${avfork}" in
+       ffmpeg)
+-        PKG_CHECK_EXISTS([libavcodec >= 57.10.100], [
+-          AC_MSG_ERROR([DXVA2 requires FFmpeg libavcodec < 57.10 or libav.])
+-        ])
+         ;;
+     esac
+     AC_CHECK_HEADERS(dxva2api.h,
+@@ -3180,9 +3171,6 @@
+   case "${avfork}" in
+     libav) av_vdpau_ver="55.26.0" ;;
+     ffmpeg) av_vdpau_ver="55.42.100"
+-      PKG_CHECK_EXISTS([libavcodec >= 57.10.100], [
+-        AC_MSG_ERROR([VDPAU requires FFmpeg libavcodec < 57.10 or libav.])
+-      ])
+       ;;
+   esac
+   PKG_CHECK_EXISTS([libavutil >= 52.4.0 libavcodec >= ${av_vdpau_ver}], [
+diff -ur vlc-2.2.2/modules/codec/avcodec/audio.c vlc-2.2.2.ffmpeg3/modules/codec/avcodec/audio.c
+--- vlc-2.2.2/modules/codec/avcodec/audio.c	2016-01-18 21:49:57.000000000 +0100
++++ vlc-2.2.2.ffmpeg3/modules/codec/avcodec/audio.c	2016-03-24 14:44:59.137581977 +0100
+@@ -39,7 +39,6 @@
+ #include <libavcodec/avcodec.h>
+ #include <libavutil/mem.h>
+ 
+-#include <libavutil/audioconvert.h>
+ 
+ #include "avcodec.h"
+ 
+diff -ur vlc-2.2.2/modules/codec/avcodec/chroma.c vlc-2.2.2.ffmpeg3/modules/codec/avcodec/chroma.c
+--- vlc-2.2.2/modules/codec/avcodec/chroma.c	2015-06-30 15:53:31.000000000 +0200
++++ vlc-2.2.2.ffmpeg3/modules/codec/avcodec/chroma.c	2016-03-24 14:42:39.442521648 +0100
+@@ -62,77 +62,77 @@
+ } chroma_table[] =
+ {
+     /* Planar YUV formats */
+-    {VLC_CODEC_I444, PIX_FMT_YUV444P, 0, 0, 0 },
+-    {VLC_CODEC_J444, PIX_FMT_YUVJ444P, 0, 0, 0 },
++    {VLC_CODEC_I444, AV_PIX_FMT_YUV444P, 0, 0, 0 },
++    {VLC_CODEC_J444, AV_PIX_FMT_YUVJ444P, 0, 0, 0 },
+ 
+-    {VLC_CODEC_I440, PIX_FMT_YUV440P, 0, 0, 0 },
+-    {VLC_CODEC_J440, PIX_FMT_YUVJ440P, 0, 0, 0 },
++    {VLC_CODEC_I440, AV_PIX_FMT_YUV440P, 0, 0, 0 },
++    {VLC_CODEC_J440, AV_PIX_FMT_YUVJ440P, 0, 0, 0 },
+ 
+-    {VLC_CODEC_I422, PIX_FMT_YUV422P, 0, 0, 0 },
+-    {VLC_CODEC_J422, PIX_FMT_YUVJ422P, 0, 0, 0 },
++    {VLC_CODEC_I422, AV_PIX_FMT_YUV422P, 0, 0, 0 },
++    {VLC_CODEC_J422, AV_PIX_FMT_YUVJ422P, 0, 0, 0 },
+ 
+-    {VLC_CODEC_I420, PIX_FMT_YUV420P, 0, 0, 0 },
+-    {VLC_CODEC_YV12, PIX_FMT_YUV420P, 0, 0, 0 },
+-    {VLC_FOURCC('I','Y','U','V'), PIX_FMT_YUV420P, 0, 0, 0 },
+-    {VLC_CODEC_J420, PIX_FMT_YUVJ420P, 0, 0, 0 },
+-    {VLC_CODEC_I411, PIX_FMT_YUV411P, 0, 0, 0 },
+-    {VLC_CODEC_I410, PIX_FMT_YUV410P, 0, 0, 0 },
+-    {VLC_FOURCC('Y','V','U','9'), PIX_FMT_YUV410P, 0, 0, 0 },
+-
+-    {VLC_FOURCC('N','V','1','2'), PIX_FMT_NV12, 0, 0, 0 },
+-    {VLC_FOURCC('N','V','2','1'), PIX_FMT_NV21, 0, 0, 0 },
+-
+-    {VLC_CODEC_I420_9L, PIX_FMT_YUV420P9LE, 0, 0, 0 },
+-    {VLC_CODEC_I420_9B, PIX_FMT_YUV420P9BE, 0, 0, 0 },
+-    {VLC_CODEC_I420_10L, PIX_FMT_YUV420P10LE, 0, 0, 0 },
+-    {VLC_CODEC_I420_10B, PIX_FMT_YUV420P10BE, 0, 0, 0 },
++    {VLC_CODEC_I420, AV_PIX_FMT_YUV420P, 0, 0, 0 },
++    {VLC_CODEC_YV12, AV_PIX_FMT_YUV420P, 0, 0, 0 },
++    {VLC_FOURCC('I','Y','U','V'), AV_PIX_FMT_YUV420P, 0, 0, 0 },
++    {VLC_CODEC_J420, AV_PIX_FMT_YUVJ420P, 0, 0, 0 },
++    {VLC_CODEC_I411, AV_PIX_FMT_YUV411P, 0, 0, 0 },
++    {VLC_CODEC_I410, AV_PIX_FMT_YUV410P, 0, 0, 0 },
++    {VLC_FOURCC('Y','V','U','9'), AV_PIX_FMT_YUV410P, 0, 0, 0 },
++
++    {VLC_FOURCC('N','V','1','2'), AV_PIX_FMT_NV12, 0, 0, 0 },
++    {VLC_FOURCC('N','V','2','1'), AV_PIX_FMT_NV21, 0, 0, 0 },
++
++    {VLC_CODEC_I420_9L, AV_PIX_FMT_YUV420P9LE, 0, 0, 0 },
++    {VLC_CODEC_I420_9B, AV_PIX_FMT_YUV420P9BE, 0, 0, 0 },
++    {VLC_CODEC_I420_10L, AV_PIX_FMT_YUV420P10LE, 0, 0, 0 },
++    {VLC_CODEC_I420_10B, AV_PIX_FMT_YUV420P10BE, 0, 0, 0 },
+ #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51,13,0)
+-    {VLC_CODEC_I422_9L, PIX_FMT_YUV422P9LE, 0, 0, 0 },
+-    {VLC_CODEC_I422_9B, PIX_FMT_YUV422P9BE, 0, 0, 0 },
++    {VLC_CODEC_I422_9L, AV_PIX_FMT_YUV422P9LE, 0, 0, 0 },
++    {VLC_CODEC_I422_9B, AV_PIX_FMT_YUV422P9BE, 0, 0, 0 },
+ #endif
+-    {VLC_CODEC_I422_10L, PIX_FMT_YUV422P10LE, 0, 0, 0 },
+-    {VLC_CODEC_I422_10B, PIX_FMT_YUV422P10BE, 0, 0, 0 },
++    {VLC_CODEC_I422_10L, AV_PIX_FMT_YUV422P10LE, 0, 0, 0 },
++    {VLC_CODEC_I422_10B, AV_PIX_FMT_YUV422P10BE, 0, 0, 0 },
+ 
+-    {VLC_CODEC_YUV420A, PIX_FMT_YUVA420P, 0, 0, 0 },
++    {VLC_CODEC_YUV420A, AV_PIX_FMT_YUVA420P, 0, 0, 0 },
+ #if LIBAVUTIL_VERSION_CHECK( 51, 45, 0, 74, 100 )
+     {VLC_CODEC_YUV422A, AV_PIX_FMT_YUVA422P, 0, 0, 0 },
+ #endif
+ 
+-    {VLC_CODEC_I444_9L, PIX_FMT_YUV444P9LE, 0, 0, 0 },
+-    {VLC_CODEC_I444_9B, PIX_FMT_YUV444P9BE, 0, 0, 0 },
+-    {VLC_CODEC_I444_10L, PIX_FMT_YUV444P10LE, 0, 0, 0 },
+-    {VLC_CODEC_I444_10B, PIX_FMT_YUV444P10BE, 0, 0, 0 },
+-    {VLC_CODEC_I444_16L, PIX_FMT_YUV444P16LE, 0, 0, 0 },
+-    {VLC_CODEC_I444_16B, PIX_FMT_YUV444P16BE, 0, 0, 0 },
++    {VLC_CODEC_I444_9L, AV_PIX_FMT_YUV444P9LE, 0, 0, 0 },
++    {VLC_CODEC_I444_9B, AV_PIX_FMT_YUV444P9BE, 0, 0, 0 },
++    {VLC_CODEC_I444_10L, AV_PIX_FMT_YUV444P10LE, 0, 0, 0 },
++    {VLC_CODEC_I444_10B, AV_PIX_FMT_YUV444P10BE, 0, 0, 0 },
++    {VLC_CODEC_I444_16L, AV_PIX_FMT_YUV444P16LE, 0, 0, 0 },
++    {VLC_CODEC_I444_16B, AV_PIX_FMT_YUV444P16BE, 0, 0, 0 },
+ 
+     /* Packed YUV formats */
+-    {VLC_CODEC_YUYV, PIX_FMT_YUYV422, 0, 0, 0 },
+-    {VLC_FOURCC('Y','U','Y','V'), PIX_FMT_YUYV422, 0, 0, 0 },
+-    {VLC_CODEC_UYVY, PIX_FMT_UYVY422, 0, 0, 0 },
+-    {VLC_FOURCC('Y','4','1','1'), PIX_FMT_UYYVYY411, 0, 0, 0 },
++    {VLC_CODEC_YUYV, AV_PIX_FMT_YUYV422, 0, 0, 0 },
++    {VLC_FOURCC('Y','U','Y','V'), AV_PIX_FMT_YUYV422, 0, 0, 0 },
++    {VLC_CODEC_UYVY, AV_PIX_FMT_UYVY422, 0, 0, 0 },
++    {VLC_FOURCC('Y','4','1','1'), AV_PIX_FMT_UYYVYY411, 0, 0, 0 },
+ 
+     /* Packed RGB formats */
+-    VLC_RGB( VLC_FOURCC('R','G','B','4'), PIX_FMT_RGB4, PIX_FMT_BGR4, 0x10, 0x06, 0x01 )
+-    VLC_RGB( VLC_FOURCC('R','G','B','8'), PIX_FMT_RGB8, PIX_FMT_BGR8, 0xC0, 0x38, 0x07 )
++    VLC_RGB( VLC_FOURCC('R','G','B','4'), AV_PIX_FMT_RGB4, AV_PIX_FMT_BGR4, 0x10, 0x06, 0x01 )
++    VLC_RGB( VLC_FOURCC('R','G','B','8'), AV_PIX_FMT_RGB8, AV_PIX_FMT_BGR8, 0xC0, 0x38, 0x07 )
+ 
+-    VLC_RGB( VLC_CODEC_RGB15, PIX_FMT_RGB555, PIX_FMT_BGR555, 0x7c00, 0x03e0, 0x001f )
+-    VLC_RGB( VLC_CODEC_RGB16, PIX_FMT_RGB565, PIX_FMT_BGR565, 0xf800, 0x07e0, 0x001f )
+-    VLC_RGB( VLC_CODEC_RGB24, PIX_FMT_BGR24, PIX_FMT_RGB24, 0xff0000, 0x00ff00, 0x0000ff )
++    VLC_RGB( VLC_CODEC_RGB15, AV_PIX_FMT_RGB555, AV_PIX_FMT_BGR555, 0x7c00, 0x03e0, 0x001f )
++    VLC_RGB( VLC_CODEC_RGB16, AV_PIX_FMT_RGB565, AV_PIX_FMT_BGR565, 0xf800, 0x07e0, 0x001f )
++    VLC_RGB( VLC_CODEC_RGB24, AV_PIX_FMT_BGR24, AV_PIX_FMT_RGB24, 0xff0000, 0x00ff00, 0x0000ff )
+ 
+-    VLC_RGB( VLC_CODEC_RGB32, PIX_FMT_RGB32, PIX_FMT_BGR32, 0x00ff0000, 0x0000ff00, 0x000000ff )
+-    VLC_RGB( VLC_CODEC_RGB32, PIX_FMT_RGB32_1, PIX_FMT_BGR32_1, 0xff000000, 0x00ff0000, 0x0000ff00 )
++    VLC_RGB( VLC_CODEC_RGB32, AV_PIX_FMT_RGB32, AV_PIX_FMT_BGR32, 0x00ff0000, 0x0000ff00, 0x000000ff )
++    VLC_RGB( VLC_CODEC_RGB32, AV_PIX_FMT_RGB32_1, AV_PIX_FMT_BGR32_1, 0xff000000, 0x00ff0000, 0x0000ff00 )
+ 
+ #ifdef AV_PIX_FMT_0BGR32
+     VLC_RGB( VLC_CODEC_RGB32, AV_PIX_FMT_0BGR32, AV_PIX_FMT_0RGB32, 0x000000ff, 0x0000ff00, 0x00ff0000 )
+ #endif
+ 
+-    {VLC_CODEC_RGBA, PIX_FMT_RGBA, 0, 0, 0 },
+-    {VLC_CODEC_ARGB, PIX_FMT_ARGB, 0, 0, 0 },
+-    {VLC_CODEC_BGRA, PIX_FMT_BGRA, 0, 0, 0 },
+-    {VLC_CODEC_GREY, PIX_FMT_GRAY8, 0, 0, 0},
++    {VLC_CODEC_RGBA, AV_PIX_FMT_RGBA, 0, 0, 0 },
++    {VLC_CODEC_ARGB, AV_PIX_FMT_ARGB, 0, 0, 0 },
++    {VLC_CODEC_BGRA, AV_PIX_FMT_BGRA, 0, 0, 0 },
++    {VLC_CODEC_GREY, AV_PIX_FMT_GRAY8, 0, 0, 0},
+ 
+      /* Paletized RGB */
+-    {VLC_CODEC_RGBP, PIX_FMT_PAL8, 0, 0, 0},
++    {VLC_CODEC_RGBP, AV_PIX_FMT_PAL8, 0, 0, 0},
+ 
+ #if LIBAVUTIL_VERSION_CHECK(51, 42, 0, 74,100)
+     {VLC_CODEC_GBR_PLANAR, AV_PIX_FMT_GBRP, 0, 0, 0 },
+@@ -201,5 +201,5 @@
+     for( int i = 0; chroma_table[i].i_chroma != 0; i++ )
+         if( chroma_table[i].i_chroma == fourcc )
+             return chroma_table[i].i_chroma_id;
+-    return PIX_FMT_NONE;
++    return AV_PIX_FMT_NONE;
+ }
+diff -ur vlc-2.2.2/modules/codec/avcodec/encoder.c vlc-2.2.2.ffmpeg3/modules/codec/avcodec/encoder.c
+--- vlc-2.2.2/modules/codec/avcodec/encoder.c	2015-10-21 19:48:45.000000000 +0200
++++ vlc-2.2.2.ffmpeg3/modules/codec/avcodec/encoder.c	2016-03-24 14:49:27.040893692 +0100
+@@ -41,7 +41,6 @@
+ #include <vlc_cpu.h>
+ 
+ #include <libavcodec/avcodec.h>
+-#include <libavutil/audioconvert.h>
+ 
+ #include "avcodec.h"
+ #include "avcommon.h"
+@@ -311,7 +311,7 @@
+     else if( !GetFfmpegCodec( p_enc->fmt_out.i_codec, &i_cat, &i_codec_id,
+                              &psz_namecodec ) )
+     {
+-        if( FindFfmpegChroma( p_enc->fmt_out.i_codec ) == PIX_FMT_NONE )
++        if( FindFfmpegChroma( p_enc->fmt_out.i_codec ) == AV_PIX_FMT_NONE )
+             return VLC_EGENERIC; /* handed chroma output */
+ 
+         i_cat      = VIDEO_ES;
+@@ -555,7 +555,7 @@
+ 
+         if( p_codec->pix_fmts )
+         {
+-            const enum PixelFormat *p = p_codec->pix_fmts;
++            const enum AVPixelFormat *p = p_codec->pix_fmts;
+             for( ; *p != -1; p++ )
+             {
+                 if( *p == p_context->pix_fmt ) break;
+@@ -1017,7 +1017,7 @@
+         }
+     }
+ 
+-    p_sys->frame = avcodec_alloc_frame();
++    p_sys->frame = av_frame_alloc();
+     if( !p_sys->frame )
+     {
+         goto error;
+@@ -1088,7 +1088,7 @@
+     AVFrame *frame = NULL;
+     if( likely(p_pict) ) {
+         frame = p_sys->frame;
+-        avcodec_get_frame_defaults( frame );
++        av_frame_unref( frame );
+         for( i_plane = 0; i_plane < p_pict->i_planes; i_plane++ )
+         {
+             p_sys->frame->data[i_plane] = p_pict->p[i_plane].p_pixels;
+@@ -1329,7 +1329,7 @@
+     //How much we need to copy from new packet
+     const int leftover = leftover_samples * p_sys->p_context->channels * p_sys->i_sample_bytes;
+ 
+-    avcodec_get_frame_defaults( p_sys->frame );
++    av_frame_unref( p_sys->frame );
+     p_sys->frame->format     = p_sys->p_context->sample_fmt;
+     p_sys->frame->nb_samples = leftover_samples + p_sys->i_samples_delay;
+ 
+@@ -1451,7 +1451,7 @@
+     while( ( p_aout_buf->i_nb_samples >= p_sys->i_frame_size ) ||
+            ( p_sys->b_variable && p_aout_buf->i_nb_samples ) )
+     {
+-        avcodec_get_frame_defaults( p_sys->frame );
++        av_frame_unref( p_sys->frame );
+         if( p_sys->b_variable )
+             p_sys->frame->nb_samples = p_aout_buf->i_nb_samples;
+         else
+@@ -1514,7 +1514,7 @@
+     encoder_t *p_enc = (encoder_t *)p_this;
+     encoder_sys_t *p_sys = p_enc->p_sys;
+ 
+-    /*FIXME: we should use avcodec_free_frame, but we don't require so new avcodec that has it*/
++    /*FIXME: we should use av_frame_free, but we don't require so new avcodec that has it*/
+     av_freep( &p_sys->frame );
+ 
+     vlc_avcodec_lock();
+diff -ur vlc-2.2.2/modules/codec/avcodec/vaapi.c vlc-2.2.2.ffmpeg3/modules/codec/avcodec/vaapi.c
+--- vlc-2.2.2/modules/codec/avcodec/vaapi.c	2015-02-02 20:42:29.000000000 +0100
++++ vlc-2.2.2.ffmpeg3/modules/codec/avcodec/vaapi.c	2016-03-24 14:49:59.504628311 +0100
+@@ -595,7 +595,7 @@
+         return err;
+ 
+     /* Only VLD supported */
+-    p_va->pix_fmt = PIX_FMT_VAAPI_VLD;
++    p_va->pix_fmt = AV_PIX_FMT_VAAPI_VLD;
+     p_va->setup = Setup;
+     p_va->get = Get;
+     p_va->release = Release;
+diff -ur vlc-2.2.2/modules/codec/avcodec/video.c vlc-2.2.2.ffmpeg3/modules/codec/avcodec/video.c
+--- vlc-2.2.2/modules/codec/avcodec/video.c	2015-10-21 19:48:45.000000000 +0200
++++ vlc-2.2.2.ffmpeg3/modules/codec/avcodec/video.c	2016-03-24 14:47:01.769097935 +0100
+@@ -108,8 +108,8 @@
+ static int  ffmpeg_GetFrameBuf    ( struct AVCodecContext *, AVFrame * );
+ static void ffmpeg_ReleaseFrameBuf( struct AVCodecContext *, AVFrame * );
+ #endif
+-static enum PixelFormat ffmpeg_GetFormat( AVCodecContext *,
+-                                          const enum PixelFormat * );
++static enum AVPixelFormat ffmpeg_GetFormat( AVCodecContext *,
++                                            const enum AVPixelFormat * );
+ 
+ static uint32_t ffmpeg_CodecTag( vlc_fourcc_t fcc )
+ {
+@@ -234,7 +234,7 @@
+     p_sys->p_codec = p_codec;
+     p_sys->i_codec_id = i_codec_id;
+     p_sys->psz_namecodec = psz_namecodec;
+-    p_sys->p_ff_pic = avcodec_alloc_frame();
++    p_sys->p_ff_pic = av_frame_alloc();
+     p_sys->b_delayed_open = true;
+     p_sys->p_va = NULL;
+     vlc_sem_init( &p_sys->sem_mt, 0 );
+@@ -446,7 +446,7 @@
+     if( ffmpeg_OpenCodec( p_dec ) < 0 )
+     {
+         msg_Err( p_dec, "cannot open codec (%s)", p_sys->psz_namecodec );
+-        avcodec_free_frame( &p_sys->p_ff_pic );
++        av_frame_free( &p_sys->p_ff_pic );
+         vlc_sem_destroy( &p_sys->sem_mt );
+         free( p_sys );
+         return VLC_EGENERIC;
+@@ -826,7 +826,7 @@
+     wait_mt( p_sys );
+ 
+     if( p_sys->p_ff_pic )
+-        avcodec_free_frame( &p_sys->p_ff_pic );
++        av_frame_free( &p_sys->p_ff_pic );
+ 
+     if( p_sys->p_va )
+         vlc_va_Delete( p_sys->p_va );
+@@ -1004,7 +1004,7 @@
+     if (GetVlcChroma(&dec->fmt_out.video, ctx->pix_fmt) != VLC_SUCCESS)
+         return NULL;
+     dec->fmt_out.i_codec = dec->fmt_out.video.i_chroma;
+-    if (ctx->pix_fmt == PIX_FMT_PAL8)
++    if (ctx->pix_fmt == AV_PIX_FMT_PAL8)
+         return NULL;
+ 
+     int width = frame->width;
+@@ -1180,7 +1180,7 @@
+     if (GetVlcChroma(&p_dec->fmt_out.video, p_context->pix_fmt) != VLC_SUCCESS)
+         goto no_dr;
+ 
+-    if (p_context->pix_fmt == PIX_FMT_PAL8)
++    if (p_context->pix_fmt == AV_PIX_FMT_PAL8)
+         goto no_dr;
+ 
+     p_dec->fmt_out.i_codec = p_dec->fmt_out.video.i_chroma;
+@@ -1215,7 +1215,7 @@
+             goto no_dr;
+     }
+ 
+-    if( p_context->pix_fmt == PIX_FMT_YUV422P )
++    if( p_context->pix_fmt == AV_PIX_FMT_YUV422P )
+     {
+         if( 2 * p_pic->p[1].i_pitch != p_pic->p[0].i_pitch ||
+             2 * p_pic->p[2].i_pitch != p_pic->p[0].i_pitch )
+@@ -1313,8 +1313,8 @@
+ }
+ #endif
+ 
+-static enum PixelFormat ffmpeg_GetFormat( AVCodecContext *p_context,
+-                                          const enum PixelFormat *pi_fmt )
++static enum AVPixelFormat ffmpeg_GetFormat( AVCodecContext *p_context,
++                                            const enum AVPixelFormat *pi_fmt )
+ {
+     decoder_t *p_dec = p_context->opaque;
+     decoder_sys_t *p_sys = p_dec->p_sys;
+@@ -1325,7 +1325,7 @@
+ 
+     /* Enumerate available formats */
+     bool can_hwaccel = false;
+-    for( size_t i = 0; pi_fmt[i] != PIX_FMT_NONE; i++ )
++    for( size_t i = 0; pi_fmt[i] != AV_PIX_FMT_NONE; i++ )
+     {
+         const AVPixFmtDescriptor *dsc = av_pix_fmt_desc_get(pi_fmt[i]);
+         if (dsc == NULL)
+@@ -1341,6 +1341,15 @@
+     if (!can_hwaccel)
+         goto end;
+ 
++#if (LIBAVCODEC_VERSION_MICRO >= 100) /* FFmpeg only */
++    if (p_context->active_thread_type)
++    {
++        msg_Warn(p_dec, "thread type %d: disabling hardware acceleration",
++                 p_context->active_thread_type);
++        goto end;
++    }
++#endif
++
+     /* Profile and level information is needed now.
+      * TODO: avoid code duplication with avcodec.c */
+     if( p_context->profile != FF_PROFILE_UNKNOWN)
+@@ -1352,7 +1361,7 @@
+     if( p_va == NULL )
+         goto end;
+ 
+-    for( size_t i = 0; pi_fmt[i] != PIX_FMT_NONE; i++ )
++    for( size_t i = 0; pi_fmt[i] != AV_PIX_FMT_NONE; i++ )
+     {
+         if( p_va->pix_fmt != pi_fmt[i] )
+             continue;
+diff -ur vlc-2.2.2/modules/video_chroma/swscale.c vlc-2.2.2.ffmpeg3/modules/video_chroma/swscale.c
+--- vlc-2.2.2/modules/video_chroma/swscale.c	2015-10-21 19:48:45.000000000 +0200
++++ vlc-2.2.2.ffmpeg3/modules/video_chroma/swscale.c	2016-03-24 14:42:39.442521648 +0100
+@@ -36,6 +36,7 @@
+ #include <vlc_cpu.h>
+ 
+ #include <libswscale/swscale.h>
++#include <libswscale/version.h>
+ 
+ #ifdef __APPLE__
+ # include <TargetConditionals.h>
+@@ -235,6 +236,7 @@
+ {
+     int i_sws_cpu = 0;
+ 
++#if LIBSWSCALE_VERSION_MAJOR < 4
+ #if defined(__i386__) || defined(__x86_64__)
+     if( vlc_CPU_MMX() )
+         i_sws_cpu |= SWS_CPU_CAPS_MMX;
+@@ -248,6 +250,7 @@
+     if( vlc_CPU_ALTIVEC() )
+         i_sws_cpu |= SWS_CPU_CAPS_ALTIVEC;
+ #endif
++#endif
+ 
+     return i_sws_cpu;
+ }
+@@ -257,35 +260,35 @@
+     switch( fmt )
+     {
+     case VLC_CODEC_YUV422A:
+-        *pi_fmt = PIX_FMT_YUV422P;
++        *pi_fmt = AV_PIX_FMT_YUV422P;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_YUV420A:
+-        *pi_fmt = PIX_FMT_YUV420P;
++        *pi_fmt = AV_PIX_FMT_YUV420P;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_YUVA:
+-        *pi_fmt = PIX_FMT_YUV444P;
++        *pi_fmt = AV_PIX_FMT_YUV444P;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_RGBA:
+-        *pi_fmt = PIX_FMT_BGR32;
++        *pi_fmt = AV_PIX_FMT_BGR32;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_ARGB:
+-        *pi_fmt = PIX_FMT_BGR32_1;
++        *pi_fmt = AV_PIX_FMT_BGR32_1;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_BGRA:
+-        *pi_fmt = PIX_FMT_RGB32;
++        *pi_fmt = AV_PIX_FMT_RGB32;
+         *pb_has_a = true;
+         break;
+     case VLC_CODEC_YV12:
+-        *pi_fmt = PIX_FMT_YUV420P;
++        *pi_fmt = AV_PIX_FMT_YUV420P;
+         *pb_swap_uv = true;
+         break;
+     case VLC_CODEC_YV9:
+-        *pi_fmt = PIX_FMT_YUV410P;
++        *pi_fmt = AV_PIX_FMT_YUV410P;
+         *pb_swap_uv = true;
+         break;
+     default:
+@@ -314,7 +317,7 @@
+     {
+         if( p_fmti->i_chroma == VLC_CODEC_YUVP && ALLOW_YUVP )
+         {
+-            i_fmti = i_fmto = PIX_FMT_GRAY8;
++            i_fmti = i_fmto = AV_PIX_FMT_GRAY8;
+             i_sws_flags = SWS_POINT;
+         }
+     }
+@@ -327,9 +330,9 @@
+      * Without SWS_ACCURATE_RND the quality is really bad for some conversions */
+     switch( i_fmto )
+     {
+-    case PIX_FMT_ARGB:
+-    case PIX_FMT_RGBA:
+-    case PIX_FMT_ABGR:
++    case AV_PIX_FMT_ARGB:
++    case AV_PIX_FMT_RGBA:
++    case AV_PIX_FMT_ABGR:
+         i_sws_flags |= SWS_ACCURATE_RND;
+         break;
+     }
+@@ -403,8 +406,8 @@
+     const unsigned i_fmto_visible_width = p_fmto->i_visible_width * p_sys->i_extend_factor;
+     for( int n = 0; n < (cfg.b_has_a ? 2 : 1); n++ )
+     {
+-        const int i_fmti = n == 0 ? cfg.i_fmti : PIX_FMT_GRAY8;
+-        const int i_fmto = n == 0 ? cfg.i_fmto : PIX_FMT_GRAY8;
++        const int i_fmti = n == 0 ? cfg.i_fmti : AV_PIX_FMT_GRAY8;
++        const int i_fmto = n == 0 ? cfg.i_fmto : AV_PIX_FMT_GRAY8;
+         struct SwsContext *ctx;
+ 
+         ctx = sws_getContext( i_fmti_visible_width, p_fmti->i_visible_height, i_fmti,
