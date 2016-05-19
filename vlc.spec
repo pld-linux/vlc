@@ -24,6 +24,7 @@
 %bcond_without	directfb	# directfb video output plugin
 %bcond_without	dv		# dv access plugins
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
+%bcond_with	freerdp		# RDP/Remote Desktop client support
 %bcond_with	glesv1		# OpenGL ES v1 support
 %bcond_with	glesv2		# OpenGL ES v2 support
 %bcond_without	gnomevfs	# gnomevfs access plugin
@@ -103,7 +104,7 @@ BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080131.1
 BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	fluidsynth-devel >= 1.1.2
 BuildRequires:	fontconfig-devel
-BuildRequires:	freerdp-devel >= 1.0.1
+%{?with_freerdp:BuildRequires:	freerdp-devel >= 1.0.1}
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
@@ -382,6 +383,7 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 	%{?with_fdk_aac:--enable-fdkaac} \
 	--enable-faad \
 	--enable-flac \
+	%{?with_freerdp:--enable-freerdp}%{!?with_freerdp:--disable-freerdp} \
 	--enable-freetype \
 	--enable-fribidi \
 	%{?with_glesv1:--enable-gles1} \
@@ -569,7 +571,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libpulsesrc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libsdp_plugin.so
 # R: freerdp >= 1.0.1
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/librdp_plugin.so
+%{?with_freerdp:%attr(755,root,root) %{_libdir}/vlc/plugins/access/librdp_plugin.so}
 # R: libgcrypt >= 1.1.94 (optional, for srtp functionality)
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libtimecode_plugin.so
