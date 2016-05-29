@@ -425,7 +425,7 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 	%{!?with_vsxu:--disable-vsxu} \
 	%{!?with_x264:--disable-x264} \
 	%{!?with_x265:--disable-x265} \
-	%{!?with_kde:--without-kde-solid}
+	%{!?with_kde:--without-kde-solid}%{?with_kde:--with-kde-solid=%{_datadir}/apps/solid/actions}
 
 %{__make}
 
