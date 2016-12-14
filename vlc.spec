@@ -494,7 +494,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc
 # R: libX11
 %attr(755,root,root) %{_libdir}/vlc/libvlc_vdpau.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/vlc/libvlc_vdpau.so.0
+%attr(755,root,root) %{_libdir}/vlc/libvlc_vdpau.so.0
 
 %dir %{_libdir}/vlc/plugins
 %ghost %{_libdir}/vlc/plugins/plugins.dat
