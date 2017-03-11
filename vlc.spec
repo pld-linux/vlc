@@ -37,7 +37,7 @@
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
-%bcond_without	projectM	# projectm visualization plugin
+%bcond_with	projectM	# projectm visualization plugin
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
 %bcond_without	smb		# SMB access plugin
@@ -65,7 +65,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	2.2.4
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -76,6 +76,7 @@ Patch2:		%{name}-system-minizip.patch
 Patch3:		xmas-sucks.patch
 Patch4:		ffmpeg3.patch
 Patch5:		no-cache.patch
+Patch6:		atomic.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -344,6 +345,7 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 
