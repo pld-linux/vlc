@@ -472,6 +472,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post X11
 %update_desktop_database
+%{_libdir}/vlc/vlc-cache-gen -f %{_libdir}/vlc/plugins || :
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
