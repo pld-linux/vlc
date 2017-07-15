@@ -1,0 +1,11 @@
+--- configure.ac	2017-07-15 14:16:30.234621071 +0200
++++ configure.ac.orig	2017-07-10 04:26:50.000000000 +0200
+@@ -2127,7 +2127,7 @@
+ then
+   AC_CHECK_HEADERS([mpc/mpcdec.h], [
+     VLC_ADD_PLUGIN([mpc])
+-    VLC_ADD_LIBS([mpc],[-lmpcdec])],
++    VLC_ADD_LIBS([mpc],[-lmpcdecsv8])],
+     [AC_CHECK_HEADERS([mpcdec/mpcdec.h], [
+     VLC_ADD_PLUGIN([mpc])
+     VLC_ADD_LIBS([mpc],[-lmpcdec])])])
