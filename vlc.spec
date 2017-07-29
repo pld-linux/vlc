@@ -9,7 +9,6 @@
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 # - [recheck old TODO]: flac plugin doesn't work with mono files
 # - --enable-wma-fixed (fixed-point WMA - does it make sense on non-embedded?)
-# - decklink plugin (BR: Blackmagick DeckLink SDI, DeckLinkAPIDispatch.cpp) [proprietary?]
 # - Hildon (hildon-1.pc hildon-fm-2.pc)
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
 # - mce (Maemo platform)
@@ -21,6 +20,7 @@
 %bcond_without	bonjour		# bonjour service discovery plugin
 %bcond_without	caca		# caca video output plugin
 %bcond_without	crystalhd	# crystalhd codec plugin
+%bcond_with	decklink	# Blackmagic DeskLink output support (BR: proprietary SDK)
 %bcond_without	directfb	# directfb video output plugin
 %bcond_without	dv		# dv access plugins
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
@@ -37,6 +37,7 @@
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
+%bcond_with	qt5		# Qt5 instead of Qt4
 %bcond_with	projectM	# projectm visualization plugin
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
@@ -52,7 +53,8 @@
 %bcond_without	x265		# x265 codec plugin
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
-%define		qt_ver	4.8.3
+%define		qt4_ver	4.8.3
+%define		qt5_ver	5.6.0
 
 %ifnarch i686 pentium4 athlon %{x8664} x32
 # CrystalHD library requires SSE2 instructions
@@ -83,8 +85,15 @@ BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
 BuildRequires:	OpenGL-devel
 %{?with_glesv1:BuildRequires:	OpenGLESv1-devel >= 1.1}
 %{?with_glesv2:BuildRequires:	OpenGLESv2-devel >= 2.0}
-BuildRequires:	QtCore-devel >= %{qt_ver}
-BuildRequires:	QtGui-devel >= %{qt_ver}
+%if %{with qt5}
+BuildRequires:	Qt5Core-devel >= %{qt5_ver}
+BuildRequires:	Qt5Gui-devel >= %{qt5_ver}
+BuildRequires:	Qt5Widgets-devel >= %{qt5_ver}
+BuildRequires:	Qt5X11Extras-devel >= %{qt5_ver}
+%else
+BuildRequires:	QtCore-devel >= %{qt4_ver}
+BuildRequires:	QtGui-devel >= %{qt4_ver}
+%endif
 BuildRequires:	SDL-devel >= 1.2.10
 BuildRequires:	SDL_image-devel >= 1.2.10
 BuildRequires:	a52dec-libs-devel >= 0.7.3
@@ -96,6 +105,7 @@ BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 %{?with_svg:BuildRequires:	cairo-devel >= 1.13.1}
 BuildRequires:	dbus-devel >= 1.6.0
+%{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 BuildRequires:	desktop-file-utils
 BuildRequires:	faad2-devel >= 2.5
 %{?with_fdk_aac:BuildRequires:	fdk-aac-devel}
@@ -184,7 +194,11 @@ BuildRequires:	ncurses-devel
 BuildRequires:	opus-devel >= 1.0.3
 BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	pulseaudio-devel >= 1.0
-BuildRequires:	qt4-build >= %{qt_ver}
+%if %{with qt5}
+BuildRequires:	qt5-build >= %{qt5_ver}
+%else
+BuildRequires:	qt4-build >= %{qt4_ver}
+%endif
 BuildRequires:	schroedinger-devel >= 1.0.10
 BuildRequires:	shine-devel >= 3.0.0
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
@@ -199,6 +213,7 @@ BuildRequires:	vcdimager-devel >= 0.7.22
 BuildRequires:	xcb-util-keysyms-devel >= 0.3.4
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
+%{?with_qt5:BuildRequires:	xorg-lib-libXi-devel}
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xorg-proto-xproto-devel
@@ -257,8 +272,8 @@ Summary:	VLC - X11 output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	QtCore >= %{qt_ver}
-Requires:	QtGui >= %{qt_ver}
+Requires:	QtCore >= %{qt4_ver}
+Requires:	QtGui >= %{qt4_ver}
 Requires:	desktop-file-utils
 Suggests:	dbus-x11 >= 1.6.0
 Suggests:	libcaca > 0.99-0.beta14.1
@@ -345,7 +360,9 @@ Akcje klienta VLC dla Solid.
 %patch4 -p1
 %patch5 -p1
 
+%if %{without qt5}
 sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
+%endif
 
 %build
 %{__libtoolize}
@@ -358,6 +375,10 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 # iomx is Android-specific omxil codec option
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses -I/usr/include/xulrunner/stable -I/usr/include/liveMedia" \
+%if %{with decklink}
+	CPPFLAGS_decklink=-I/usr/include/decklink \
+	CPPFLAGS_decklinkoutput=-I/usr/include/decklink \
+%endif
 	LUAC=luac5.2 \
 	--disable-optimizations \
 	--disable-silent-rules \
@@ -365,9 +386,6 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 %ifarch ppc
 	--disable-altivec \
 %endif
-	--with-default-font=/usr/share/vlc/skins2/fonts/FreeSans.ttf \
-	--with-default-monospace-font=/usr/share/fonts/TTF/LiberationMono-Regular.ttf \
-	--with-default-font-family=Sans \
 	--enable-aa%{!?with_aalib:=no} \
 	%{?with_alsa:--enable-alsa} \
 	--enable-avcodec \
@@ -375,6 +393,7 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 	--enable-caca%{!?with_caca:=no} \
 	--enable-crystalhd%{!?with_crystalhd:=no} \
 	--enable-dbus \
+	--enable-decklink%{!?with_decklink:=no} \
 	%{?with_directfb:--enable-directfb} \
 	--enable-dv1394%{!?with_dv:=no} \
 	--enable-dvbpsi \
@@ -425,6 +444,9 @@ sed -i -e 's#Qt5#WANT_QT4#g' configure.ac
 	%{!?with_vsxu:--disable-vsxu} \
 	%{!?with_x264:--disable-x264} \
 	%{!?with_x265:--disable-x265} \
+	--with-default-font=/usr/share/vlc/skins2/fonts/FreeSans.ttf \
+	--with-default-monospace-font=/usr/share/fonts/TTF/LiberationMono-Regular.ttf \
+	--with-default-font-family=Sans \
 	%{!?with_kde:--without-kde-solid}%{?with_kde:--with-kde-solid=%{_datadir}/apps/solid/actions}
 
 %{__make}
@@ -549,6 +571,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libcdda_plugin.so
 # R: libraw1394 >= 2.0.1 libdc1394 >= 2.1.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdc1394_plugin.so
+%if %{with decklink}
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libdecklink_plugin.so
+%endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdtv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvb_plugin.so
 # R: libdvdnav >= 4.9.1
@@ -1012,6 +1037,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libvhs_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libyuvp_plugin.so
 %dir %{_libdir}/vlc/plugins/video_output
+%if %{with decklink}
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libdecklinkoutput_plugin.so
+%endif
 %if %{with directfb}
 # R: DirectFB
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libdirectfb_plugin.so
@@ -1066,9 +1094,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvlc
 %attr(755,root,root) %{_bindir}/svlc
-# R: QtCore QtGui >= %{qt_ver}
+# R: QtCore QtGui >= %{qt4_ver}  or  Qt5Core Qt5Gui Qt5Widgets
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libqt4_plugin.so
-# R: freetype libtar xorg-lib-lib{Xext,Xinerama,Xpm} QtCore QtGui
+# R: freetype libtar xorg-lib-lib{Xext,Xinerama,Xpm}  QtCore QtGui or Qt5Core Qt5Gui Qt5Widgets
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libskins2_plugin.so
 %if %{with aalib}
 # R: aalib
