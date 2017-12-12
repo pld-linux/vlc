@@ -51,7 +51,7 @@
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
 %define		qt_ver	5.2.0
-%define		snap	20170810-0240
+%define		snap	20171212-0222
 %define		rel	0.%(echo %{snap} | tr - _).1
 
 %ifnarch i686 pentium4 athlon %{x8664} x32
@@ -68,8 +68,8 @@ Version:	3.0.0
 Release:	%{rel}
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	https://nightlies.videolan.org/build/source/vlc-%{version}-%{snap}-git.tar.xz
-# Source0-md5:	fdc8b20f8b63ad37805b2d4494d1fa7d
+Source0:	https://nightlies.videolan.org/build/source/vlc-%{version}-%{snap}-rc2.tar.xz
+# Source0-md5:	fb54650198d270970d6f34261d625f10
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -83,6 +83,7 @@ BuildRequires:	OpenGL-devel
 %{?with_glesv2:BuildRequires:	OpenGLESv2-devel >= 2.0}
 BuildRequires:	Qt5Core-devel >= %{qt_ver}
 BuildRequires:	Qt5Gui-devel >= %{qt_ver}
+BuildRequires:	Qt5Svg-devel >= %{qt_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
 BuildRequires:	Qt5X11Extras-devel >= %{qt_ver}
 BuildRequires:	SDL_image-devel >= 1.2.10
@@ -269,6 +270,7 @@ Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Core >= %{qt_ver}
 Requires:	Qt5Gui >= %{qt_ver}
+Requires:	Qt5Svg >= %{qt_ver}
 Requires:	Qt5Widgets >= %{qt_ver}
 Requires:	Qt5X11Extras >= %{qt_ver}
 Requires:	desktop-file-utils
@@ -334,7 +336,7 @@ VLC actions for Solid.
 Akcje klienta VLC dla Solid.
 
 %prep
-%setup -q -n %{name}-%{version}-git
+%setup -q -n %{name}-%{version}-rc2
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
@@ -447,7 +449,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 # cgg (Chiga)
 # co (Corsican)
 # tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,as_IN,cgg,co,ks_IN,tet}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/vlc/vlc*.ico
@@ -481,7 +483,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libvlc.so.5
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.8
+%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.9
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
 %endif
@@ -607,6 +609,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libremap_plugin.so
 # R: libsamplerate
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libsamplerate_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libscaletempo_pitch_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libsoxr_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libscaletempo_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libsimple_channel_mixer_plugin.so
@@ -721,13 +724,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtheora_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libttml_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libuleaddvaudio_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libwebvtt_plugin.so
 %if %{with twolame}
 # R: twolame-libs
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtwolame_plugin.so
 %endif
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_dr_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_drm_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_x11_plugin.so
 # R: libvorbis >= 1.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvorbis_plugin.so
 # R: libvpx
@@ -940,7 +943,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_gather_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_mosaic_bridge_plugin.so
 # R: libgcrypt >= 1.1.94
-%attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_raop_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_record_plugin.so
 # R: libgcrypt >= 1.1.94 (optional, for srtp functionality)
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_out/libstream_out_rtp_plugin.so
@@ -1041,6 +1043,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins/video_output
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libegl_wl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libflaschen_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vaapi_drm_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vaapi_wl_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vaapi_x11_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vdpau_plugin.so
 %if %{with glesv1}
 # R: OpenGLESv1 >= 1.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgles1_plugin.so
@@ -1077,7 +1083,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/vlc
 %dir %{_datadir}/vlc/utils
 %attr(755,root,root) %{_datadir}/vlc/utils/*.sh
-%{_datadir}/appdata/vlc.appdata.xml
+%{_datadir}/metainfo/vlc.appdata.xml
 
 %{_mandir}/man1/vlc.1*
 %{_mandir}/man1/vlc-wrapper.1*
