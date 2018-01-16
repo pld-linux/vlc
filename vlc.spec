@@ -50,8 +50,8 @@
 %bcond_without	x265		# x265 codec plugin
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
-%define		qt_ver	5.2.0
-%define		snap	20171212-0222
+%define		qt_ver	5.5.0
+%define		snap	20180116-0224
 %define		rel	0.%(echo %{snap} | tr - _).1
 
 %ifnarch i686 pentium4 athlon %{x8664} x32
@@ -68,8 +68,8 @@ Version:	3.0.0
 Release:	%{rel}
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	https://nightlies.videolan.org/build/source/vlc-%{version}-%{snap}-rc2.tar.xz
-# Source0-md5:	fb54650198d270970d6f34261d625f10
+Source0:	https://nightlies.videolan.org/build/source/vlc-%{version}-%{snap}-rc6.tar.xz
+# Source0-md5:	9e17e8a13930de3519b0b5d2a5b5fe2c
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -336,7 +336,7 @@ VLC actions for Solid.
 Akcje klienta VLC dla Solid.
 
 %prep
-%setup -q -n %{name}-%{version}-rc2
+%setup -q -n %{name}-%{version}-rc6
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
@@ -433,7 +433,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/vlc/lua/extensions
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/vlc
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/macosx
 
 %if "%{_lib}" != "lib"
 install -d $RPM_BUILD_ROOT%{_prefix}/lib
@@ -574,7 +573,6 @@ rm -rf $RPM_BUILD_ROOT
 # R: libgcrypt >= 1.1.94 (optional, for srtp functionality)
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/librtp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libtimecode_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libwl_screenshooter_plugin.so
 %{?with_v4l1:%attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libv4l2_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libvcd_plugin.so
@@ -1142,6 +1140,7 @@ rm -rf $RPM_BUILD_ROOT
 %files lua
 %defattr(644,root,root,755)
 %{_datadir}/vlc/lua
+%{_libdir}/vlc/lua
 
 %if %{with kde}
 %files solid
