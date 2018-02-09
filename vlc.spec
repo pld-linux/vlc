@@ -51,8 +51,6 @@
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
 
 %define		qt_ver	5.5.0
-%define		snap	20180116-0224
-%define		rel	0.%(echo %{snap} | tr - _).1
 
 %ifnarch i686 pentium4 athlon %{x8664} x32
 # CrystalHD library requires SSE2 instructions
@@ -65,11 +63,11 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.0
-Release:	%{rel}
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	https://nightlies.videolan.org/build/source/vlc-%{version}-%{snap}-rc6.tar.xz
-# Source0-md5:	9e17e8a13930de3519b0b5d2a5b5fe2c
+Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	a953d8b90e56f06828c4ca8e390c5c9b
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -336,7 +334,7 @@ VLC actions for Solid.
 Akcje klienta VLC dla Solid.
 
 %prep
-%setup -q -n %{name}-%{version}-rc6
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
