@@ -64,7 +64,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -169,6 +169,7 @@ BuildRequires:	libtool >= 2:2
 BuildRequires:	libv4l-devel
 BuildRequires:	libva-devel >= 0.38
 BuildRequires:	libva-drm-devel
+BuildRequires:	libva-wayland-devel
 BuildRequires:	libva-x11-devel
 BuildRequires:	libvdpau-devel >= 0.6
 BuildRequires:	libvncserver-devel >= 0.9.9
