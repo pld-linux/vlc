@@ -1,0 +1,35 @@
+From 58155349a053d38d882d47357b225b8703c696ac Mon Sep 17 00:00:00 2001
+From: Romain Vimont <rom1v@videolabs.io>
+Date: Sat, 21 Apr 2018 20:58:00 +0200
+Subject: [PATCH] qt: make the time tooltip a tooltip
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf8
+Content-Transfer-Encoding: 8bit
+
+This avoids to lose window focus when the mouse is over the seekbar (on
+XFCE), and should also prevent the tooltip to appear resizeable on
+Unity.
+
+Probably fixes #20316
+
+Signed-off-by: Hugo BeauzÃ©e-Luyssen <hugo@beauzee.fr>
+---
+ modules/gui/qt/util/timetooltip.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/gui/qt/util/timetooltip.cpp b/modules/gui/qt/util/timetooltip.cpp
+index 23d47b2528..2e7e97d987 100644
+--- a/modules/gui/qt/util/timetooltip.cpp
++++ b/modules/gui/qt/util/timetooltip.cpp
+@@ -33,7 +33,7 @@
+ TimeTooltip::TimeTooltip( QWidget *parent ) :
+     QWidget( parent )
+ {
+-    setWindowFlags( Qt::Tool                    |
++    setWindowFlags( Qt::ToolTip                 |
+                     Qt::WindowStaysOnTopHint    |
+                     Qt::FramelessWindowHint     );
+ 
+-- 
+2.11.0
+
