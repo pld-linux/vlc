@@ -64,7 +64,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.3
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -75,6 +75,7 @@ Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
 Patch5:		%{name}-fribidi-1.0.patch
+Patch6:		%{name}-build.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
@@ -90,6 +91,7 @@ BuildRequires:	SDL_image-devel >= 1.2.10
 BuildRequires:	a52dec-libs-devel >= 0.7.3
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.24}
+BuildRequires:	aom-devel
 BuildRequires:	aribb24-devel >= 1.0.1
 BuildRequires:	aribb25-devel >= 0.2.6
 BuildRequires:	asdcplib-devel
@@ -348,6 +350,7 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__libtoolize}
@@ -374,6 +377,7 @@ Akcje klienta VLC dla Solid.
 %endif
 	--enable-aa%{!?with_aalib:=no} \
 	%{?with_alsa:--enable-alsa} \
+	--enable-aom \
 	--enable-avcodec \
 	%{!?with_bonjour:--disable-bonjour} \
 	--enable-caca%{!?with_caca:=no} \
@@ -648,6 +652,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins/codec
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liba52_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaes3_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaom_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libadpcm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaraw_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaribsub_plugin.so
