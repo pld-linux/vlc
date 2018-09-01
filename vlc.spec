@@ -77,6 +77,7 @@ Patch4:		no-cache.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
+BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	OpenGL-devel
 %{?with_glesv1:BuildRequires:	OpenGLESv1-devel >= 1.1}
 %{?with_glesv2:BuildRequires:	OpenGLESv2-devel >= 2.0}
@@ -209,7 +210,6 @@ BuildRequires:	tremor-devel
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
 %{?with_vsxu:BuildRequires:	vsxu-devel}
 BuildRequires:	wayland-devel >= 1.5.91
-BuildRequires:	wayland-egl-devel
 BuildRequires:	wayland-protocols >= 1.4
 BuildRequires:	xcb-util-keysyms-devel >= 0.3.4
 BuildRequires:	xorg-lib-libX11-devel
