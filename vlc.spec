@@ -63,19 +63,17 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.3
-Release:	3
+Version:	3.0.4
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	cf01d4755c719fe1c8605ceb40d8f1d2
+# Source0-md5:	f5e49a0fb9594ab8debf934a710e92f1
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
-Patch5:		%{name}-fribidi-1.0.patch
-Patch6:		%{name}-build.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
@@ -210,6 +208,9 @@ BuildRequires:	tremor-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
 %{?with_vsxu:BuildRequires:	vsxu-devel}
+BuildRequires:	wayland-devel >= 1.5.91
+BuildRequires:	wayland-egl-devel
+BuildRequires:	wayland-protocols >= 1.4
 BuildRequires:	xcb-util-keysyms-devel >= 0.3.4
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -221,6 +222,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires(post):	/sbin/ldconfig
 Requires:	lua52-libs > 5.2.3-2
+Requires:	wayland >= 1.5.91
 Requires:	xdg-utils
 Obsoletes:	browser-plugin-vlc
 Obsoletes:	vlc-GGI
@@ -349,8 +351,6 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 %{__libtoolize}
@@ -428,6 +428,7 @@ Akcje klienta VLC dla Solid.
 	%{?with_upnp:--enable-upnp} \
 	--enable-v4l2 \
 	%{!?with_vsxu:--disable-vsxu} \
+	--enable-wayland \
 	%{!?with_x264:--disable-x264} \
 	%{!?with_x265:--disable-x265} \
 	--with-default-font=/usr/share/vlc/skins2/fonts/FreeSans.ttf \
