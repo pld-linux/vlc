@@ -111,7 +111,7 @@ BuildRequires:	fontconfig-devel >= 2.11
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	fribidi-devel
 BuildRequires:	game-music-emu-devel
-BuildRequires:	gettext-tools >= 0.18.3
+BuildRequires:	gettext-tools >= 0.19.8
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.3.6}
 BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %{?with_notify:BuildRequires:	gtk+2-devel >= 2.0}
@@ -129,6 +129,7 @@ BuildRequires:	libcdio-devel >= 0.78.2
 BuildRequires:	libchromaprint-devel >= 0.6.0
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 BuildRequires:	libdc1394-devel >= 2.1.0
+BuildRequires:	libdsm-devel >= 0.2.0
 BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 1.2.0
 BuildRequires:	libdvdnav-devel >= 4.9.1
@@ -563,6 +564,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with decklink}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdecklink_plugin.so
 %endif
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libdsm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdtv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvb_plugin.so
 # R: libdvdnav >= 4.9.1
