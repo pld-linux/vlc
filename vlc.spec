@@ -63,12 +63,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.4
-Release:	6
+Version:	3.0.6
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	f5e49a0fb9594ab8debf934a710e92f1
+# Source0-md5:	4ff71d262e070fd19f86a1c3542c7b4e
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -177,7 +177,7 @@ BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 BuildRequires:	libvpx-devel >= 1.5.0
 # x264.pc >= 0.86
-%{?with_x264:BuildRequires:	libx264-devel}
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.3-1.20190110_2245.1}
 %{?with_x265:BuildRequires:	libx265-devel}
 # xcb >= 1.6, xcb-shm, xcb-composite, xcb-xv >= 1.1.90.1, xcb-randr >= 1.3
 BuildRequires:	libxcb-devel >= 1.6
@@ -753,6 +753,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvpx_plugin.so
 # R: libx264
 %{?with_x264:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx264_plugin.so}
+%{?with_x264:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx26410b_plugin.so}
 # R: libx265
 %{?with_x265:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libx265_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libxwd_plugin.so
@@ -885,6 +886,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_libdir}/vlc/plugins/packetizer
 %attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_a52_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_av1_plugin.so
 # R: ffmpeg-libs (libavcodec >= 53.34.0 libavutil >= 51.22.0)
 %attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_avparser_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/packetizer/libpacketizer_copy_plugin.so
