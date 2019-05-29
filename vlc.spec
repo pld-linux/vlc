@@ -64,7 +64,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.6
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -75,6 +75,7 @@ Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
 Patch5:		%{name}-libvpx-1.8.patch
+Patch6:		libssh2.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
@@ -98,6 +99,7 @@ BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 %{?with_svg:BuildRequires:	cairo-devel >= 1.13.1}
+BuildRequires:	dav1d-devel
 BuildRequires:	dbus-devel >= 1.6.0
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 BuildRequires:	desktop-file-utils
@@ -162,6 +164,7 @@ BuildRequires:	libsecret-devel >= 0.18
 %{?with_shout:BuildRequires:	libshout-devel >= 2.1}
 BuildRequires:	libsidplay2-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel >= 3.6.13}
+BuildRequires:	spatialaudio-devel
 %{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtar-devel
@@ -354,6 +357,7 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__libtoolize}
@@ -515,6 +519,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins
 %ghost %{_libdir}/vlc/plugins/plugins.dat
 %dir %{_libdir}/vlc/plugins/access
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_srt_plugin.so
 %if %{with alsa}
 # R: alsa-lib >= 1.0.24
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_alsa_plugin.so
@@ -602,6 +607,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_http_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_srt_plugin.so
 # R: libgcrypt >= 1.1.94
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_livehttp_plugin.so
 %if %{with shout}
@@ -610,6 +616,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_filter
+%attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libspatialaudio_plugin.so
 # R: a52dec-libs >= 0.7.3
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libaudio_format_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libaudiobargraph_a_plugin.so
@@ -655,6 +662,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_output/liboss_plugin.so
 %endif
 %dir %{_libdir}/vlc/plugins/codec
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libdav1d_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/liba52_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaes3_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaom_plugin.so
