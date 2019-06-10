@@ -63,19 +63,17 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.6
-Release:	4
+Version:	3.0.7
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	4ff71d262e070fd19f86a1c3542c7b4e
+# Source0-md5:	230932ec40185856af28f82ec2e38b8a
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
-Patch5:		%{name}-libvpx-1.8.patch
-Patch6:		libssh2.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
@@ -356,8 +354,6 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 %{__libtoolize}
@@ -468,8 +464,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 # ach (Acoli)
 # cgg (Chiga)
 # co (Corsican)
-# tet (Tetum)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,as_IN,cgg,co,ks_IN,tet}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,am_ET,as_IN,cgg,co,ks_IN,ku_IQ}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/vlc/vlc*.ico
