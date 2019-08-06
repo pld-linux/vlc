@@ -13,13 +13,17 @@
 # - OSSO_SCREENSAVER (libosso.pc - Maemo platform)
 # - mce (Maemo platform)
 # - x262
+# - x26410b (x264 >= 0.153)
+# - evas (ecore >= 1.16)
 #
 # Conditional build:
 %bcond_without	aalib		# aalib video output plugin
 %bcond_without	alsa		# ALSA access/audio output plugins
 %bcond_without	bonjour		# bonjour service discovery plugin
+%bcond_without	bpg		# BPG files support
 %bcond_without	caca		# caca video output plugin
 %bcond_without	crystalhd	# crystalhd codec plugin
+%bcond_with	daala		# daala codec plugin (experimental)
 %bcond_with	decklink	# Blackmagic DeskLink output support (BR: proprietary SDK)
 %bcond_without	dv		# dv access plugins
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
@@ -30,6 +34,7 @@
 %bcond_without	jack		# jack access/audio output plugin
 %bcond_without	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
+%bcond_without	libplacebo	# libplacebo support in gl plugin
 %bcond_without	live		# live555 demuxer plugin
 %bcond_with	mfx		# Intel QuickSync MPEG4-Part10/MPEG2 (H.264/H.262) encoder
 %bcond_without	notify		# libnotify notification plugin
@@ -63,17 +68,18 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.7
-Release:	2
+Version:	3.0.7.1
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	230932ec40185856af28f82ec2e38b8a
+# Source0-md5:	1adf2fe21070378b0e45ad163d3b232d
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
+Patch5:		%{name}-fdk_aac.patch
 URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
@@ -97,6 +103,7 @@ BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
 %{?with_svg:BuildRequires:	cairo-devel >= 1.13.1}
+%{?with_daala:BuildRequires:	daala-devel}
 BuildRequires:	dav1d-devel
 BuildRequires:	dbus-devel >= 1.6.0
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
@@ -115,7 +122,7 @@ BuildRequires:	game-music-emu-devel
 BuildRequires:	gettext-tools >= 0.19.8
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.3.6}
 BuildRequires:	gstreamer-plugins-base-devel >= 1.0
-%{?with_notify:BuildRequires:	gtk+2-devel >= 2.0}
+%{?with_notify:BuildRequires:	gtk+3-devel >= 3.0}
 BuildRequires:	harfbuzz-devel
 # >= 0.120.1 < 1.0 or >= 1.9.7
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel >= 0.120.1}
@@ -124,6 +131,7 @@ BuildRequires:	libarchive-devel >= 3.1.0
 BuildRequires:	libass-devel >= 0.9.8
 %{?with_dv:BuildRequires:	libavc1394-devel >= 0.5.3}
 BuildRequires:	libbluray-devel >= 0.6.2
+%{?with_bpg:BuildRequires:	libbpg-devel}
 %{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
 BuildRequires:	libcddb-devel >= 0.9.5
 BuildRequires:	libcdio-devel >= 0.78.2
@@ -145,13 +153,13 @@ BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel >= 1.0.0
 # >= 0.8.4 but not 0.8.8
 BuildRequires:	libmodplug-devel >= 0.8.4
-BuildRequires:	musepack-devel
 BuildRequires:	libmpeg2-devel > 0.3.2
 BuildRequires:	libmpg123-devel
 BuildRequires:	libmtp-devel >= 1.0.0
 %{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libnfs-devel >= 1.10.0
 BuildRequires:	libogg-devel >= 1:1.0
+%{?with_libplacebo:BuildRequires:	libplacebo-devel >= 0.2.1}
 BuildRequires:	libpng-devel
 %{?with_projectM:BuildRequires:	libprojectM-devel >= 2.0.1-3}
 BuildRequires:	libproxy-devel
@@ -162,7 +170,6 @@ BuildRequires:	libsecret-devel >= 0.18
 %{?with_shout:BuildRequires:	libshout-devel >= 2.1}
 BuildRequires:	libsidplay2-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel >= 3.6.13}
-BuildRequires:	spatialaudio-devel
 %{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtar-devel
@@ -179,7 +186,7 @@ BuildRequires:	libvdpau-devel >= 0.6
 BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
 BuildRequires:	libvpx-devel >= 1.5.0
-# x264.pc >= 0.86
+# x264.pc >= 0.148
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3-1.20190110_2245.1}
 %{?with_x265:BuildRequires:	libx265-devel}
 # xcb >= 1.6, xcb-shm, xcb-composite, xcb-xv >= 1.1.90.1, xcb-randr >= 1.3
@@ -192,6 +199,7 @@ BuildRequires:	lua52-devel >= 5.2
 %{?with_mfx:BuildRequires:	mfx_dispatch-devel}
 BuildRequires:	microdns-devel
 BuildRequires:	minizip-devel
+BuildRequires:	musepack-devel
 BuildRequires:	ncurses-devel
 %{?with_opencv:BuildRequires:	opencv-devel > 2.0}
 BuildRequires:	opus-devel >= 1.0.3
@@ -202,10 +210,12 @@ BuildRequires:	qt5-build >= %{qt_ver}
 BuildRequires:	schroedinger-devel >= 1.0.10
 BuildRequires:	shine-devel >= 3.0.0
 BuildRequires:	soxr-devel >= 0.1.2
+BuildRequires:	spatialaudio-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_speex:BuildRequires:	speexdsp-devel >= 1.2}
+BuildRequires:	srt-devel >= 1.2.2
 BuildRequires:	sysfsutils-devel
-BuildRequires:	systemd-devel
+BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	taglib-devel >= 1.9
 BuildRequires:	tremor-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
@@ -354,6 +364,7 @@ Akcje klienta VLC dla Solid.
 %patch3 -p1
 %endif
 %patch4 -p1
+%patch5 -p1
 
 %build
 %{__libtoolize}
@@ -383,8 +394,10 @@ Akcje klienta VLC dla Solid.
 	--enable-aom \
 	--enable-avcodec \
 	%{!?with_bonjour:--disable-bonjour} \
+	%{?with_bpg:--enable-bpg} \
 	--enable-caca%{!?with_caca:=no} \
 	--enable-crystalhd%{!?with_crystalhd:=no} \
+	%{?with_daala:--enable-daala} \
 	--enable-dbus \
 	--enable-decklink%{!?with_decklink:=no} \
 	--enable-dv1394%{!?with_dv:=no} \
@@ -401,6 +414,7 @@ Akcje klienta VLC dla Solid.
 	%{?with_glesv2:--enable-gles2} \
 	%{!?with_gnutls:--disable-gnutls} \
 	%{?with_jack:--enable-jack} \
+	%{!?with_libplacebo:--disable-libplacebo} \
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
 	--enable-libva \
@@ -514,7 +528,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/vlc/plugins
 %ghost %{_libdir}/vlc/plugins/plugins.dat
 %dir %{_libdir}/vlc/plugins/access
-%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_srt_plugin.so
 %if %{with alsa}
 # R: alsa-lib >= 1.0.24
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_alsa_plugin.so
@@ -532,6 +545,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_realrtsp_plugin.so
+# R: srt >= 1.2.2
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_srt_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libattachment_plugin.so
 # R: ffmpeg-libs (libavformat >= 53.21.0 libavcodec libavutil)
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libavio_plugin.so
@@ -566,6 +581,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with decklink}
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdecklink_plugin.so
 %endif
+# R: libdsm
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdsm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdtv_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libdvb_plugin.so
@@ -602,13 +618,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_dummy_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_file_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_http_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_srt_plugin.so
 # R: libgcrypt >= 1.1.94
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_livehttp_plugin.so
 %if %{with shout}
 # R: shout >= 2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_shout_plugin.so
 %endif
+# R: srt >= 1.2.2
+%attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_srt_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_filter
 %attr(755,root,root) %{_libdir}/vlc/plugins/audio_filter/libspatialaudio_plugin.so
@@ -663,9 +680,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaom_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libadpcm_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaraw_plugin.so
+# R: aribb24
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libaribsub_plugin.so
 # R: ffmpeg-libs (libavcodec >= 54.34.0 libavutil >= 51.22.0)
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libavcodec_plugin.so
+# R: libbpg
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libbpg_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcdg_plugin.so
 %if %{with crystalhd}
@@ -887,7 +907,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with notify}
 %dir %{_libdir}/vlc/plugins/notify
-# R: libnotify gtk+2
+# R: libnotify gtk+3
 %attr(755,root,root) %{_libdir}/vlc/plugins/notify/libnotify_plugin.so
 %endif
 
@@ -914,6 +934,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libavahi_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libmediadirs_plugin.so
+# R: microdns
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libmicrodns_plugin.so
 # R: libmtp >= 1.0.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/services_discovery/libmtp_plugin.so
@@ -943,6 +964,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_extractor/libarchive_plugin.so
 %dir %{_libdir}/vlc/plugins/stream_filter
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libadf_plugin.so
+# R: aribb25 >= 0.2.6
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libaribcam_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libcache_block_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/stream_filter/libcache_read_plugin.so
@@ -1048,8 +1070,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libmotionblur_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libmotiondetect_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/liboldmovie_plugin.so
+%if %{with opencv}
+# R: opencv
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_example_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_wrapper_plugin.so
+%endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libposterize_plugin.so
 # R: ffmpeg-libs (libpostproc libavutil)
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libpostproc_plugin.so
@@ -1145,7 +1170,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 # R: EGL, xorg-lib-libX11
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libegl_x11_plugin.so
-# R: OpenGL
+# R: OpenGL %{?with_libplacebo:libplacebo >= 0.2.1}
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglx_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libxcb_window_plugin.so
