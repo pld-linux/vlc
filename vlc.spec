@@ -687,7 +687,7 @@ rm -rf $RPM_BUILD_ROOT
 # R: ffmpeg-libs (libavcodec >= 54.34.0 libavutil >= 51.22.0)
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libavcodec_plugin.so
 # R: libbpg
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libbpg_plugin.so
+%{?with_bpg:%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libbpg_plugin.so}
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcc_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libcdg_plugin.so
 %if %{with crystalhd}
