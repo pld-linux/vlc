@@ -288,6 +288,7 @@ Biblioteki statyczne VLC.
 Summary:	VLC - X11 output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
 Group:		X11/Applications/Multimedia
+Requires(post,postun):	gtk-update-icon-cache
 Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Core >= %{qt_ver}
 Requires:	Qt5Gui >= %{qt_ver}
@@ -295,6 +296,7 @@ Requires:	Qt5Svg >= %{qt_ver}
 Requires:	Qt5Widgets >= %{qt_ver}
 Requires:	Qt5X11Extras >= %{qt_ver}
 Requires:	desktop-file-utils
+Requires:	hicolor-icon-theme
 Suggests:	dbus-x11 >= 1.6.0
 Suggests:	libcaca > 0.99-0.beta14.1
 Obsoletes:	vlc-gnome
@@ -497,8 +499,13 @@ rm -rf $RPM_BUILD_ROOT
 %postun	-p /sbin/ldconfig
 
 %post X11
+%update_icon_cache hicolor
 %update_desktop_database
 %{_libdir}/vlc/vlc-cache-gen %{_libdir}/vlc/plugins || :
+
+%postun X11
+%update_icon_cache hicolor
+%update_desktop_database_postun
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
