@@ -144,7 +144,7 @@ BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 1.2.0
 BuildRequires:	libdvdnav-devel >= 4.9.1
 BuildRequires:	libdvdread-devel >= 4.9.1
-BuildRequires:	libebml-devel >= 1.0.0
+BuildRequires:	libebml-devel >= 1.3.6
 BuildRequires:	libgcrypt-devel >= 1.6.0
 BuildRequires:	libgoom2-devel
 BuildRequires:	libidn-devel
@@ -235,6 +235,7 @@ BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires(post):	/sbin/ldconfig
+Requires:	libebml >= 1.3.6
 Requires:	lua52-libs > 5.2.3-2
 Requires:	wayland >= 1.5.91
 Requires:	xdg-utils
