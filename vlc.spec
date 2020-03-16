@@ -293,6 +293,7 @@ Requires(post,postun):	gtk-update-icon-cache
 Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Core >= %{qt_ver}
 Requires:	Qt5Gui >= %{qt_ver}
+Requires:	Qt5Gui-platform-xcb >= %{qt_ver}
 Requires:	Qt5Svg >= %{qt_ver}
 Requires:	Qt5Widgets >= %{qt_ver}
 Requires:	Qt5X11Extras >= %{qt_ver}
