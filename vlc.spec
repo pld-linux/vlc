@@ -15,7 +15,6 @@
 # - x262
 # - x26410b (x264 >= 0.153)
 # - evas (ecore >= 1.16)
-# - fluidlite?
 #
 # Conditional build:
 %bcond_without	aalib		# aalib video output plugin
@@ -28,6 +27,7 @@
 %bcond_with	decklink	# Blackmagic DeskLink output support (BR: proprietary SDK)
 %bcond_without	dv		# dv access plugins
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
+%bcond_with	fluidlite	# FluidLite instead of FluidSynth library in fluidsynth plugin
 %bcond_with	freerdp		# RDP/Remote Desktop client support
 %bcond_with	glesv1		# OpenGL ES v1 support
 %bcond_with	glesv2		# OpenGL ES v2 support
@@ -116,7 +116,11 @@ BuildRequires:	faad2-devel >= 2.5
 # libavcodec >= 57.37.100, libavformat >= 53.21.0, libavutil >= 52.4.0, libswscale, libpostproc
 BuildRequires:	ffmpeg-devel >= 3.1
 BuildRequires:	flac-devel >= 1.1.3
+%if %{with fluidlite}
+BuildRequires:	fluidlite-devel
+%else
 BuildRequires:	fluidsynth-devel >= 1.1.2
+%endif
 BuildRequires:	fontconfig-devel >= 1:2.11
 %{?with_freerdp:BuildRequires:	freerdp-devel >= 1.0.1}
 BuildRequires:	freetype-devel >= 2
@@ -241,7 +245,9 @@ Requires:	SDL_image >= 1.2.10
 Requires:	aribb24 >= 1.0.1
 Requires:	aribb25 >= 0.2.6
 %{?with_svg:Requires:	cairo >= 1.13.1}
+%if %{without fluidlite}
 Requires:	fluidsynth >= 1.1.2
+%endif
 Requires:	fontconfig-libs >= 1:2.11
 %{?with_gnutls:Requires:	gnutls >= 3.3.6}
 Requires:	libarchive >= 3.1.0
@@ -456,6 +462,11 @@ Akcje klienta VLC dla Solid.
 	%{?with_fdk_aac:--enable-fdkaac} \
 	--enable-faad \
 	--enable-flac \
+%if %{with fluidlite}
+	--disable-fluidsynth \
+%else
+	--disable-fluidlite \
+%endif
 	%{?with_freerdp:--enable-freerdp}%{!?with_freerdp:--disable-freerdp} \
 	--enable-freetype \
 	--enable-fribidi \
@@ -765,7 +776,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 # R: flac
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libflac_plugin.so
-# R: fluidsynth >= 1.1.2
+# R: fluidsynth >= 1.1.2 or fluidlite
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libfluidsynth_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libg711_plugin.so
 # R: gstreamer-plugins-base >= 1.0
