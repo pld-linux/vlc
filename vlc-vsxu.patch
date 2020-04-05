@@ -1,0 +1,99 @@
+--- vlc-3.0.8/configure.ac.orig	2020-04-04 18:40:34.309627852 +0200
++++ vlc-3.0.8/configure.ac	2020-04-04 20:20:07.460601850 +0200
+@@ -3992,12 +3992,17 @@
+   [  --enable-vsxu           Vovoid VSXu visualization plugin (default auto)])
+ AS_IF([test "${enable_vsxu}" != "no"],
+   [
++    PKG_CHECK_MODULES(VSXU, libvsx,
++    [
++      VLC_ADD_PLUGIN([vsxu])
++    ],[
+     PKG_CHECK_MODULES(VSXU, libvsxu,
+     [
+       VLC_ADD_PLUGIN([vsxu])
+     ],[
+       AC_MSG_WARN([${VSXU_PKG_ERRORS}.])
+     ])
++    ])
+   ])
+ 
+ EXTEND_HELP_STRING([Service Discovery plugins:])
+--- vlc-3.0.8/modules/visualization/vsxu.cpp.orig	2017-11-24 16:29:18.000000000 +0100
++++ vlc-3.0.8/modules/visualization/vsxu.cpp	2020-04-05 09:52:51.529757549 +0200
+@@ -37,8 +37,14 @@
+ #include <vlc_filter.h>
+ 
+ // vsxu manager include
++#include <vsx_version.h>
++#if (VSXU_VERSION_MAJOR == 0) && (VSXU_VERSION_MINOR < 6)
+ #include <vsx_manager.h>
+ #include <logo_intro.h>
++#else
++#include <vsx_state_manager.h>
++#include <vsx_logo_intro.h>
++#endif
+ 
+ // class to handle cyclic buffer
+ #include "cyclic_buffer.h"
+@@ -236,7 +242,11 @@
+     vlc_gl_t *gl = p_sys->gl;
+ 
+     // our abstract manager holder
++#if (VSXU_VERSION_MAJOR == 0) && (VSXU_VERSION_MINOR < 6)
+     vsx_manager_abs* manager = 0;
++#else
++    vsx::engine::audiovisual::state_manager manager;
++#endif
+ 
+     // temp audio buffer for sending to vsxu through manager
+     float f_sample_buf[512];
+@@ -277,11 +287,13 @@
+             // only run this once
+             first = false;
+ 
++#if (VSXU_VERSION_MAJOR == 0) && (VSXU_VERSION_MINOR < 6)
+             // create a new manager
+             manager = manager_factory();
+ 
+             // init manager with the shared path and sound input type.
+             manager->init( 0, "media_player" );
++#endif
+ 
+             // only show logo once
+             // keep track of iterations
+@@ -299,11 +311,19 @@
+             memcpy( &f_sample_buf[0], (void*)(&bh->data[0]), sizeof(float) * 512 );
+         vlc_mutex_unlock( &p_sys->cyclic_block_mutex );
+ 
++#if (VSXU_VERSION_MAJOR == 0) && (VSXU_VERSION_MINOR < 6)
+         // send sound pointer to vsxu
+         manager->set_sound_wave( &f_sample_buf[0] );
+ 
+         // render vsxu engine
+         if (manager) manager->render();
++#else
++        // send sound pointer to vsxu
++        manager.set_sound_wave( &f_sample_buf[0] );
++
++        // render vsxu engine
++        manager.render();
++#endif
+ 
+         // render intro
+         if (intro) intro->draw();
+@@ -312,11 +332,15 @@
+         vlc_gl_Swap( gl );
+     }
+ 
++#if (VSXU_VERSION_MAJOR == 0) && (VSXU_VERSION_MINOR < 6)
+     // stop vsxu nicely (unloads textures and frees memory)
+     if (manager) manager->stop();
+ 
+     // call manager factory to destruct our manager object
+     if (manager) manager_destroy( manager );
++#else
++    manager.stop();
++#endif
+ 
+     // delete the intro (if ever allocated)
+     if (intro) delete intro;
