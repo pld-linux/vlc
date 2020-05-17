@@ -203,7 +203,7 @@ BuildRequires:	libxml2-devel >= 1:2.5
 BuildRequires:	lua52 >= 5.2
 BuildRequires:	lua52-devel >= 5.2
 %{?with_mfx:BuildRequires:	mfx_dispatch-devel}
-BuildRequires:	microdns-devel
+BuildRequires:	microdns-devel >= 0.1.2
 BuildRequires:	minizip-devel
 BuildRequires:	musepack-devel
 BuildRequires:	ncurses-devel
@@ -276,6 +276,7 @@ Requires:	libvpx >= 1.5.0
 Requires:	libxcb >= 1.6
 Requires:	libxml2 >= 1:2.5
 Requires:	lua52-libs > 5.2.3-2
+Requires:	microdns >= 0.1.2
 Requires:	opus >= 1.0.3
 Requires:	pulseaudio-libs >= 1.0
 Requires:	schroedinger >= 1.0.10
