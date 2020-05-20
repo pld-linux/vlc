@@ -5,7 +5,7 @@
 #   ./modules/gui/skins2/parser/builder.cpp:            string path = (*it) + sep + "fonts" + sep + "FreeSans.ttf";
 # - %{_prefix}/lib cleanup for x86_64
 # - configs to /etc (../http/.hosts)
-# - qvlc should be in qt4 or such package not generic X11
+# - qvlc should be in qt5 or such package not generic X11
 # - /usr/share/vlc/utils scripts insecure (use /tmp hardcoded paths)
 # - [recheck old TODO]: flac plugin doesn't work with mono files
 # - --enable-wma-fixed (fixed-point WMA - does it make sense on non-embedded?)
@@ -41,11 +41,11 @@
 %bcond_without	notify		# libnotify notification plugin
 %bcond_without	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
-%bcond_with	qt5		# Qt5 instead of Qt4
 %bcond_with	projectM	# projectm visualization plugin
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
 %bcond_without	smb		# SMB access plugin
+%bcond_without	smb2		# SMB2 access plugin
 %bcond_without	speex		# speex codec plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg text renderer plugin
@@ -70,7 +70,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.10
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -175,6 +175,7 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libsecret-devel >= 0.18
 %{?with_shout:BuildRequires:	libshout-devel >= 2.1}
 BuildRequires:	libsidplay2-devel
+%{?with_smb2:BuildRequires:	libsmb2-devel >= 3.0.0}
 %{?with_smb:BuildRequires:	libsmbclient-devel >= 3.6.13}
 %{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel >= 6:4.7
@@ -233,7 +234,6 @@ BuildRequires:	wayland-protocols >= 1.4
 BuildRequires:	xcb-util-keysyms-devel >= 0.3.4
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
-%{?with_qt5:BuildRequires:	xorg-lib-libXi-devel}
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xorg-proto-xproto-devel
@@ -268,6 +268,7 @@ Requires:	libogg >= 1:1.0
 %{?with_libplacebo:Requires:	libplacebo >= 0.2.1}
 %{?with_svg:Requires:	librsvg >= 2.9.0}
 Requires:	libsecret >= 0.18
+%{?with_smb2:Requires:	libsmb2 >= 3.0.0}
 Requires:	libtheora >= 1.0
 Requires:	libtiger >= 0.3.1
 Requires:	libvncserver >= 0.9.9
@@ -494,6 +495,7 @@ Akcje klienta VLC dla Solid.
 	--enable-shine \
 	--enable-shout%{!?with_shout:=no} \
 	--enable-skins2 \
+	%{?with_smb2:--enable-smb2} \
 	%{!?with_smb:--disable-smbclient} \
 	--enable-sout \
 	%{!?with_speex:--disable-speex} \
@@ -637,6 +639,10 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with smb}
 # R: libsmbclient
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libsmb_plugin.so
+%endif
+%if %{with smb2}
+# R: libsmb2 >= 3.0.0
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/libsmb2_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libtcp_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libudp_plugin.so
