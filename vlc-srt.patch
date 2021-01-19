@@ -1,0 +1,22 @@
+--- vlc-3.0.11.1/modules/access/srt.c.orig	2018-04-23 10:03:39.000000000 +0200
++++ vlc-3.0.11.1/modules/access/srt.c	2021-01-19 17:25:25.629393995 +0100
+@@ -165,7 +165,7 @@
+ 
+     /* Set latency */
+     i_latency = var_InheritInteger( p_stream, "latency" );
+-    srt_setsockopt( p_sys->sock, 0, SRTO_TSBPDDELAY,
++    srt_setsockopt( p_sys->sock, 0, SRTO_LATENCY,
+         &i_latency, sizeof( int ) );
+ 
+     psz_passphrase = var_InheritString( p_stream, "passphrase" );
+--- vlc-3.0.11.1/modules/access_output/srt.c.orig	2018-04-06 11:22:51.000000000 +0200
++++ vlc-3.0.11.1/modules/access_output/srt.c	2021-01-19 17:27:11.342154633 +0100
+@@ -162,7 +162,7 @@
+ 
+     /* Set latency */
+     i_latency = var_InheritInteger( p_access, "latency" );
+-    srt_setsockopt( p_sys->sock, 0, SRTO_TSBPDDELAY,
++    srt_setsockopt( p_sys->sock, 0, SRTO_LATENCY,
+         &i_latency, sizeof( int ) );
+ 
+     if ( psz_passphrase != NULL && psz_passphrase[0] != '\0')

@@ -69,12 +69,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.11
-Release:	4
+Version:	3.0.11.1
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
-Source0:	http://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	7e68f9e2d307eb7cc16e7345cda9e978
+Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	f797dc97305639f6270df619fe1c5962
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -84,7 +84,10 @@ Patch5:		%{name}-fdk_aac.patch
 Patch6:		%{name}-extern.patch
 Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
+Patch9:		%{name}-live.patch
+Patch10:	%{name}-srt.patch
 URL:		http://www.videolan.org/vlc/
+%{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
 BuildRequires:	OpenGL-devel
@@ -110,7 +113,6 @@ BuildRequires:	automake
 %{?with_daala:BuildRequires:	daala-devel}
 BuildRequires:	dav1d-devel
 BuildRequires:	dbus-devel >= 1.6.0
-%{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 BuildRequires:	desktop-file-utils
 BuildRequires:	faad2-devel >= 2.5
 %{?with_fdk_aac:BuildRequires:	fdk-aac-devel}
@@ -201,7 +203,7 @@ BuildRequires:	libvpx-devel >= 1.5.0
 BuildRequires:	libxcb-devel >= 1.6
 BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live-devel >= 2014.07.04}
+%{?with_live:BuildRequires:	live-devel >= 2020.12.23}
 BuildRequires:	lua52 >= 5.2
 BuildRequires:	lua52-devel >= 5.2
 %{?with_mfx:BuildRequires:	mfx_dispatch-devel}
@@ -221,7 +223,7 @@ BuildRequires:	soxr-devel >= 0.1.2
 BuildRequires:	spatialaudio-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_speex:BuildRequires:	speexdsp-devel >= 1.2}
-BuildRequires:	srt-devel >= 1.2.2
+BuildRequires:	srt-devel >= 1.4.1
 BuildRequires:	sysfsutils-devel
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	taglib-devel >= 1.9
@@ -285,7 +287,7 @@ Requires:	schroedinger >= 1.0.10
 Requires:	soxr >= 0.1.2
 %{?with_speex:Requires:	speex > 1:1.1.0}
 %{?with_speex:Requires:	speexdsp >= 1.2}
-Requires:	srt >= 1.2.2
+Requires:	srt >= 1.4.1
 Requires:	taglib >= 1.9
 Requires:	wayland >= 1.5.91
 Requires:	xcb-util-keysyms >= 0.3.4
@@ -424,6 +426,8 @@ Akcje klienta VLC dla Solid.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 %{__libtoolize}
