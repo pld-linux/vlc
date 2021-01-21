@@ -32,6 +32,7 @@
 %bcond_with	glesv1		# OpenGL ES v1 support
 %bcond_with	glesv2		# OpenGL ES v2 support
 %bcond_without	gnutls		# gnutls misc plugin
+%bcond_without	goom		# GOOM! audio visualization
 %bcond_without	jack		# jack access/audio output plugin
 %bcond_without	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
@@ -155,7 +156,7 @@ BuildRequires:	libdvdnav-devel >= 4.9.1
 BuildRequires:	libdvdread-devel >= 4.9.1
 BuildRequires:	libebml-devel >= 1.3.6
 BuildRequires:	libgcrypt-devel >= 1.6.0
-BuildRequires:	libgoom2-devel
+%{?with_goom:BuildRequires:	libgoom2-devel}
 BuildRequires:	libidn-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libkate-devel >= 0.3.0
@@ -481,6 +482,7 @@ Akcje klienta VLC dla Solid.
 	%{?with_glesv1:--enable-gles1} \
 	%{?with_glesv2:--enable-gles2} \
 	%{!?with_gnutls:--disable-gnutls} \
+	--enable-goom%{!?with_goom:=no} \
 	%{?with_jack:--enable-jack} \
 	%{!?with_libplacebo:--disable-libplacebo} \
 	--enable-lirc%{!?with_lirc:=no} \
@@ -1207,7 +1209,7 @@ rm -rf $RPM_BUILD_ROOT
 # R: OpenGL
 %attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libglspectrum_plugin.so
 # R: libgoom2
-%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libgoom_plugin.so
+%{?with_goom:%attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libgoom_plugin.so}
 %if %{with projectM}
 # R: libprojectM >= 2.0.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/visualization/libprojectm_plugin.so
