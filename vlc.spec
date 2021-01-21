@@ -70,12 +70,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.11.1
+Version:	3.0.12
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	f797dc97305639f6270df619fe1c5962
+# Source0-md5:	452d3423bcbaf1b85faebab0c45a7ecf
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -640,6 +640,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libimem_plugin.so
 # R: libnfs >= 1.10.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libnfs_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access/librist_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libsatip_plugin.so
 %if %{with sftp}
 # R: libssh2
@@ -703,6 +704,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_http_plugin.so
 # R: libgcrypt >= 1.1.94
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_livehttp_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_rist_plugin.so
 %if %{with shout}
 # R: shout >= 2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_shout_plugin.so
