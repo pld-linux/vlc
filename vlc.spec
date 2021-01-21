@@ -228,6 +228,7 @@ BuildRequires:	srt-devel >= 1.4.1
 BuildRequires:	sysfsutils-devel
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	taglib-devel >= 1.9
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	tremor-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
@@ -241,6 +242,7 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xorg-proto-xproto-devel
+BuildRequires:	xz
 BuildRequires:	zlib-devel
 BuildRequires:	zvbi-devel >= 0.2.28
 Requires(post):	/sbin/ldconfig
