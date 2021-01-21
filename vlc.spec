@@ -356,7 +356,7 @@ Requires:	Qt5X11Extras >= %{qt_ver}
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 Suggests:	dbus-x11 >= 1.6.0
-Suggests:	libcaca > 0.99-0.beta14.1
+%{?with_caca:Suggests:	libcaca > 0.99-0.beta14.1}
 Obsoletes:	vlc-gnome
 Obsoletes:	vlc-gtk
 
