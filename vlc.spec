@@ -87,6 +87,7 @@ Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
 Patch9:		%{name}-live.patch
 Patch10:	%{name}-srt.patch
+Patch11:	opencv4.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -431,6 +432,7 @@ Akcje klienta VLC dla Solid.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 %{__libtoolize}
@@ -1162,7 +1164,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/liboldmovie_plugin.so
 %if %{with opencv}
 # R: opencv
-%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_example_plugin.so
+#%attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_example_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libopencv_wrapper_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_filter/libposterize_plugin.so

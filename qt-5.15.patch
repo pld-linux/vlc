@@ -1,15 +1,6 @@
---- vlc-3.0.10/modules/gui/qt/dialogs/plugins.hpp~	2017-11-24 16:29:17.000000000 +0100
-+++ vlc-3.0.10/modules/gui/qt/dialogs/plugins.hpp	2020-06-02 09:11:52.586760706 +0200
-@@ -32,6 +32,7 @@
- 
- #include <QStringList>
- #include <QTreeWidgetItem>
-+#include <QPainterPath>
- #include <QPushButton>
- #include <QAbstractListModel>
- #include <QSortFilterProxyModel>
---- vlc-3.0.10/modules/gui/qt/components/playlist/views.hpp~	2017-11-24 16:29:17.000000000 +0100
-+++ vlc-3.0.10/modules/gui/qt/components/playlist/views.hpp	2020-06-02 09:13:07.692655049 +0200
+diff -urNp -x '*.orig' vlc-3.0.12.org/modules/gui/qt/components/playlist/views.hpp vlc-3.0.12/modules/gui/qt/components/playlist/views.hpp
+--- vlc-3.0.12.org/modules/gui/qt/components/playlist/views.hpp	2017-11-24 16:29:17.000000000 +0100
++++ vlc-3.0.12/modules/gui/qt/components/playlist/views.hpp	2021-03-07 19:23:36.322183404 +0100
 @@ -26,6 +26,7 @@
  
  #include <QStyledItemDelegate>
@@ -18,13 +9,25 @@
  #include <QTreeView>
  #include <QAbstractItemView>
  #include "util/pictureflow.hpp"
---- vlc-3.0.10/modules/gui/qt/util/timetooltip.hpp~	2018-05-03 14:03:21.000000000 +0200
-+++ vlc-3.0.10/modules/gui/qt/util/timetooltip.hpp	2020-06-02 09:14:04.892066840 +0200
+diff -urNp -x '*.orig' vlc-3.0.12.org/modules/gui/qt/dialogs/plugins.hpp vlc-3.0.12/modules/gui/qt/dialogs/plugins.hpp
+--- vlc-3.0.12.org/modules/gui/qt/dialogs/plugins.hpp	2017-11-24 16:29:17.000000000 +0100
++++ vlc-3.0.12/modules/gui/qt/dialogs/plugins.hpp	2021-03-07 19:23:36.322183404 +0100
+@@ -32,6 +32,7 @@
+ 
+ #include <QStringList>
+ #include <QTreeWidgetItem>
++#include <QPainterPath>
+ #include <QPushButton>
+ #include <QAbstractListModel>
+ #include <QSortFilterProxyModel>
+diff -urNp -x '*.orig' vlc-3.0.12.org/modules/gui/qt/util/timetooltip.hpp vlc-3.0.12/modules/gui/qt/util/timetooltip.hpp
+--- vlc-3.0.12.org/modules/gui/qt/util/timetooltip.hpp	2020-10-24 20:21:13.000000000 +0200
++++ vlc-3.0.12/modules/gui/qt/util/timetooltip.hpp	2021-03-07 19:23:36.322183404 +0100
 @@ -24,6 +24,7 @@
  
  #include "qt.hpp"
  
 +#include <QPainterPath>
  #include <QWidget>
+ #include <QPainterPath>
  
- class TimeTooltip : public QWidget

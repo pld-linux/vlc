@@ -1,0 +1,24 @@
+--- vlc-3.0.12/configure.ac~	2021-03-07 19:28:23.000000000 +0100
++++ vlc-3.0.12/configure.ac	2021-03-07 19:31:18.620014658 +0100
+@@ -1899,7 +1899,7 @@
+ dnl
+ dnl  OpenCV wrapper and example filters
+ dnl
+-PKG_ENABLE_MODULES_VLC([OPENCV], [opencv_example opencv_wrapper], [opencv > 2.0], (OpenCV (computer vision) filter), [auto])
++PKG_ENABLE_MODULES_VLC([OPENCV], [opencv_example opencv_wrapper], [opencv4 > 4.0], (OpenCV (computer vision) filter), [auto])
+ 
+ 
+ dnl
+--- vlc-3.0.12/modules/video_filter/Makefile.am~	2017-11-24 16:29:18.000000000 +0100
++++ vlc-3.0.12/modules/video_filter/Makefile.am	2021-03-07 19:48:08.007515036 +0100
+@@ -164,10 +164,3 @@
+ # misc
+ libblend_plugin_la_SOURCES = video_filter/blend.cpp
+ video_filter_LTLIBRARIES += libblend_plugin.la
+-
+-libopencv_example_plugin_la_SOURCES = video_filter/opencv_example.cpp video_filter/filter_event_info.h
+-libopencv_example_plugin_la_CPPFLAGS = $(AM_CPPFLAGS) $(OPENCV_CFLAGS)
+-libopencv_example_plugin_la_LIBADD = $(OPENCV_LIBS)
+-libopencv_example_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(video_filterdir)'
+-video_filter_LTLIBRARIES += $(LTLIBopencv_example)
+-EXTRA_LTLIBRARIES += libopencv_example_plugin.la
