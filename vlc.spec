@@ -46,7 +46,7 @@
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
 %bcond_without	smb		# SMB access plugin
-%bcond_without	smb2		# SMB2 access plugin
+%bcond_with	smb2		# SMB2 access plugin (requires unreleased version)
 %bcond_without	speex		# speex codec plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg text renderer plugin
@@ -70,12 +70,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.12
-Release:	3
+Version:	3.0.13
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	452d3423bcbaf1b85faebab0c45a7ecf
+# Source0-md5:	d2c1220e9a8614906986b5db53aa731e
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -180,7 +180,7 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libsecret-devel >= 0.18
 %{?with_shout:BuildRequires:	libshout-devel >= 2.1}
 BuildRequires:	libsidplay2-devel
-%{?with_smb2:BuildRequires:	libsmb2-devel >= 3.0.0}
+%{?with_smb2:BuildRequires:	libsmb2-devel >= 4.0.0}
 %{?with_smb:BuildRequires:	libsmbclient-devel >= 3.6.13}
 %{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel >= 6:4.7
@@ -213,7 +213,7 @@ BuildRequires:	microdns-devel >= 0.1.2
 BuildRequires:	minizip-devel
 BuildRequires:	musepack-devel
 BuildRequires:	ncurses-devel
-%{?with_opencv:BuildRequires:	opencv-devel > 2.0}
+%{?with_opencv:BuildRequires:	opencv-devel > 4}
 BuildRequires:	opus-devel >= 1.0.3
 BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	protobuf-devel >= 2.5.0
