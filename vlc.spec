@@ -21,7 +21,7 @@
 %bcond_without	alsa		# ALSA access/audio output plugins
 %bcond_without	bonjour		# bonjour service discovery plugin
 %bcond_without	bpg		# BPG files support
-%bcond_without	caca		# caca video output plugin
+%bcond_with	caca		# caca video output plugin
 %bcond_without	crystalhd	# crystalhd codec plugin
 %bcond_with	daala		# daala codec plugin (experimental)
 %bcond_with	decklink	# Blackmagic DeskLink output support (BR: proprietary SDK)
@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.16
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
