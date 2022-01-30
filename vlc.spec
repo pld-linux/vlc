@@ -46,7 +46,7 @@
 %bcond_without	sftp		# SFTP file transfer via libssh2
 %bcond_without	shout		# shout access output plugin
 %bcond_without	smb		# SMB access plugin
-%bcond_with	smb2		# SMB2 access plugin (requires unreleased version)
+%bcond_without	smb2		# SMB2 access plugin
 %bcond_without	speex		# speex codec plugin
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg text renderer plugin
@@ -276,7 +276,7 @@ Requires:	libogg >= 1:1.0
 %{?with_libplacebo:Requires:	libplacebo >= 0.2.1}
 %{?with_svg:Requires:	librsvg >= 2.9.0}
 Requires:	libsecret >= 0.18
-%{?with_smb2:Requires:	libsmb2 >= 3.0.0}
+%{?with_smb2:Requires:	libsmb2 >= 4.0.0}
 Requires:	libtheora >= 1.0
 Requires:	libtiger >= 0.3.1
 Requires:	libvncserver >= 0.9.9
