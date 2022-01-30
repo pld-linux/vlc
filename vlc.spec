@@ -21,7 +21,7 @@
 %bcond_without	alsa		# ALSA access/audio output plugins
 %bcond_without	bonjour		# bonjour service discovery plugin
 %bcond_without	bpg		# BPG files support
-%bcond_with	caca		# caca video output plugin
+%bcond_without	caca		# caca video output plugin
 %bcond_without	crystalhd	# crystalhd codec plugin
 %bcond_with	daala		# daala codec plugin (experimental)
 %bcond_with	decklink	# Blackmagic DeskLink output support (BR: proprietary SDK)
@@ -88,6 +88,7 @@ Patch8:		qt-5.15.patch
 Patch9:		%{name}-live.patch
 Patch10:	%{name}-srt.patch
 Patch11:	opencv4.patch
+Patch12:	%{name}-libcaca.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -144,7 +145,7 @@ BuildRequires:	libass-devel >= 0.9.8
 %{?with_dv:BuildRequires:	libavc1394-devel >= 0.5.3}
 BuildRequires:	libbluray-devel >= 0.6.2
 %{?with_bpg:BuildRequires:	libbpg-devel}
-%{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta14}
+%{?with_caca:BuildRequires:	libcaca-devel >= 0.99-0.beta20}
 BuildRequires:	libcddb-devel >= 0.9.5
 BuildRequires:	libcdio-devel >= 0.78.2
 BuildRequires:	libchromaprint-devel >= 0.6.0
@@ -357,7 +358,7 @@ Requires:	Qt5X11Extras >= %{qt_ver}
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 Suggests:	dbus-x11 >= 1.6.0
-%{?with_caca:Suggests:	libcaca > 0.99-0.beta14.1}
+%{?with_caca:Suggests:	libcaca > 0.99-0.beta20}
 Obsoletes:	vlc-gnome
 Obsoletes:	vlc-gtk
 
@@ -433,6 +434,7 @@ Akcje klienta VLC dla Solid.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 %{__libtoolize}
@@ -1257,7 +1259,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libaa_plugin.so
 %endif
 %if %{with caca}
-# R: libcaca >= 0.99-0.beta14
+# R: libcaca >= 0.99-0.beta20
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libcaca_plugin.so
 %endif
 # R: EGL, xorg-lib-libX11
