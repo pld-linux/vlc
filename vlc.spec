@@ -34,7 +34,7 @@
 %bcond_without	gnutls		# gnutls misc plugin
 %bcond_without	goom		# GOOM! audio visualization
 %bcond_without	jack		# jack access/audio output plugin
-%bcond_without	kde		# KDE Solid actions
+%bcond_with	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
 %bcond_without	libplacebo	# libplacebo support in gl plugin
 %bcond_without	live		# live555 demuxer plugin
@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.16
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -231,6 +231,7 @@ BuildRequires:	sysfsutils-devel
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	taglib-devel >= 1.9
 BuildRequires:	tar >= 1:1.22
+BuildRequires:	tpm2-tss-devel
 BuildRequires:	tremor-devel
 %{?with_twolame:BuildRequires:	twolame-devel}
 %{?with_udev:BuildRequires:	udev-devel >= 1:142}
