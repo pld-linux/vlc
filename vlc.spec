@@ -70,12 +70,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.16
-Release:	4
+Version:	3.0.17.3
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	efc5f7331c033bf81536531c6eba5aa5
+# Source0-md5:	82907be60cea14e1423dacd51a23cf62
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -86,7 +86,7 @@ Patch6:		%{name}-extern.patch
 Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
 Patch9:		%{name}-live.patch
-Patch10:	%{name}-srt.patch
+Patch10:	%{name}-dav1d.patch
 Patch11:	opencv4.patch
 Patch12:	%{name}-libcaca.patch
 URL:		http://www.videolan.org/vlc/
@@ -154,7 +154,7 @@ BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdsm-devel >= 0.2.0
 BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 1.2.0
-BuildRequires:	libdvdnav-devel >= 4.9.1
+BuildRequires:	libdvdnav-devel >= 5.0.4
 BuildRequires:	libdvdread-devel >= 4.9.1
 BuildRequires:	libebml-devel >= 1.3.6
 BuildRequires:	libgcrypt-devel >= 1.6.0
@@ -226,7 +226,7 @@ BuildRequires:	soxr-devel >= 0.1.2
 BuildRequires:	spatialaudio-devel
 %{?with_speex:BuildRequires:	speex-devel > 1:1.1.0}
 %{?with_speex:BuildRequires:	speexdsp-devel >= 1.2}
-BuildRequires:	srt-devel >= 1.4.1
+BuildRequires:	srt-devel >= 1.3.0
 BuildRequires:	sysfsutils-devel
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	taglib-devel >= 1.9
@@ -293,15 +293,16 @@ Requires:	schroedinger >= 1.0.10
 Requires:	soxr >= 0.1.2
 %{?with_speex:Requires:	speex > 1:1.1.0}
 %{?with_speex:Requires:	speexdsp >= 1.2}
-Requires:	srt >= 1.4.1
+Requires:	srt >= 1.3.0
 Requires:	taglib >= 1.9
 Requires:	wayland >= 1.5.91
 Requires:	xcb-util-keysyms >= 0.3.4
 Requires:	xdg-utils
-Obsoletes:	browser-plugin-vlc
-Obsoletes:	vlc-GGI
-Obsoletes:	vlc-SDL
-Obsoletes:	vlc-esd
+Obsoletes:	browser-plugin-vlc < 2
+Obsoletes:	vlc-GGI < 2
+Obsoletes:	vlc-SDL < 2.2.6-3
+Obsoletes:	vlc-esd < 1
+Obsoletes:	vlc-iceweasel-plugin < 1.0.0-2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -325,6 +326,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe VLC
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	dbus-devel >= 1.6.0
+Obsoletes:	vlc-static < 1.0.0-3
 
 %description devel
 VLC header files.
@@ -360,8 +362,9 @@ Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 Suggests:	dbus-x11 >= 1.6.0
 %{?with_caca:Suggests:	libcaca > 0.99-0.beta20}
-Obsoletes:	vlc-gnome
-Obsoletes:	vlc-gtk
+Obsoletes:	vlc-gnome < 0.8.1-2
+Obsoletes:	vlc-gnome1 < 0.8.1-2
+Obsoletes:	vlc-gtk < 0.8.1-2
 
 %description X11
 X11 output plugin for VLC. Contains GUI image/icon resources.
@@ -628,7 +631,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_oss_plugin.so
 %endif
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_realrtsp_plugin.so
-# R: srt >= 1.2.2
+# R: srt >= 1.3.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libaccess_srt_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access/libattachment_plugin.so
 # R: ffmpeg-libs (libavformat >= 53.21.0 libavcodec libavutil)
@@ -714,7 +717,7 @@ rm -rf $RPM_BUILD_ROOT
 # R: shout >= 2.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_shout_plugin.so
 %endif
-# R: srt >= 1.2.2
+# R: srt >= 1.3.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_srt_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/access_output/libaccess_output_udp_plugin.so
 %dir %{_libdir}/vlc/plugins/audio_filter
