@@ -70,25 +70,21 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.17.4
-Release:	2
+Version:	3.0.18
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	951878d524e089bf4c80614c93c68c0c
+# Source0-md5:	f3c031357c0eeffb41e928eca220a803
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
 Patch5:		%{name}-fdk_aac.patch
-Patch6:		%{name}-extern.patch
 Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
-Patch9:		%{name}-live.patch
-Patch10:	%{name}-dav1d.patch
 Patch11:	opencv4.patch
-Patch12:	%{name}-libcaca.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -154,7 +150,7 @@ BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdsm-devel >= 0.2.0
 BuildRequires:	libdts-devel >= 0.0.5
 BuildRequires:	libdvbpsi-devel >= 1.2.0
-BuildRequires:	libdvdnav-devel >= 5.0.4
+BuildRequires:	libdvdnav-devel > 4.9.0
 BuildRequires:	libdvdread-devel >= 4.9.1
 BuildRequires:	libebml-devel >= 1.3.6
 BuildRequires:	libgcrypt-devel >= 1.6.0
@@ -432,13 +428,9 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
 %patch11 -p1
-%patch12 -p1
 
 %build
 %{__libtoolize}
