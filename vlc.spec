@@ -84,6 +84,7 @@ Patch4:		no-cache.patch
 Patch5:		%{name}-fdk_aac.patch
 Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
+Patch9:		x32.patch
 Patch11:	opencv4.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
@@ -430,6 +431,7 @@ Akcje klienta VLC dla Solid.
 %patch5 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 %patch11 -p1
 
 %build

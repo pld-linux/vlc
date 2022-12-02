@@ -1,0 +1,14 @@
+--- vlc-3.0.18/src/linux/thread.c.orig	2022-05-31 18:10:59.000000000 +0200
++++ vlc-3.0.18/src/linux/thread.c	2022-12-02 22:42:09.213075307 +0100
+@@ -59,8 +59,9 @@
+      */
+     static_assert (sizeof (time_t) == sizeof (long) || sizeof (time_t) == 8,
+                    "Unrecognised time_t type definition");
+-
+-#if !defined (__NR_futex)
++#if defined(__x86_64__) && defined(__ILP32__)
++    const long num = __NR_futex;
++#elif !defined (__NR_futex)
+     /* Recent 32-bit platforms (e.g. riscv32) only support 64-bit time_t. */
+     static_assert (sizeof (time_t) == 8, "Expected 64-bit time_t");
+     const long num = __NR_futex_time64;
