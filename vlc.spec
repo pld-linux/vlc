@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.18
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -85,6 +85,7 @@ Patch5:		%{name}-fdk_aac.patch
 Patch7:		%{name}-vsxu.patch
 Patch8:		qt-5.15.patch
 Patch9:		x32.patch
+Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
@@ -168,7 +169,7 @@ BuildRequires:	libmtp-devel >= 1.0.0
 %{?with_notify:BuildRequires:	libnotify-devel}
 BuildRequires:	libnfs-devel >= 1.10.0
 BuildRequires:	libogg-devel >= 1:1.0
-%{?with_libplacebo:BuildRequires:	libplacebo-devel >= 0.2.1}
+%{?with_libplacebo:BuildRequires:	libplacebo-devel >= 4}
 BuildRequires:	libpng-devel
 %{?with_projectM:BuildRequires:	libprojectM-devel >= 2.0.1-3}
 BuildRequires:	libproxy-devel
@@ -271,7 +272,7 @@ Requires:	libmpeg2 > 0.3.2
 Requires:	libmtp >= 1.0.0
 Requires:	libnfs >= 1.10.0
 Requires:	libogg >= 1:1.0
-%{?with_libplacebo:Requires:	libplacebo >= 0.2.1}
+%{?with_libplacebo:Requires:	libplacebo >= 4}
 %{?with_svg:Requires:	librsvg >= 2.9.0}
 Requires:	libsecret >= 0.18
 %{?with_smb2:Requires:	libsmb2 >= 4.0.0}
@@ -432,6 +433,7 @@ Akcje klienta VLC dla Solid.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 %patch11 -p1
 
 %build
