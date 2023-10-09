@@ -1,0 +1,73 @@
+--- vlc-3.0.18/modules/access/dcp/dcp.cpp.orig	2021-06-13 11:32:34.000000000 +0200
++++ vlc-3.0.18/modules/access/dcp/dcp.cpp	2023-10-08 20:01:38.354956576 +0200
+@@ -324,6 +324,7 @@ static int Open( vlc_object_t *obj )
+     p_sys->p_dcp = p_dcp;
+ 
+ 
++    Kumu::FileReaderFactory defaultFactory;
+     /* handle the DCP directory, saving the paths for audio and video file, returning error if unsuccessful */
+     if( ( retval = dcpInit( p_demux ) ) )
+         goto error;
+@@ -332,7 +333,7 @@ static int Open( vlc_object_t *obj )
+     EssenceType_t essInter;
+     for ( size_t i = 0; i < ( p_sys->p_dcp->video_reels.size() ); i++ )
+     {
+-        EssenceType( p_sys->p_dcp->video_reels[i].filename.c_str(), essInter );
++        EssenceType( p_sys->p_dcp->video_reels[i].filename.c_str(), essInter, defaultFactory );
+         if ( i == 0 )
+         {
+             p_sys->PictureEssType = essInter;
+@@ -358,7 +359,7 @@ static int Open( vlc_object_t *obj )
+             case ESS_JPEG_2000_S: {
+                 JP2K::PictureDescriptor PicDesc;
+                 if (p_sys->PictureEssType == ESS_JPEG_2000_S) {     /* 3D JPEG2000 */
+-                    JP2K::MXFSReader * p_PicMXFSReader = new ( nothrow ) JP2K::MXFSReader();
++                    JP2K::MXFSReader * p_PicMXFSReader = new ( nothrow ) JP2K::MXFSReader(defaultFactory);
+ 
+                     if( !p_PicMXFSReader) {
+                         retval = VLC_ENOMEM;
+@@ -376,7 +377,7 @@ static int Open( vlc_object_t *obj )
+                     videoReader.p_PicMXFSReader = p_PicMXFSReader;
+                     p_sys->v_videoReader.push_back(videoReader);
+                 } else {                                            /* 2D JPEG2000 */
+-                    JP2K::MXFReader *p_PicMXFReader = new ( nothrow ) JP2K::MXFReader();
++                    JP2K::MXFReader *p_PicMXFReader = new ( nothrow ) JP2K::MXFReader(defaultFactory);
+                     if( !p_PicMXFReader ) {
+                         retval = VLC_ENOMEM;
+                         goto error;
+@@ -419,7 +420,7 @@ static int Open( vlc_object_t *obj )
+             }
+             case ESS_MPEG2_VES: {
+ 
+-                MPEG2::MXFReader *p_VideoMXFReader = new ( nothrow ) MPEG2::MXFReader();
++                MPEG2::MXFReader *p_VideoMXFReader = new ( nothrow ) MPEG2::MXFReader(defaultFactory);
+ 
+                 videoReader_t videoReader;
+                 videoReader.p_VideoMXFReader = p_VideoMXFReader;
+@@ -489,7 +490,7 @@ static int Open( vlc_object_t *obj )
+ 
+     if( !p_sys->p_dcp->audio_reels.empty() )
+     {
+-        EssenceType( p_sys->p_dcp->audio_reels[0].filename.c_str(), AudioEssType );
++        EssenceType( p_sys->p_dcp->audio_reels[0].filename.c_str(), AudioEssType, defaultFactory );
+ 
+         if ( (AudioEssType == ESS_PCM_24b_48k) || (AudioEssType == ESS_PCM_24b_96k) ) {
+             PCM::AudioDescriptor AudioDesc;
+@@ -498,7 +499,7 @@ static int Open( vlc_object_t *obj )
+             {
+                 if ( i != 0 )
+                 {
+-                    EssenceType( p_sys->p_dcp->audio_reels[i].filename.c_str(), AudioEssTypeCompare );
++                    EssenceType( p_sys->p_dcp->audio_reels[i].filename.c_str(), AudioEssTypeCompare, defaultFactory );
+                     if ( AudioEssTypeCompare != AudioEssType )
+                     {
+                         msg_Err( p_demux, "Integrity check failed : different audio essence types in %s",
+@@ -507,7 +508,7 @@ static int Open( vlc_object_t *obj )
+                         goto error;
+                     }
+                 }
+-                PCM::MXFReader *p_AudioMXFReader = new ( nothrow ) PCM::MXFReader();
++                PCM::MXFReader *p_AudioMXFReader = new ( nothrow ) PCM::MXFReader(defaultFactory);
+ 
+                 if( !p_AudioMXFReader ) {
+                     retval = VLC_ENOMEM;
