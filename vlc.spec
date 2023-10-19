@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.19
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -564,7 +564,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 # ach (Acoli)
 # cgg (Chiga)
 # co (Corsican)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,am_ET,as_IN,cgg,co,ks_IN,ku_IQ}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,am_ET,as_IN,cgg,co,ks_IN,ie,ku_IQ,or_IN,sm}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/vlc/vlc*.ico
