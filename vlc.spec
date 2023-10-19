@@ -40,7 +40,7 @@
 %bcond_without	live		# live555 demuxer plugin
 %bcond_with	mfx		# Intel QuickSync MPEG4-Part10/MPEG2 (H.264/H.262) encoder
 %bcond_without	notify		# libnotify notification plugin
-%bcond_without	opencv		# OpenCV video filter [needs vlc API update]
+%bcond_with	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
 %bcond_with	projectM	# projectm visualization plugin
 %bcond_without	sftp		# SFTP file transfer via libssh2
@@ -70,12 +70,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.18
-Release:	5
+Version:	3.0.19
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	f3c031357c0eeffb41e928eca220a803
+# Source0-md5:	44d249998b7ead0a2a8d172c0099092c
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -88,6 +88,7 @@ Patch8:		qt-5.15.patch
 Patch9:		x32.patch
 Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
+Patch12:	ffmpeg6.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -100,6 +101,10 @@ BuildRequires:	Qt5Gui-devel >= %{qt_ver}
 BuildRequires:	Qt5Svg-devel >= %{qt_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
 BuildRequires:	Qt5X11Extras-devel >= %{qt_ver}
+BuildRequires:	Qt5Quick-controls2-devel >= %{qt_ver}
+BuildRequires:	Qt5Quick-devel >= %{qt_ver}
+BuildRequires:	Qt5Quick-graphicaleffects >= %{qt_ver}
+BuildRequires:	Qt5WaylandClient-devel >= %{qt_ver}
 BuildRequires:	SDL_image-devel >= 1.2.10
 BuildRequires:	a52dec-libs-devel >= 0.7.3
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -152,6 +157,7 @@ BuildRequires:	libchromaprint-devel >= 0.6.0
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdsm-devel >= 0.2.0
 BuildRequires:	libdts-devel >= 0.0.5
+BuildRequires:	libebur128-devel >= 1.2.4
 BuildRequires:	libdvbpsi-devel >= 1.2.0
 BuildRequires:	libdvdnav-devel > 4.9.0
 BuildRequires:	libdvdread-devel >= 4.9.1
@@ -437,6 +443,7 @@ Akcje klienta VLC dla Solid.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 %{__libtoolize}
@@ -867,8 +874,8 @@ rm -rf $RPM_BUILD_ROOT
 # R: twolame-libs
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtwolame_plugin.so
 %endif
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
-%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_drm_plugin.so
+#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
+#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_drm_plugin.so
 # R: libvorbis >= 1.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvorbis_plugin.so
 # R: libvpx >= 1.5.0

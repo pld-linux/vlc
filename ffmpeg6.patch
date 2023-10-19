@@ -1,0 +1,11 @@
+--- vlc-3.0.18/configure.ac~	2023-10-19 14:28:37.000000000 +0200
++++ vlc-3.0.18/configure.ac	2023-10-19 14:31:22.113579556 +0200
+@@ -2450,7 +2450,7 @@
+     have_avcodec_vaapi="yes"
+   ],[
+     AS_IF([test -n "${enable_libva}"], [
+-      AC_MSG_ERROR([libva is present but libavcodec/vaapi.h is missing])
++      AC_MSG_WARN([libva is present but libavcodec/vaapi.h is missing])
+     ], [
+       AC_MSG_WARN([libva is present but libavcodec/vaapi.h is missing ])
+     ])
