@@ -101,10 +101,6 @@ BuildRequires:	Qt5Gui-devel >= %{qt_ver}
 BuildRequires:	Qt5Svg-devel >= %{qt_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
 BuildRequires:	Qt5X11Extras-devel >= %{qt_ver}
-BuildRequires:	Qt5Quick-controls2-devel >= %{qt_ver}
-BuildRequires:	Qt5Quick-devel >= %{qt_ver}
-BuildRequires:	Qt5Quick-graphicaleffects >= %{qt_ver}
-BuildRequires:	Qt5WaylandClient-devel >= %{qt_ver}
 BuildRequires:	SDL_image-devel >= 1.2.10
 BuildRequires:	a52dec-libs-devel >= 0.7.3
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -157,7 +153,6 @@ BuildRequires:	libchromaprint-devel >= 0.6.0
 BuildRequires:	libdc1394-devel >= 2.1.0
 BuildRequires:	libdsm-devel >= 0.2.0
 BuildRequires:	libdts-devel >= 0.0.5
-BuildRequires:	libebur128-devel >= 1.2.4
 BuildRequires:	libdvbpsi-devel >= 1.2.0
 BuildRequires:	libdvdnav-devel > 4.9.0
 BuildRequires:	libdvdread-devel >= 4.9.1
