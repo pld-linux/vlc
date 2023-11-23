@@ -36,7 +36,7 @@
 %bcond_without	jack		# jack access/audio output plugin
 %bcond_with	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
-%bcond_without	libplacebo	# libplacebo support in gl plugin
+%bcond_with	libplacebo	# libplacebo support in gl plugin
 %bcond_without	live		# live555 demuxer plugin
 %bcond_with	mfx		# Intel QuickSync MPEG4-Part10/MPEG2 (H.264/H.262) encoder
 %bcond_without	notify		# libnotify notification plugin
@@ -220,6 +220,7 @@ BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	protobuf-devel >= 2.5.0
 BuildRequires:	pulseaudio-devel >= 1.0
 BuildRequires:	qt5-build >= %{qt_ver}
+BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	schroedinger-devel >= 1.0.10
 BuildRequires:	shine-devel >= 3.0.0
 BuildRequires:	soxr-devel >= 0.1.2
@@ -494,7 +495,7 @@ Akcje klienta VLC dla Solid.
 	%{!?with_gnutls:--disable-gnutls} \
 	--enable-goom%{!?with_goom:=no} \
 	%{?with_jack:--enable-jack} \
-	%{!?with_libplacebo:--disable-libplacebo} \
+	%{__enable_disable libplacebo} \
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
 	--enable-libva \
