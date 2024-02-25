@@ -48,7 +48,6 @@
 %bcond_without	smb		# SMB access plugin
 %bcond_without	smb2		# SMB2 access plugin
 %bcond_without	speex		# speex codec plugin
-%bcond_without	static_libs	# don't build static libraries
 %bcond_without	svg		# svg text renderer plugin
 %bcond_without	twolame		# twolame codec plugin
 %bcond_without	udev		# udev service discovery plugin
@@ -335,18 +334,6 @@ VLC header files.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe VLC.
 
-%package static
-Summary:	VLC static libraries
-Summary(pl.UTF-8):	Biblioteki statyczne VLC
-Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-VLC static libraries.
-
-%description static -l pl.UTF-8
-Biblioteki statyczne VLC.
-
 %package X11
 Summary:	VLC - X11 output plugin
 Summary(pl.UTF-8):	Klient VLC - wtyczka wyjścia X11
@@ -460,7 +447,7 @@ Akcje klienta VLC dla Solid.
 	LUAC=luac5.2 \
 	--disable-optimizations \
 	--disable-silent-rules \
-	%{!?with_static_libs:--disable-static} \
+	--disable-static \
 %ifarch ppc
 	--disable-altivec \
 %endif
