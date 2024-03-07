@@ -542,12 +542,15 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 # rm -f *.{a,la}
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{as_IN,as}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{ks_IN,ks}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{or_IN,or}
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
-# unsupported:
-# ach (Acoli)
-# cgg (Chiga)
-# co (Corsican)
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,am_ET,as_IN,cgg,co,ks_IN,ie,ku_IQ,or_IN,sm}
+# am_ET: am_ET.po is more complete than am.po
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/am
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{am_ET,am}
+# unsupported by glibc (as of 2.39):
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ach,cgg,co,ie,ku_IQ}
 
 # .ico is win32 only
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/vlc/vlc*.ico
