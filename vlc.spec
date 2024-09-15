@@ -15,6 +15,7 @@
 # - x262
 # - x26410b (x264 >= 0.153)
 # - evas (ecore >= 1.16)
+# - AMF (AMD HQScaler, AMD VQ Enhancer components)
 #
 # Conditional build:
 %bcond_without	aalib		# aalib video output plugin
@@ -69,12 +70,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.20
-Release:	5
+Version:	3.0.21
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	e8337fcd2df92f3901dad091fb85f545
+# Source0-md5:	cde72f38943c685a1a39acc82da2339f
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
