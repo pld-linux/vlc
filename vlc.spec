@@ -64,9 +64,6 @@
 # CrystalHD library requires SSE2 instructions
 %undefine	with_crystalhd
 %endif
-%ifarch x32
-%undefine	with_x265
-%endif
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
@@ -90,6 +87,7 @@ Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
 Patch12:	ffmpeg6.patch
 Patch13:	%{name}-taglib2.patch
+Patch14:	%{name}-x265.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -430,6 +428,7 @@ Akcje klienta VLC dla Solid.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %build
 %{__libtoolize}

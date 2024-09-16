@@ -1,0 +1,45 @@
+--- vlc-3.0.21/modules/codec/x265.c.orig	2024-06-05 17:56:07.000000000 +0200
++++ vlc-3.0.21/modules/codec/x265.c	2024-09-16 21:05:07.038413367 +0200
+@@ -67,7 +67,12 @@ struct encoder_sys_t
+ static block_t *Encode(encoder_t *p_enc, picture_t *p_pict)
+ {
+     encoder_sys_t *p_sys = p_enc->p_sys;
+-    x265_picture pic;
++    x265_picture pic, *pic_out;
++#if X265_BUILD >= 210
++    x265_picture pic_l[MAX_SCALABLE_LAYERS];
++    x265_picture *pic_lp[MAX_SCALABLE_LAYERS];
++    for (int i = 0; i < MAX_SCALABLE_LAYERS; i++) pic_lp[i] = &pic_l[i];
++#endif
+ 
+     x265_picture_init(&p_sys->param, &pic);
+ 
+@@ -88,8 +93,15 @@ static block_t *Encode(encoder_t *p_enc,
+ 
+     x265_nal *nal;
+     uint32_t i_nal = 0;
++#if X265_BUILD >= 210
++    x265_encoder_encode(p_sys->h, &nal, &i_nal,
++            likely(p_pict) ? &pic : NULL, pic_lp);
++    pic_out = pic_lp[0];
++#else
+     x265_encoder_encode(p_sys->h, &nal, &i_nal,
+             likely(p_pict) ? &pic : NULL, &pic);
++    pic_out = &pic;
++#endif
+ 
+     if (!i_nal)
+         return NULL;
+@@ -110,10 +122,10 @@ static block_t *Encode(encoder_t *p_enc,
+         p_enc->fmt_in.video.i_frame_rate_base /
+             p_enc->fmt_in.video.i_frame_rate;
+ 
+-    p_block->i_pts = p_sys->initial_date + pic.poc * p_block->i_length;
++    p_block->i_pts = p_sys->initial_date + pic_out->poc * p_block->i_length;
+     p_block->i_dts = p_sys->initial_date + p_sys->dts++ * p_block->i_length;
+ 
+-    switch (pic.sliceType)
++    switch (pic_out->sliceType)
+     {
+     case X265_TYPE_I:
+     case X265_TYPE_IDR:
