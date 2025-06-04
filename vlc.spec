@@ -88,6 +88,7 @@ Patch11:	opencv4.patch
 Patch12:	ffmpeg6.patch
 Patch13:	%{name}-taglib2.patch
 Patch14:	%{name}-x265.patch
+Patch15:	%{name}-live555-update.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -429,6 +430,7 @@ Akcje klienta VLC dla Solid.
 %patch -P12 -p1
 %patch -P13 -p1
 %patch -P14 -p1
+%patch -P15 -p1
 
 %build
 %{__libtoolize}
