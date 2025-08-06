@@ -68,7 +68,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.21
-Release:	8
+Release:	9
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -89,6 +89,8 @@ Patch12:	ffmpeg6.patch
 Patch13:	%{name}-taglib2.patch
 Patch14:	%{name}-x265.patch
 Patch15:	%{name}-live555-update.patch
+Patch16:	libsmb2.patch
+Patch17:	libnfs.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -431,6 +433,8 @@ Akcje klienta VLC dla Solid.
 %patch -P13 -p1
 %patch -P14 -p1
 %patch -P15 -p1
+%patch -P16 -p1
+%patch -P17 -p1
 
 %build
 %{__libtoolize}
