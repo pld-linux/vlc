@@ -68,7 +68,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.21
-Release:	12
+Release:	13
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -534,6 +534,7 @@ Akcje klienta VLC dla Solid.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -595,20 +596,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(4754,root,video) %{_bindir}/vlc-wrapper
 %attr(755,root,root) %{_libdir}/vlc/vlc-cache-gen
 %attr(755,root,root) %{_libdir}/libvlc.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlc.so.5
+%ghost %{_libdir}/libvlc.so.5
 %attr(755,root,root) %{_libdir}/libvlccore.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libvlccore.so.9
+%ghost %{_libdir}/libvlccore.so.9
 %if "%{_lib}" != "lib"
 %{_prefix}/lib/vlc
 %endif
 %dir %{_libdir}/vlc
 %attr(755,root,root) %{_libdir}/vlc/libvlc_pulse.so.*.*.*
-%attr(755,root,root) %{_libdir}/vlc/libvlc_pulse.so.0
+%{_libdir}/vlc/libvlc_pulse.so.0
 # R: libX11
 %attr(755,root,root) %{_libdir}/vlc/libvlc_vdpau.so.*.*.*
-%attr(755,root,root) %{_libdir}/vlc/libvlc_vdpau.so.0
+%{_libdir}/vlc/libvlc_vdpau.so.0
 %attr(755,root,root) %{_libdir}/vlc/libvlc_xcb_events.so.*.*.*
-%attr(755,root,root) %{_libdir}/vlc/libvlc_xcb_events.so.0
+%{_libdir}/vlc/libvlc_xcb_events.so.0
 
 %dir %{_libdir}/vlc/plugins
 %ghost %{_libdir}/vlc/plugins/plugins.dat
@@ -1240,11 +1241,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libvlc.so
-%attr(755,root,root) %{_libdir}/libvlccore.so
-%attr(755,root,root) %{_libdir}/vlc/libvlc_pulse.so
-%attr(755,root,root) %{_libdir}/vlc/libvlc_vdpau.so
-%attr(755,root,root) %{_libdir}/vlc/libvlc_xcb_events.so
+%{_libdir}/libvlc.so
+%{_libdir}/libvlccore.so
+%{_libdir}/vlc/libvlc_pulse.so
+%{_libdir}/vlc/libvlc_vdpau.so
+%{_libdir}/vlc/libvlc_xcb_events.so
 %{_includedir}/vlc
 %{_pkgconfigdir}/libvlc.pc
 %{_pkgconfigdir}/vlc-plugin.pc
