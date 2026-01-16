@@ -30,7 +30,11 @@
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
 %bcond_with	fluidlite	# FluidLite instead of FluidSynth library in fluidsynth plugin
 %bcond_with	freerdp		# RDP/Remote Desktop client support
+%ifarch %{arm} aarch64
+%bcond_without	glesv2		# OpenGL ES v2 support
+%else
 %bcond_with	glesv2		# OpenGL ES v2 support
+%endif
 %bcond_without	gnutls		# gnutls misc plugin
 %bcond_without	goom		# GOOM! audio visualization
 %bcond_without	jack		# jack access/audio output plugin
