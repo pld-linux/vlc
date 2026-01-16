@@ -67,12 +67,12 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.21
-Release:	15
+Version:	3.0.23
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	cde72f38943c685a1a39acc82da2339f
+# Source0-md5:	ebc3f0d0a94785fd2b2df4087516938e
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
@@ -85,12 +85,7 @@ Patch8:		qt-5.15.patch
 Patch9:		x32.patch
 Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
-Patch12:	ffmpeg6.patch
-Patch13:	%{name}-taglib2.patch
-Patch14:	%{name}-x265.patch
-Patch15:	%{name}-live555-update.patch
-Patch16:	libsmb2.patch
-Patch17:	libnfs.patch
+Patch12:	libsmb2.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -187,7 +182,6 @@ BuildRequires:	libsidplay2-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel >= 3.6.13}
 %{?with_sftp:BuildRequires:	libssh2-devel}
 BuildRequires:	libstdc++-devel >= 6:4.7
-BuildRequires:	libtar-devel
 BuildRequires:	libtheora-devel >= 1.0
 BuildRequires:	libtiger-devel >= 0.3.1
 BuildRequires:	libtool >= 2:2
@@ -430,11 +424,6 @@ Akcje klienta VLC dla Solid.
 %{?with_libplacebo:%patch -P10 -p1}
 %patch -P11 -p1
 %patch -P12 -p1
-%patch -P13 -p1
-%patch -P14 -p1
-%patch -P15 -p1
-%patch -P16 -p1
-%patch -P17 -p1
 
 %build
 %{__libtoolize}
@@ -459,6 +448,7 @@ Akcje klienta VLC dla Solid.
 %ifarch ppc
 	--disable-altivec \
 %endif
+	--enable-a52 \
 	--enable-aa%{!?with_aalib:=no} \
 	%{?with_alsa:--enable-alsa} \
 	--enable-aom \
@@ -469,6 +459,7 @@ Akcje klienta VLC dla Solid.
 	--enable-crystalhd%{!?with_crystalhd:=no} \
 	%{?with_daala:--enable-daala} \
 	--enable-dbus \
+	--enable-dca \
 	--enable-decklink%{!?with_decklink:=no} \
 	--enable-dv1394%{!?with_dv:=no} \
 	--enable-dvbpsi \
@@ -490,6 +481,7 @@ Akcje klienta VLC dla Solid.
 	%{!?with_gnutls:--disable-gnutls} \
 	--enable-goom%{!?with_goom:=no} \
 	%{?with_jack:--enable-jack} \
+	--enable-libmpeg2 \
 	%{__enable_disable libplacebo} \
 	--enable-lirc%{!?with_lirc:=no} \
 	--enable-mad \
@@ -551,7 +543,6 @@ ln -sf %{_libdir}/vlc $RPM_BUILD_ROOT%{_prefix}/lib
 # rm -f *.{a,la}
 find $RPM_BUILD_ROOT%{_libdir} -type f -regex '.*\.l?a$' | xargs %{__rm}
 
-%{__mv} $RPM_BUILD_ROOT%{_localedir}/{as_IN,as}
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{ks_IN,ks}
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{or_IN,or}
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
@@ -869,8 +860,8 @@ rm -rf $RPM_BUILD_ROOT
 # R: twolame-libs
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libtwolame_plugin.so
 %endif
-#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
-#%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_drm_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvaapi_drm_plugin.so
 # R: libvorbis >= 1.1
 %attr(755,root,root) %{_libdir}/vlc/plugins/codec/libvorbis_plugin.so
 # R: libvpx >= 1.5.0
@@ -912,6 +903,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libdemuxdump_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libdiracsys_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libdirectory_demux_plugin.so
+%attr(755,root,root) %{_libdir}/vlc/plugins/demux/libdmxmus_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libes_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/demux/libflacsys_plugin.so
 # R: game-music-emu
@@ -1234,7 +1226,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/vlc
 %dir %{_datadir}/vlc/utils
 %attr(755,root,root) %{_datadir}/vlc/utils/*.sh
-%{_datadir}/metainfo/vlc.appdata.xml
+%{_datadir}/metainfo/org.videolan.vlc.appdata.xml
 
 %{_mandir}/man1/vlc.1*
 %{_mandir}/man1/vlc-wrapper.1*
@@ -1256,7 +1248,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/svlc
 # R: QtCore QtGui >= %{qt_ver}
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libqt_plugin.so
-# R: freetype libtar xorg-lib-lib{Xext,Xinerama,Xpm} QtCore QtGui
+# R: freetype xorg-lib-lib{Xext,Xinerama,Xpm} QtCore QtGui
 %attr(755,root,root) %{_libdir}/vlc/plugins/gui/libskins2_plugin.so
 %if %{with aalib}
 # R: aalib
