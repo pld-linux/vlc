@@ -30,7 +30,6 @@
 %bcond_with	fdk_aac		# FDK-AAC encoder plugin (GPL 3 incompatible; enable as subpackage?)
 %bcond_with	fluidlite	# FluidLite instead of FluidSynth library in fluidsynth plugin
 %bcond_with	freerdp		# RDP/Remote Desktop client support
-%bcond_with	glesv1		# OpenGL ES v1 support
 %bcond_with	glesv2		# OpenGL ES v2 support
 %bcond_without	gnutls		# gnutls misc plugin
 %bcond_without	goom		# GOOM! audio visualization
@@ -91,7 +90,6 @@ URL:		http://www.videolan.org/vlc/
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
 BuildRequires:	EGL-devel >= %{?with_glesv2:1.1}%{!?with_glesv2:1.0}
 BuildRequires:	OpenGL-devel
-%{?with_glesv1:BuildRequires:	OpenGLESv1-devel >= 1.1}
 %{?with_glesv2:BuildRequires:	OpenGLESv2-devel >= 2.0}
 BuildRequires:	Qt5Core-devel >= %{qt_ver}
 BuildRequires:	Qt5Gui-devel >= %{qt_ver}
@@ -476,7 +474,6 @@ Akcje klienta VLC dla Solid.
 	%{?with_freerdp:--enable-freerdp}%{!?with_freerdp:--disable-freerdp} \
 	--enable-freetype \
 	--enable-fribidi \
-	%{?with_glesv1:--enable-gles1} \
 	%{?with_glesv2:--enable-gles2} \
 	%{!?with_gnutls:--disable-gnutls} \
 	--enable-goom%{!?with_goom:=no} \
@@ -1190,10 +1187,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vaapi_wl_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vaapi_x11_plugin.so
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libglconv_vdpau_plugin.so
-%if %{with glesv1}
-# R: OpenGLESv1 >= 1.1
-%attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgles1_plugin.so
-%endif
 %if %{with glesv2}
 # R: OpenGLESv2 >= 2.0
 %attr(755,root,root) %{_libdir}/vlc/plugins/video_output/libgles2_plugin.so
