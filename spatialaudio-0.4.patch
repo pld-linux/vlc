@@ -1,0 +1,115 @@
+From 93c2e6ec320016a3b3a3764db44fc7434d37d031 Mon Sep 17 00:00:00 2001
+From: Marvin Scholz <epirat07@gmail.com>
+Date: Thu, 5 Feb 2026 16:33:37 +0100
+Subject: [PATCH] buildsystem: detect new libspatialaudio
+
+We can use the presence of the version header to detect libspatialaudio
+0.4.0 or higher. (For more granular checks in the future, the defines
+from the version header can be checked)
+---
+ configure.ac                     | 9 +++++++++
+ modules/audio_filter/meson.build | 9 +++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 69cd6cbe298..ab432d34cfd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2966,6 +2966,15 @@ dnl  Ambisonic channel mixer and binauralizer plugin
+ dnl
+ PKG_ENABLE_MODULES_VLC([SPATIALAUDIO], [], [spatialaudio], [Ambisonic channel mixer and binauralizer], [auto])
+ 
++AS_IF([test -n ${SPATIALAUDIO_CFLAGS+set}], [
++    VLC_SAVE_FLAGS
++    AX_APPEND_FLAG([$SPATIALAUDIO_CFLAGS], [CFLAGS])
++    AC_CHECK_HEADER([spatialaudio/SpatialaudioVersion.h], [
++        AX_APPEND_FLAG([-DHAVE_SPATIALAUDIOVERSION_H=1], [SPATIALAUDIO_CFLAGS])
++    ])
++    VLC_RESTORE_FLAGS
++])
++
+ dnl
+ dnl  theora decoder plugin
+ dnl
+-- 
+GitLab
+
+From a41efcaf1d0b799f0d85d2ca0c59a9c677153cc4 Mon Sep 17 00:00:00 2001
+From: Marvin Scholz <epirat07@gmail.com>
+Date: Thu, 5 Feb 2026 16:34:35 +0100
+Subject: [PATCH] modules: spatialaudio: compat with new API
+
+This merely makes it build with the new API and doesn't yet migrate
+to newer APIs.
+---
+ .../channel_mixer/spatialaudio.cpp            | 39 +++++++++++++++++--
+ 1 file changed, 35 insertions(+), 4 deletions(-)
+
+diff --git a/modules/audio_filter/channel_mixer/spatialaudio.cpp b/modules/audio_filter/channel_mixer/spatialaudio.cpp
+index 99cacfdd334..35875c65bc0 100644
+--- a/modules/audio_filter/channel_mixer/spatialaudio.cpp
++++ b/modules/audio_filter/channel_mixer/spatialaudio.cpp
+@@ -44,6 +44,23 @@
+ #include <spatialaudio/Ambisonics.h>
+ #include <spatialaudio/SpeakersBinauralizer.h>
+ 
++#ifdef HAVE_SPATIALAUDIOVERSION_H
++#  include <spatialaudio/SpatialaudioVersion.h>
++#else
++#  define SPATIALAUDIO_API_VERSION_MAJOR 0
++#endif
++
++#if SPATIALAUDIO_API_VERSION_MAJOR >= 2
++    using namespace spaudio;
++    using CAmbisonicBinauralizer = spaudio::AmbisonicBinauralizer;
++    using CAmbisonicDecoder = spaudio::AmbisonicDecoder;
++    using CAmbisonicProcessor = spaudio::AmbisonicProcessor;
++    using CAmbisonicZoomer = spaudio::AmbisonicZoomer;
++    using CAmbisonicSpeaker = spaudio::AmbisonicSpeaker;
++    using CBFormat = spaudio::BFormat;
++    #define kAmblib_CustomSpeakerSetUp Amblib_SpeakerSetUps::kAmblib_CustomSpeakerSetUp
++#endif
++
+ #define CFG_PREFIX "spatialaudio-"
+ 
+ #define DEFAULT_HRTF_PATH "hrtfs" DIR_SEP "dodeca_and_7channel_3DSL_HRTF.sofa"
+@@ -487,10 +504,18 @@ static int Open(vlc_object_t *p_this)
+         p_sys->mode = filter_spatialaudio::AMBISONICS_DECODER;
+ 
+         unsigned i_nbChannels = aout_FormatNbChannels(&p_filter->fmt_out.audio);
+-        if (i_nbChannels == 1
+-         || !p_sys->speakerDecoder.Configure(p_sys->i_order, true,
+-                                             kAmblib_CustomSpeakerSetUp,
+-                                             i_nbChannels))
++        bool ok = false;
++        if (i_nbChannels > 1) {
++#if SPATIALAUDIO_API_VERSION_MAJOR >= 2
++            ok = p_sys->speakerDecoder.Configure(p_sys->i_order, true,
++                AMB_BLOCK_TIME_LEN, p_filter->fmt_in.audio.i_rate,
++                kAmblib_CustomSpeakerSetUp, i_nbChannels);
++#else
++            ok = p_sys->speakerDecoder.Configure(p_sys->i_order, true,
++                kAmblib_CustomSpeakerSetUp, i_nbChannels);
++#endif
++        }
++        if (!ok)
+         {
+             msg_Err(p_filter, "Error creating the Ambisonics decoder.");
+             delete p_sys;
+@@ -539,7 +564,13 @@ static int Open(vlc_object_t *p_this)
+         return VLC_EGENERIC;
+     }
+ 
++#if SPATIALAUDIO_API_VERSION_MAJOR >= 2
++    if (!p_sys->zoomer.Configure(p_sys->i_order, true,
++                                 AMB_BLOCK_TIME_LEN,
++                                 p_filter->fmt_in.audio.i_rate))
++#else
+     if (!p_sys->zoomer.Configure(p_sys->i_order, true, 0))
++#endif
+     {
+         msg_Err(p_filter, "Error creating the ambisonic zoomer.");
+         delete p_sys;
+-- 
+GitLab
+

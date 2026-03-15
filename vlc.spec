@@ -89,6 +89,7 @@ Patch9:		x32.patch
 Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
 Patch12:	libsmb2.patch
+Patch13:	spatialaudio-0.4.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -426,6 +427,7 @@ Akcje klienta VLC dla Solid.
 %{?with_libplacebo:%patch -P10 -p1}
 %patch -P11 -p1
 %patch -P12 -p1
+%patch -P13 -p1
 
 %build
 %{__libtoolize}
