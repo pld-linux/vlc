@@ -56,7 +56,7 @@
 %bcond_without	twolame		# twolame codec plugin
 %bcond_without	udev		# udev service discovery plugin
 %bcond_without	upnp		# upnp service discovery plugin
-%bcond_without	vsxu		# Vovoid VSXu visualization plugin
+%bcond_with	vsxu		# Vovoid VSXu visualization plugin
 %bcond_without	x264		# x264 codec plugin
 %bcond_without	x265		# x265 codec plugin
 %bcond_without	xmas		# disable "xmas joke" icons provided by vlc [unmaintained patch]
@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.23
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
