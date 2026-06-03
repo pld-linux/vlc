@@ -36,7 +36,7 @@
 %bcond_with	glesv2		# OpenGL ES v2 support
 %endif
 %bcond_without	gnutls		# gnutls misc plugin
-%bcond_without	goom		# GOOM! audio visualization
+%bcond_with	goom		# GOOM! audio visualization
 %bcond_without	jack		# jack access/audio output plugin
 %bcond_with	kde		# KDE Solid actions
 %bcond_without	lirc		# lirc control plugin
@@ -71,7 +71,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.23
-Release:	5
+Release:	6
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
