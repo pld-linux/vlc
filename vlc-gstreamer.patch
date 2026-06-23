@@ -1,0 +1,12 @@
+Workaround circular includes in gstreamer 1.28.x
+--- vlc-3.0.23/modules/codec/gstreamer/gstvlcvideopool.h.orig	2026-06-23 06:21:05.041534477 +0200
++++ vlc-3.0.23/modules/codec/gstreamer/gstvlcvideopool.h	2026-06-23 18:56:07.508533833 +0200
+@@ -28,7 +28,7 @@
+ #define VLC_GST_VIDEO_POOL_H
+ 
+ #include <gst/gstbufferpool.h>
+-#include <gst/video/gstvideopool.h>
++#include <gst/video/video.h>
+ 
+ #include "gstvlcpictureplaneallocator.h"
+ 
