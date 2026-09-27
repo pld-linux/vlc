@@ -41,7 +41,6 @@
 %bcond_without	lirc		# lirc control plugin
 %bcond_with	libplacebo	# libplacebo support in gl plugin
 %bcond_without	live		# live555 demuxer plugin
-%bcond_with	mfx		# Intel QuickSync MPEG4-Part10/MPEG2 (H.264/H.262) encoder
 %bcond_without	notify		# libnotify notification plugin
 %bcond_with	opencv		# OpenCV video filter [needs vlc API update]
 %bcond_with	oss4		# OSSv4
@@ -69,27 +68,22 @@
 Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
-Version:	3.0.23
-Release:	8
+Version:	3.0.24
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	ebc3f0d0a94785fd2b2df4087516938e
+# Source0-md5:	c10ef9a34204bc0b5cadc8b9a19dea7c
 Patch0:		%{name}-buildflags.patch
 Patch1:		%{name}-tremor.patch
 Patch2:		%{name}-mpc.patch
 Patch3:		xmas-sucks.patch
 Patch4:		no-cache.patch
 Patch5:		%{name}-fdk_aac.patch
-Patch6:		%{name}-asdcplib.patch
 Patch7:		%{name}-vsxu.patch
-Patch8:		qt-5.15.patch
 Patch9:		x32.patch
 Patch10:	%{name}-libplacebo-5.patch
 Patch11:	opencv4.patch
-Patch12:	libsmb2.patch
-Patch13:	spatialaudio-0.4.patch
-Patch14:	%{name}-gstreamer.patch
 URL:		http://www.videolan.org/vlc/
 %{?with_decklink:BuildRequires:	Blackmagic_DeckLink_SDK}
 # 1.0 for X11 or GLESv1, 1.1 for GLESv2
@@ -108,7 +102,7 @@ BuildRequires:	a52dec-libs-devel >= 0.7.3
 BuildRequires:	aom-devel
 BuildRequires:	aribb24-devel >= 1.0.1
 BuildRequires:	aribb25-devel >= 0.2.6
-BuildRequires:	asdcplib-devel >= 2.12.2
+BuildRequires:	asdcplib-devel
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake
 %{?with_bonjour:BuildRequires:	avahi-devel >= 0.6}
@@ -158,6 +152,7 @@ BuildRequires:	libdvdnav-devel > 4.9.0
 BuildRequires:	libdvdread-devel >= 4.9.1
 BuildRequires:	libebml-devel >= 1.3.6
 BuildRequires:	libgcrypt-devel >= 1.6.0
+BuildRequires:	libgpg-error-devel
 %{?with_goom:BuildRequires:	libgoom2-devel}
 BuildRequires:	libidn-devel
 BuildRequires:	libjpeg-devel
@@ -176,6 +171,7 @@ BuildRequires:	libpng-devel
 %{?with_projectM:BuildRequires:	libprojectM-devel >= 2.0.1-3}
 BuildRequires:	libproxy-devel
 %{?with_dv:BuildRequires:	libraw1394-devel >= 2.0.1}
+BuildRequires:	librist-devel >= 0.2.1
 %{?with_svg:BuildRequires:	librsvg-devel >= 2.9.0}
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libsecret-devel >= 0.18
@@ -197,6 +193,7 @@ BuildRequires:	libva-x11-devel
 BuildRequires:	libvdpau-devel >= 0.6
 BuildRequires:	libvncserver-devel >= 0.9.9
 BuildRequires:	libvorbis-devel >= 1:1.1
+BuildRequires:	libvpl-devel
 BuildRequires:	libvpx-devel >= 1.5.0
 %{?with_x264:BuildRequires:	libx264-devel >= 0.153}
 %{?with_x265:BuildRequires:	libx265-devel}
@@ -207,19 +204,18 @@ BuildRequires:	libxml2-devel >= 1:2.5
 %{?with_live:BuildRequires:	live-devel >= 2020.12.23}
 BuildRequires:	lua52 >= 5.2
 BuildRequires:	lua52-devel >= 5.2
-%{?with_mfx:BuildRequires:	mfx_dispatch-devel}
 BuildRequires:	microdns-devel >= 0.1.2
 BuildRequires:	minizip-devel
 BuildRequires:	musepack-devel
 BuildRequires:	ncurses-devel
 %{?with_opencv:BuildRequires:	opencv-devel > 4}
+BuildRequires:	openapv-devel >= 0.3
 BuildRequires:	opus-devel >= 1.0.3
 BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	protobuf-devel >= 2.5.0
 BuildRequires:	pulseaudio-devel >= 1.0
 BuildRequires:	qt5-build >= %{qt_ver}
 BuildRequires:	rpmbuild(macros) >= 1.527
-BuildRequires:	schroedinger-devel >= 1.0.10
 BuildRequires:	shine-devel >= 3.0.0
 BuildRequires:	soxr-devel >= 0.1.2
 BuildRequires:	spatialaudio-devel
@@ -274,6 +270,7 @@ Requires:	libmtp >= 1.0.0
 Requires:	libnfs >= 1.10.0
 Requires:	libogg >= 1:1.0
 %{?with_libplacebo:Requires:	libplacebo >= 4}
+Requires:	librist >= 0.2.1
 %{?with_svg:Requires:	librsvg >= 2.9.0}
 Requires:	libsecret >= 0.18
 %{?with_smb2:Requires:	libsmb2 >= 4.0.0}
@@ -286,9 +283,9 @@ Requires:	libxcb >= 1.6
 Requires:	libxml2 >= 1:2.5
 Requires:	lua52-libs > 5.2.3-2
 Requires:	microdns >= 0.1.2
+Requires:	openapv >= 0.3
 Requires:	opus >= 1.0.3
 Requires:	pulseaudio-libs >= 1.0
-Requires:	schroedinger >= 1.0.10
 Requires:	soxr >= 0.1.2
 %{?with_speex:Requires:	speex > 1:1.1.0}
 %{?with_speex:Requires:	speexdsp >= 1.2}
@@ -419,15 +416,10 @@ Akcje klienta VLC dla Solid.
 %endif
 %patch -P4 -p1
 %patch -P5 -p1
-%patch -P6 -p1
 %patch -P7 -p1
-%patch -P8 -p1
 %patch -P9 -p1
 %{?with_libplacebo:%patch -P10 -p1}
 %patch -P11 -p1
-%patch -P12 -p1
-%patch -P13 -p1
-%patch -P14 -p1
 
 %build
 %{__libtoolize}
@@ -490,11 +482,11 @@ Akcje klienta VLC dla Solid.
 	--enable-mad \
 	--enable-libva \
 	--enable-live555%{!?with_live:=no} \
-	%{!?with_mfx:--disable-mfx} \
 	--enable-ncurses \
 	%{!?with_notify:--disable-notify} \
 	--enable-omxil \
 	--enable-omxil-vout \
+	--enable-openapv \
 	--enable-opencv%{!?with_opencv:=no} \
 	--enable-oss%{!?with_oss4:=no} \
 	%{!?with_projectM:--disable-projectm} \
@@ -824,18 +816,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/vlc/plugins/codec/libomxil_plugin.so
 # R: libomxil-bellagio (dlopened, no .so NEEDED dependency)
 %{_libdir}/vlc/plugins/codec/libomxil_vout_plugin.so
+# R: openapv >= 0.3
+%{_libdir}/vlc/plugins/codec/libopenapv_plugin.so
 # R: opus >= 1.0.3
 %{_libdir}/vlc/plugins/codec/libopus_plugin.so
 # R: libpng
 %{_libdir}/vlc/plugins/codec/libpng_plugin.so
-%if %{with mfx}
-# R: mfx_dispatch
+# R: libvpl
 %{_libdir}/vlc/plugins/codec/libqsv_plugin.so
-%endif
 %{_libdir}/vlc/plugins/codec/librawvideo_plugin.so
 %{_libdir}/vlc/plugins/codec/librtpvideo_plugin.so
-# R: schroedinger >= 1.0.10
-%{_libdir}/vlc/plugins/codec/libschroedinger_plugin.so
 %{_libdir}/vlc/plugins/codec/libscte18_plugin.so
 %{_libdir}/vlc/plugins/codec/libscte27_plugin.so
 # R: SDL_image >= 1.2.10
@@ -1282,6 +1272,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/apps/vlc*.png
 %{_iconsdir}/hicolor/*/apps/vlc*.xpm
 %{_desktopdir}/vlc.desktop
+%{_desktopdir}/vlc-openbd.desktop
+%{_desktopdir}/vlc-opencda.desktop
+%{_desktopdir}/vlc-opendvd.desktop
+%{_desktopdir}/vlc-openvcd.desktop
 
 %files fb
 %defattr(644,root,root,755)
