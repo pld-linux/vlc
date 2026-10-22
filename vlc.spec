@@ -69,7 +69,7 @@ Summary:	VLC - a multimedia player and stream server
 Summary(pl.UTF-8):	VLC - odtwarzacz multimedialny oraz serwer strumieni
 Name:		vlc
 Version:	3.0.24
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Multimedia
 Source0:	https://download.videolan.org/pub/videolan/vlc/%{version}/%{name}-%{version}.tar.xz
@@ -113,7 +113,7 @@ BuildRequires:	dbus-devel >= 1.6.0
 BuildRequires:	desktop-file-utils
 BuildRequires:	faad2-devel >= 2.5
 %{?with_fdk_aac:BuildRequires:	fdk-aac-devel}
-# libavcodec >= 57.37.100, libavformat >= 53.21.0, libavutil >= 52.4.0, libswscale, libpostproc
+# libavcodec >= 57.37.100, libavformat >= 53.21.0, libavutil >= 52.4.0, libswscale
 BuildRequires:	ffmpeg-devel >= 3.1
 BuildRequires:	flac-devel >= 1.1.3
 %if %{with fluidlite}
@@ -1169,8 +1169,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/vlc/plugins/video_filter/libopencv_wrapper_plugin.so
 %endif
 %{_libdir}/vlc/plugins/video_filter/libposterize_plugin.so
-# R: ffmpeg-libs (libpostproc libavutil)
-%{_libdir}/vlc/plugins/video_filter/libpostproc_plugin.so
+# R: libpostproc
+#%{_libdir}/vlc/plugins/video_filter/libpostproc_plugin.so
 %{_libdir}/vlc/plugins/video_filter/libpsychedelic_plugin.so
 %{_libdir}/vlc/plugins/video_filter/libpuzzle_plugin.so
 # R: libgcrypt >= 1.1.94
